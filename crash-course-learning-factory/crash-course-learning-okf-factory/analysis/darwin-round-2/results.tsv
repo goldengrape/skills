@@ -1,0 +1,3 @@
+timestamp	version	old_score	new_score	status	dimension	note	eval_mode
+2026-06-30T00:00:00-07:00	lower-triangular	-	82.4	baseline	D10 MVP executability	Round-2 rubric adds executable materialization dimension	dry_run
+2026-06-30T00:00:00-07:00	materializer-revision	82.4	91.8	keep	D10 MVP executability	Added tools/materialize_course_okf.py and pytest checks	dry_run_plus_local_tests

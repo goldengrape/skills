@@ -1,0 +1,26 @@
+[
+  {
+    "id": "domain-1",
+    "prompt": "Generate a management course OKF for a zero-baseline learner with 7 days, 60 minutes per day, target score 60.",
+    "purpose": "Check full layout, initial state, daily package, validation output, and source gaps.",
+    "expected_checks": ["course folder created", "state files exist", "day-1 runnable", "generation-output.json has validation_result"],
+    "target_dimensions": ["D2", "D3", "D4", "D7", "D9", "D10"],
+    "target_hard_gates": ["HG1", "HG2", "HG4"]
+  },
+  {
+    "id": "domain-2",
+    "prompt": "Resume a generated course OKF after Day 3 with a failed quiz and an open A-topic misconception.",
+    "purpose": "Check whether resume flow repairs before mechanically continuing.",
+    "expected_checks": ["reads next-action", "reads misconceptions", "chooses repair or review", "updates plan-changes when needed"],
+    "target_dimensions": ["D4", "D5", "D6"],
+    "target_hard_gates": ["HG3"]
+  },
+  {
+    "id": "domain-3",
+    "prompt": "Create a 3-day emergency version for religious philosophy with no materials and an unknown exam format.",
+    "purpose": "Check parameterized days, source gaps, and MVP behavior under uncertainty.",
+    "expected_checks": ["only day-1 to day-3 files", "source gaps visible", "final review still present", "no high-score promise"],
+    "target_dimensions": ["D1", "D2", "D3", "D8", "D10"],
+    "target_hard_gates": ["HG2", "HG4", "HG5"]
+  }
+]

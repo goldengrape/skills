@@ -1,0 +1,75 @@
+---
+type: Factory Checklist
+title: Validation Checklist
+description: Checklist for validating a generated Course Learning OKF.
+tags: [factory, validation]
+timestamp: 2026-06-30T00:00:00-07:00
+---
+# Validation Checklist
+
+Use this checklist after generating a course OKF.
+
+## Structure
+
+- [ ] Root `index.md` exists.
+- [ ] Root `log.md` exists.
+- [ ] `mission.md` names the course, goal, constraints, assumptions, and out-of-scope topics.
+- [ ] `course-map.md` lists likely units and dependencies.
+- [ ] `resources.md` lists sources, source confidence, and source gaps.
+- [ ] `priority-map.md` separates A/B/C topics.
+- [ ] `plan/seven-day-plan.md` exists or equivalent configured-day plan exists.
+- [ ] `plan/day-N.md` exists for every available day.
+- [ ] `quizzes/day-N-quiz.md` exists for every available day.
+- [ ] `sessions/day-1-session.md` exists as a pending or template record.
+- [ ] `learning-records/0001-initial-baseline.md` exists.
+- [ ] Final review files exist: compressed notes, must-know list, answer templates, mock exam.
+
+## State
+
+- [ ] `state/current-state.md` exists and has a parseable learner state.
+- [ ] `state/topic-ledger.md` exists.
+- [ ] `state/recall-deck.md` exists.
+- [ ] `state/misconceptions.md` exists.
+- [ ] `state/score-history.md` exists.
+- [ ] `state/next-action.md` exists.
+- [ ] `state/plan-changes.md` exists.
+
+## Learning Plan
+
+- [ ] Day 1 work package is immediately runnable.
+- [ ] Daily plan includes retrieval, map, core explanation, Feynman task, exam answer practice, feedback, and state update.
+- [ ] Daily workload fits `daily_minutes`.
+- [ ] A/B/C priorities affect the daily plan.
+
+## Content Quality
+
+- [ ] Critical files do not contain unresolved placeholders such as `TBD`, `Fill this`, or `今日 A 类概念`.
+- [ ] `course-map.md` contains course-specific units, dependencies, and easy-confusion notes.
+- [ ] `priority-map.md` contains A/B/C topics with exam-value reasons.
+- [ ] `plan/day-1.md` is directly runnable and course-specific.
+- [ ] `quizzes/day-1-quiz.md` contains exam-style term explanation, short-answer, or comparison tasks.
+- [ ] `final-review/must-know-list.md` contains course-specific high-value concepts.
+- [ ] `final-review/mock-exam.md` is scored or clearly exam-like.
+- [ ] If content quality fails, `quality-report.json` lists repair actions and the factory reruns the quality gate after repair.
+
+## Adaptation
+
+- [ ] There is a defined rule for when to slow down.
+- [ ] There is a defined rule for when to advance.
+- [ ] There is a defined rule for when to rewrite future days.
+- [ ] Plan rewrites append to `state/plan-changes.md`.
+
+## Output Contract
+
+- [ ] Generation result includes `course_okf_name` and `course_slug`.
+- [ ] Generation result lists `created_files`.
+- [ ] Generation result includes `initial_state`.
+- [ ] Generation result includes `day_1_entrypoint`.
+- [ ] Generation result includes `state_update_rules`.
+- [ ] Generation result includes `resume_rules`.
+- [ ] Generation result includes `validation_result`.
+
+
+# Local Materializer Check
+
+When `tools/materialize_course_okf.py` is used, verify that the generated course folder contains `generation-output.json` and `quality-report.json`. `validation_result.passed` is true only when structural validation and the content quality gate both pass.

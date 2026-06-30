@@ -1,0 +1,12 @@
+{
+  "course_name": "Management",
+  "baseline": "zero",
+  "days_available": 7,
+  "daily_minutes": 60,
+  "target_score": 60,
+  "exam_format": "mixed",
+  "course_type": "concept_heavy",
+  "materials_available": "none",
+  "materials": [],
+  "constraints": []
+}

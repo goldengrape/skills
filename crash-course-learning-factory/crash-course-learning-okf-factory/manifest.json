@@ -1,0 +1,35 @@
+{
+  "name": "crash-course-learning-okf-factory",
+  "okf_version": "0.1",
+  "created": "2026-06-30T00:00:00-07:00",
+  "purpose": "Generate stateful OKF bundles for one-week crash-course learning aimed at passing university-style exams.",
+  "entrypoints": [
+    "index.md",
+    "docs/URD.md",
+    "docs/ADD.md",
+    "templates/master-factory-prompt.md",
+    "playbooks/generate-new-course-okf.md",
+    "playbooks/resume-course-session.md",
+    "playbooks/validate-generated-course-okf.md",
+    "tools/README.md",
+    "tools/materialize_course_okf.py",
+    "playbooks/evaluate-generated-course-okf.md",
+    "playbooks/repair-generated-course-okf.md",
+    "schemas/course-okf-quality-report.md",
+    "tools/quality_check_course_okf.py",
+    "tools/course_seed_registry.py"
+  ],
+  "generated_bundle_type": "Course Learning OKF",
+  "required_generated_state_files": [
+    "state/current-state.md",
+    "state/topic-ledger.md",
+    "state/recall-deck.md",
+    "state/misconceptions.md",
+    "state/score-history.md",
+    "state/next-action.md",
+    "state/plan-changes.md"
+  ],
+  "mvp_helper": "tools/materialize_course_okf.py + tools/quality_check_course_okf.py",
+  "test_command": "python -m pytest -q",
+  "quality_gate": "post_generation_structural_validation_plus_content_quality_repair_loop"
+}
