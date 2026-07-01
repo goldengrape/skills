@@ -1,0 +1,31 @@
+{
+  "evaluation_mode": "structural_check_plus_content_quality_plus_teaching_runtime_plus_local_tests",
+  "add_matrix_type": "decoupled_lower_triangular",
+  "upper_triangular_dependency_count": 0,
+  "revision_status": "passed",
+  "local_tests": {
+    "command": "python -m pytest -q",
+    "returncode": 0,
+    "summary": "7 passed in 0.34s"
+  },
+  "darwin_round_4": {
+    "kept_revision": "teaching-runtime-layer",
+    "new_files": [
+      "tools/lint_prompt_visibility.py",
+      "schemas/teacher-notebook.md",
+      "schemas/visibility-policy.md",
+      "schemas/interest-ledger.md",
+      "playbooks/render-student-prompt.md",
+      "playbooks/update-teacher-notebook.md",
+      "playbooks/handle-interest-led-branch.md",
+      "playbooks/finalize-session-record.md"
+    ],
+    "macro_smoke_test": {
+      "course_name": "宏观经济学",
+      "time_policy": "soft",
+      "validation_result_passed": true,
+      "teaching_runtime_quality_passed": true,
+      "quality_score": 100
+    }
+  }
+}

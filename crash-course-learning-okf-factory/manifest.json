@@ -1,0 +1,53 @@
+{
+  "name": "crash-course-learning-okf-factory",
+  "okf_version": "0.1",
+  "created": "2026-06-30T00:00:00-07:00",
+  "purpose": "Generate stateful OKF bundles for one-week crash-course learning aimed at passing university-style exams.",
+  "entrypoints": [
+    "index.md",
+    "docs/URD.md",
+    "docs/ADD.md",
+    "templates/master-factory-prompt.md",
+    "playbooks/generate-new-course-okf.md",
+    "playbooks/resume-course-session.md",
+    "playbooks/validate-generated-course-okf.md",
+    "tools/README.md",
+    "tools/materialize_course_okf.py",
+    "playbooks/evaluate-generated-course-okf.md",
+    "playbooks/repair-generated-course-okf.md",
+    "schemas/course-okf-quality-report.md",
+    "tools/quality_check_course_okf.py",
+    "tools/course_seed_registry.py",
+    "playbooks/render-student-prompt.md",
+    "playbooks/update-teacher-notebook.md",
+    "playbooks/handle-interest-led-branch.md",
+    "playbooks/finalize-session-record.md",
+    "schemas/teacher-notebook.md",
+    "schemas/visibility-policy.md",
+    "schemas/interest-ledger.md",
+    "tools/lint_prompt_visibility.py"
+  ],
+  "generated_bundle_type": "Course Learning OKF",
+  "required_generated_state_files": [
+    "state/current-state.md",
+    "state/topic-ledger.md",
+    "state/recall-deck.md",
+    "state/misconceptions.md",
+    "state/score-history.md",
+    "state/next-action.md",
+    "state/plan-changes.md",
+    "state/interest-ledger.md"
+  ],
+  "mvp_helper": "tools/materialize_course_okf.py + tools/quality_check_course_okf.py + tools/lint_prompt_visibility.py",
+  "test_command": "python -m pytest -q",
+  "quality_gate": "post_generation_structural_validation_plus_content_quality_repair_loop_plus_teaching_runtime_quality",
+  "required_generated_teacher_files": [
+    "teacher/teacher-notebook.md",
+    "teacher/visibility-rules.md",
+    "teacher/teaching-protocol.md",
+    "teacher/engagement-monitor.md",
+    "teacher/engagement-intervention-rules.md",
+    "teacher/time-policy.md"
+  ],
+  "revision_round": "darwin-round4-teaching-runtime"
+}
