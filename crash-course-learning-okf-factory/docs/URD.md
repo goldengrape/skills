@@ -112,3 +112,31 @@ The default use case is: a learner has about one week, about one hour per day, a
 |---|---|---|
 | URD-Q-001 | Should the generated instance use Chinese, English, or course-language defaults? | Use the user's answer language when known; otherwise record the assumption in `mission.md`. |
 | URD-Q-002 | Should the 3-day and 14-day variants be separate playbooks or parameters in one playbook? | MVP keeps one playbook parameterized by `days_available`. |
+
+## Round 5 Visual Teaching Requirements
+
+| ID | Requirement | Success condition |
+|---|---|---|
+| URD-REQ-027 | Use images when teaching curves, coordinate models, graph shifts, equilibrium diagrams, geometry, process diagrams, or spatial structures. | Generated course plans and teaching protocols mark such topics as visual-triggered and require a diagram. |
+| URD-REQ-028 | Prefer realtime generated diagrams when the runtime supports it. | `teacher/visual-teaching-policy.md` prefers Python/matplotlib for simple reusable teaching diagrams. |
+| URD-REQ-029 | Use authoritative open images for complex diagrams when generation would be unreliable. | `teacher/diagram-source-rules.md` requires source URL, license, and attribution for external images. |
+| URD-REQ-030 | Avoid complex ASCII diagrams. | `visual_teaching_quality` fails complex curve/model ASCII in student-visible teaching files. |
+| URD-REQ-031 | Persist diagrams as course assets. | Generated course instances include `assets/diagrams/` and `assets/diagrams/index.md`. |
+| URD-REQ-032 | Explain axes and visual meaning when introducing a new graph. | `teacher/diagram-quality-rules.md` requires axis labels, curve labels, shift labels, and nearby variable explanation. |
+| URD-REQ-033 | Insert diagrams near the relevant lesson text. | `playbooks/insert-diagram-in-lesson.md` specifies inline image placement beside the explanation. |
+| URD-REQ-034 | Validate visual teaching quality. | `quality-report.json` includes `visual_teaching_quality`; course OKF cannot pass if required diagrams are missing or unindexed. |
+
+### Added Constraints
+
+| ID | Constraint |
+|---|---|
+| URD-CON-010 | ASCII is allowed only as a temporary tiny sketch, not as the primary explanation for complex graphs or model diagrams. |
+| URD-CON-011 | External teaching images must record source, license or usage status, and attribution before they are treated as reusable course assets. |
+
+### Added Acceptance Criteria
+
+| ID | Acceptance criterion |
+|---|---|
+| URD-AC-014 | A generated macroeconomics Course OKF contains `assets/diagrams/`, `assets/diagrams/index.md`, and reusable AD/SRAS/LRAS/output-gap diagram assets after seed repair. |
+| URD-AC-015 | A curve-heavy generated course without a diagram fails the visual teaching quality gate. |
+| URD-AC-016 | A complex ASCII curve in student-visible plan or quiz files fails the visual teaching quality gate. |

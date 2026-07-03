@@ -17,9 +17,11 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 try:
     from tools.course_seed_registry import required_terms_for_course
     from tools.lint_prompt_visibility import lint_prompt_visibility
+    from tools.check_diagram_quality import check_diagram_quality
 except ModuleNotFoundError:  # allow running as a script from tools/
     from course_seed_registry import required_terms_for_course  # type: ignore
     from lint_prompt_visibility import lint_prompt_visibility  # type: ignore
+    from check_diagram_quality import check_diagram_quality  # type: ignore
 
 PLACEHOLDER_PATTERNS = [
     r"\bTBD\b",
@@ -184,7 +186,20 @@ def quality_check(root: Path, course_name: Optional[str] = None, days_available:
     for warning in teaching_runtime.get("warnings", []):
         warnings.append(warning)
 
-    # 7. Produce a weighted score.
+    # 7. Visual teaching quality: diagram policy, diagram assets, and no complex ASCII curve diagrams.
+    visual_quality = check_diagram_quality(root)
+    if not visual_quality["passed"]:
+        for failure in visual_quality["failures"]:
+            failures.append({
+                "code": failure["code"],
+                "path": failure["path"],
+                "message": failure["message"],
+            })
+            repair_actions.append(f"Fix visual teaching issue in `{failure['path']}`: {failure['message']}")
+    for warning in visual_quality.get("warnings", []):
+        warnings.append(warning)
+
+    # 8. Produce a weighted score.
     score = 100
     score = _score_deduct(score, 10 * len(missing))
     score = _score_deduct(score, 8 * len(placeholder_files))
@@ -199,6 +214,9 @@ def quality_check(root: Path, course_name: Optional[str] = None, days_available:
 
     teaching_failure_count = len([f for f in failures if f["code"] in {"missing_teaching_runtime_file", "prompt_visibility_leak", "teacher_notebook_schema_missing", "visibility_rules_incomplete", "time_policy_missing_soft_strict", "engagement_interest_rules_missing", "score_type_missing", "prompt_visibility_field_missing"}])
     score = _score_deduct(score, teaching_failure_count * 8)
+
+    visual_failure_count = len([f for f in failures if f["code"] in {"missing_visual_runtime_file", "visual_policy_missing_generated_priority", "visual_policy_missing_external_source_rule", "visual_policy_missing_ascii_limit", "diagram_quality_missing_axis_check", "diagram_index_schema_missing", "curve_lesson_without_diagram_asset", "complex_ascii_diagram_detected", "diagram_asset_not_indexed"}])
+    score = _score_deduct(score, visual_failure_count * 8)
 
     hard_gate_failures = [f for f in failures if f["code"] in {
         "missing_required_quality_file",
@@ -215,6 +233,15 @@ def quality_check(root: Path, course_name: Optional[str] = None, days_available:
         "engagement_interest_rules_missing",
         "score_type_missing",
         "prompt_visibility_field_missing",
+        "missing_visual_runtime_file",
+        "visual_policy_missing_generated_priority",
+        "visual_policy_missing_external_source_rule",
+        "visual_policy_missing_ascii_limit",
+        "diagram_quality_missing_axis_check",
+        "diagram_index_schema_missing",
+        "curve_lesson_without_diagram_asset",
+        "complex_ascii_diagram_detected",
+        "diagram_asset_not_indexed",
     }]
     passed = score >= 75 and not hard_gate_failures
 
@@ -237,8 +264,10 @@ def quality_check(root: Path, course_name: Optional[str] = None, days_available:
             "exam_readiness": "checked",
             "recoverability": "checked",
             "teaching_runtime_quality": teaching_runtime["quality_dimensions"],
+            "visual_teaching_quality": visual_quality["quality_dimensions"],
         },
         "teaching_runtime_quality": teaching_runtime,
+        "visual_teaching_quality": visual_quality,
     }
 
 

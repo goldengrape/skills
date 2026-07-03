@@ -67,6 +67,13 @@ TEACHER_RUNTIME_FILES = [
     "teacher/engagement-monitor.md",
     "teacher/engagement-intervention-rules.md",
     "teacher/time-policy.md",
+    "teacher/visual-teaching-policy.md",
+    "teacher/diagram-quality-rules.md",
+    "teacher/diagram-source-rules.md",
+]
+
+VISUAL_ASSET_FILES = [
+    "assets/diagrams/index.md",
 ]
 
 RESUME_RULES = [
@@ -79,6 +86,7 @@ RESUME_RULES = [
     "read relevant plan/day-N.md",
     "read teacher/teacher-notebook.md without displaying teacher_thinks",
     "read state/interest-ledger.md",
+    "read assets/diagrams/index.md when a topic uses diagrams",
 ]
 
 STATE_UPDATE_RULES = [
@@ -89,6 +97,7 @@ STATE_UPDATE_RULES = [
     "update recall deck for missed or high-value items",
     "update misconceptions for wrong distinctions",
     "record interest-led branches when learner asks deeper questions",
+    "record generated or sourced diagrams in assets/diagrams/index.md",
     "write next action before ending",
 ]
 
@@ -328,6 +337,9 @@ def teacher_index_content(input_data: FactoryInput) -> str:
             "engagement-monitor.md",
             "engagement-intervention-rules.md",
             "time-policy.md",
+            "visual-teaching-policy.md",
+            "diagram-quality-rules.md",
+            "diagram-source-rules.md",
             "rubrics/",
             "answer-keys/",
         ],
@@ -365,6 +377,16 @@ Show only `teacher_says` in the conversation before the learner answers. Keep `t
 | blind_score | No answer elements or scoring hints were shown before the learner answered. |
 | semi_assisted_score | The format was scaffolded, but specific answer elements were hidden. |
 | assisted_score | Specific answer elements or substantial hints were shown before the learner answered. |
+
+## Visual Teaching
+
+When a lesson explains curves, axes, graph shifts, equilibrium models, flow diagrams, or spatial structures, use the visual teaching protocol:
+
+1. Prefer generated Python/matplotlib diagrams when available.
+2. Use authoritative open-source diagrams for complex images and record source/license.
+3. Avoid complex ASCII diagrams.
+4. Insert diagrams near the explanation.
+5. Record each diagram in `assets/diagrams/index.md`.
 
 ## Interest-Led Branches
 
@@ -518,6 +540,108 @@ Use strict mode only when the learner requests it, the exam is imminent, or the 
 """
 
 
+
+def visual_teaching_policy_content() -> str:
+    return frontmatter("Teacher Runtime", "Visual Teaching Policy", "Rules for when and how to use diagrams in course teaching.", ["teacher", "visual", "diagram"]) + """# Visual Teaching Policy
+
+## Trigger
+
+If a lesson explains curves, coordinate axes, graph shifts, equilibrium models, geometric relations, flow/process structures, system diagrams, or spatial layouts, use a visual explanation.
+
+## Source Priority
+
+1. **Generate with Python/matplotlib when available.** Use this for stable teaching diagrams such as AD/SRAS/LRAS, supply-demand curves, simple functions, before/after shifts, and simple flow diagrams.
+2. **Use authoritative open images when the diagram is complex.** Prefer official institutions, open textbooks, university open courseware, Wikipedia/Wikimedia Commons, or credible open-source tutorials. Record source URL, license, and attribution.
+3. **Use ASCII only as a temporary tiny sketch.** Do not rely on ASCII for complex curves, multi-curve models, equilibrium shifts, or mobile-sensitive layouts.
+
+## Teaching Rule
+
+For a new curve or graph, explain:
+
+- horizontal axis and vertical axis;
+- why the axes are chosen;
+- what each curve means;
+- why the slope has that direction;
+- movement along the curve vs whole-curve shift;
+- old and new equilibrium points when relevant.
+
+## Display Rule
+
+Insert the image near the matching explanation, not only as a detached link. Record every generated or sourced image in `assets/diagrams/index.md`.
+"""
+
+
+def diagram_quality_rules_content() -> str:
+    return frontmatter("Teacher Runtime", "Diagram Quality Rules", "Quality checklist for generated or sourced course diagrams.", ["teacher", "diagram", "quality"]) + """# Diagram Quality Rules
+
+A diagram passes only if it is useful for learning and recoverable by later sessions.
+
+## Required Checks
+
+- Diagram exists and is listed in `assets/diagrams/index.md`.
+- Axis labels are present when there are axes.
+- Variables are explained in nearby text.
+- Curves are labeled.
+- Shift direction is labeled when shift is taught.
+- New and old equilibrium points are labeled when equilibrium is taught.
+- Source or generator is recorded.
+- Complex curve/model diagrams do not rely on ASCII.
+
+## External Image Checks
+
+- Source URL recorded.
+- Source name recorded.
+- License or usage status recorded.
+- Attribution recorded when required.
+"""
+
+
+def diagram_source_rules_content() -> str:
+    return frontmatter("Teacher Runtime", "Diagram Source Rules", "Rules for external diagram lookup and attribution.", ["teacher", "diagram", "source"]) + """# Diagram Source Rules
+
+## Use External Sources When
+
+- The diagram is complex or highly standardized.
+- A generated image would be misleading or too hard to verify quickly.
+- The learner asks for an authoritative reference.
+- The concept benefits from an official or open textbook diagram.
+
+## Source Order
+
+1. Official institutions and international organizations.
+2. Open textbooks or university open courseware.
+3. Wikipedia / Wikimedia Commons.
+4. Credible open-source tutorials.
+
+## Required Record
+
+```yaml
+source_type: external
+source_name:
+source_url:
+license:
+attribution:
+retrieved_date:
+local_copy_or_link:
+used_in:
+```
+"""
+
+
+def diagram_index_content() -> str:
+    return frontmatter("Diagram Index", "Diagram Index", "Reusable teaching diagrams for this Course OKF instance.", ["diagram", "visual", "asset"]) + """# Diagram Index
+
+| Diagram ID | File | Topic | Source | Used in | Notes |
+|---|---|---|---|---|---|
+
+## Rules
+
+- Add every generated or externally sourced diagram here.
+- Use generated diagrams for simple curve/model teaching when possible.
+- Use authoritative open images for complex diagrams and record license/attribution.
+- Do not use complex ASCII diagrams as formal course assets.
+"""
+
 def rubric_content(input_data: FactoryInput, day: int) -> str:
     return frontmatter("Teacher Rubric", f"Day {day} Rubric", "Private rubric for scoring after the learner answers.", ["teacher", "rubric"]) + f"""# Day {day} Rubric
 
@@ -574,7 +698,7 @@ def materialize(input_data: FactoryInput, output_root: Path) -> Dict[str, Any]:
     if root.exists() and any(root.iterdir()):
         raise FileExistsError(f"output directory already exists and is not empty: {root}")
 
-    dirs = ["plan", "state", "sessions", "learning-records", "quizzes", "final-review", "teacher", "teacher/rubrics", "teacher/answer-keys"]
+    dirs = ["plan", "state", "sessions", "learning-records", "quizzes", "final-review", "teacher", "teacher/rubrics", "teacher/answer-keys", "assets", "assets/diagrams", "assets/diagrams/external"]
     for directory in dirs:
         (root / directory).mkdir(parents=True, exist_ok=True)
 
@@ -626,6 +750,10 @@ course_type: {input_data.course_type}
     write(root / "teacher/engagement-monitor.md", engagement_monitor_content(), created_files)
     write(root / "teacher/engagement-intervention-rules.md", engagement_intervention_rules_content(), created_files)
     write(root / "teacher/time-policy.md", time_policy_content(input_data), created_files)
+    write(root / "teacher/visual-teaching-policy.md", visual_teaching_policy_content(), created_files)
+    write(root / "teacher/diagram-quality-rules.md", diagram_quality_rules_content(), created_files)
+    write(root / "teacher/diagram-source-rules.md", diagram_source_rules_content(), created_files)
+    write(root / "assets/diagrams/index.md", diagram_index_content(), created_files)
     for day in range(1, input_data.days_available + 1):
         write(root / f"teacher/rubrics/day-{day}-rubric.md", rubric_content(input_data, day), created_files)
         write(root / f"teacher/answer-keys/day-{day}-answer-key.md", answer_key_content(input_data, day), created_files)
@@ -757,6 +885,8 @@ read_before_start:
   - state/interest-ledger.md
   - sessions/day-1-session.md
   - teacher/teacher-notebook.md
+  - teacher/visual-teaching-policy.md
+  - assets/diagrams/index.md
   - plan/day-1.md
 ```
 """
@@ -798,6 +928,7 @@ def required_paths(days_available: int) -> List[str]:
     base.extend(f"plan/day-{day}.md" for day in range(1, days_available + 1))
     base.extend(STATE_FILES)
     base.extend(TEACHER_RUNTIME_FILES)
+    base.extend(VISUAL_ASSET_FILES)
     base.extend(f"teacher/rubrics/day-{day}-rubric.md" for day in range(1, days_available + 1))
     base.extend(f"teacher/answer-keys/day-{day}-answer-key.md" for day in range(1, days_available + 1))
     base.extend(f"quizzes/day-{day}-quiz.md" for day in range(1, days_available + 1))

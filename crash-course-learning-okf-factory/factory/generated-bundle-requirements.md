@@ -57,3 +57,21 @@ After a session:
 * If content quality fails, repair the failed files and rerun the quality gate before handoff.
 * Do not reveal rubrics, answer keys, or expected answer elements before the learner answers.
 * Do not treat `daily_minutes` as a hard limit unless `time_policy: strict` or the learner explicitly asks for strict time control.
+
+## Round 5 Visual Asset Requirements
+
+Generated Course OKF bundles must now include a visual teaching layer:
+
+```text
+assets/
+└── diagrams/
+    ├── index.md
+    └── *.png / *.svg when generated or sourced
+
+teacher/
+├── visual-teaching-policy.md
+├── diagram-quality-rules.md
+└── diagram-source-rules.md
+```
+
+A course that teaches curves, graph shifts, coordinate models, equilibrium diagrams, geometry, process flows, or spatial structures must either provide generated diagrams or record authoritative open-source diagram references. Complex ASCII diagrams are not acceptable as final teaching assets.

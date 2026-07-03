@@ -66,3 +66,16 @@ timestamp: 2026-06-30T00:00:00-07:00
 9. 如果质检失败，请先根据 quality-report 修订失败文件，再重新质检；不要把只存在文件但内容空泛的 OKF 标为通过。
 10. 输出 zip 包，并告诉我入口文件、Day 1 入口、状态保存位置、恢复学习方法、structural validation、content quality gate、teaching runtime quality gate 和 repair status。
 ```
+
+## Round 5 Visual Teaching Protocol
+
+When generating a Course OKF, include visual teaching support. If a course topic uses curves, graph shifts, coordinate axes, equilibrium models, flow/process structures, geometry, or spatial layouts:
+
+1. Require a diagram in the daily plan.
+2. Prefer generated Python/matplotlib diagrams when the image is simple and stable.
+3. For complex diagrams, search authoritative open sources such as official institutions, open textbooks, university open courseware, Wikipedia/Wikimedia Commons, or credible open-source tutorials.
+4. Record source URL, license, and attribution for external diagrams.
+5. Avoid complex ASCII diagrams as the primary teaching image.
+6. Store diagrams under `assets/diagrams/` and update `assets/diagrams/index.md`.
+7. Insert images near their explanation in the lesson.
+8. Validate visual teaching through `visual_teaching_quality` before returning `passed=true`.

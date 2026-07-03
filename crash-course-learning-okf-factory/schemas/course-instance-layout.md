@@ -96,3 +96,16 @@ timestamp: <ISO 8601 datetime>
 # Generated Bundle Rule
 
 The generated bundle is not a static syllabus. It is a stateful learning workspace. The `state/` directory is the canonical learner memory. The `teacher/` directory stores teacher-private runtime notes, rubrics, answer keys, visibility rules, and engagement rules; it must not be pasted into the student-visible conversation before assessment.
+
+## Round 5 Visual Teaching Layout
+
+Generated course instances must include:
+
+```text
+assets/diagrams/index.md
+teacher/visual-teaching-policy.md
+teacher/diagram-quality-rules.md
+teacher/diagram-source-rules.md
+```
+
+If visual triggers are present, `assets/diagrams/` should also contain reusable generated PNG/SVG files or records of authoritative external diagrams.

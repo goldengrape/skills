@@ -1,31 +1,35 @@
 {
-  "evaluation_mode": "structural_check_plus_content_quality_plus_teaching_runtime_plus_local_tests",
+  "evaluation_mode": "structural_check_plus_content_quality_plus_teaching_runtime_plus_visual_teaching_plus_local_tests",
   "add_matrix_type": "decoupled_lower_triangular",
   "upper_triangular_dependency_count": 0,
   "revision_status": "passed",
   "local_tests": {
     "command": "python -m pytest -q",
     "returncode": 0,
-    "summary": "7 passed in 0.34s"
+    "summary": "11 passed in 6.36s"
   },
-  "darwin_round_4": {
-    "kept_revision": "teaching-runtime-layer",
+  "darwin_round_5": {
+    "kept_revision": "visual-teaching-protocol",
     "new_files": [
-      "tools/lint_prompt_visibility.py",
-      "schemas/teacher-notebook.md",
-      "schemas/visibility-policy.md",
-      "schemas/interest-ledger.md",
-      "playbooks/render-student-prompt.md",
-      "playbooks/update-teacher-notebook.md",
-      "playbooks/handle-interest-led-branch.md",
-      "playbooks/finalize-session-record.md"
+      "schemas/visual-teaching-trigger.md",
+      "schemas/diagram-asset.md",
+      "schemas/external-image-source.md",
+      "playbooks/generate-diagram-with-python.md",
+      "playbooks/find-authoritative-diagram.md",
+      "playbooks/insert-diagram-in-lesson.md",
+      "playbooks/update-diagram-index.md",
+      "playbooks/diagram-failure-recovery.md",
+      "tools/render_diagram_asset.py",
+      "tools/check_diagram_quality.py"
     ],
     "macro_smoke_test": {
       "course_name": "宏观经济学",
       "time_policy": "soft",
       "validation_result_passed": true,
-      "teaching_runtime_quality_passed": true,
-      "quality_score": 100
+      "quality_gate_passed": true,
+      "visual_teaching_quality_passed": true,
+      "quality_score": 100,
+      "diagram_assets_found": 7
     }
   }
 }

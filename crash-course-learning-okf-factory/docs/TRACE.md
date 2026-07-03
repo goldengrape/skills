@@ -40,3 +40,18 @@ timestamp: 2026-06-30T00:00:00-07:00
 ## ADD Matrix Status
 
 The ADD matrix is maintained as a decoupled / lower-triangular matrix. Structural validation is traced to ADD-FR-011, content quality evaluation to ADD-FR-012, and repair/recheck to ADD-FR-013. These are final acceptance and repair stages, not direct dependencies of ADD-FR-001 through ADD-FR-010. Round 4 adds ADD-FR-014 through ADD-FR-019 for teaching runtime quality while preserving lower-triangular ordering.
+
+## Round 5 Visual Teaching Trace
+
+| Requirement | Design FR | Main files |
+|---|---|---|
+| URD-REQ-027 Visual trigger for graph/model lessons | ADD-FR-020 | `schemas/visual-teaching-trigger.md`, `teacher/visual-teaching-policy.md`, `tools/check_diagram_quality.py` |
+| URD-REQ-028 Prefer generated diagrams | ADD-FR-022 | `tools/render_diagram_asset.py`, `playbooks/generate-diagram-with-python.md`, `teacher/visual-teaching-policy.md` |
+| URD-REQ-029 Authoritative external diagrams | ADD-FR-023 | `playbooks/find-authoritative-diagram.md`, `schemas/external-image-source.md`, `teacher/diagram-source-rules.md` |
+| URD-REQ-030 Avoid complex ASCII | ADD-FR-027 | `tools/check_diagram_quality.py`, `teacher/diagram-quality-rules.md` |
+| URD-REQ-031 Diagram assets | ADD-FR-024 | `assets/diagrams/index.md`, `schemas/diagram-asset.md`, `tools/materialize_course_okf.py` |
+| URD-REQ-032 Axes and visual explanation | ADD-FR-021 / ADD-FR-025 | `teacher/diagram-quality-rules.md`, `playbooks/insert-diagram-in-lesson.md` |
+| URD-REQ-033 Inline diagram placement | ADD-FR-025 | `playbooks/insert-diagram-in-lesson.md`, `teacher/visual-teaching-policy.md` |
+| URD-REQ-034 Visual quality gate | ADD-FR-027 | `tools/check_diagram_quality.py`, `tools/quality_check_course_okf.py`, `validation-report.json` |
+
+Round 5 adds ADD-FR-020 through ADD-FR-027 for visual teaching while preserving the lower-triangular design principle.

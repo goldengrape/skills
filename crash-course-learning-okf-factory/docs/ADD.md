@@ -158,3 +158,33 @@ The Day 1 macroeconomics session showed a new class of failure: the course conte
 | URD-REQ-022 / 023 | ADD-FR-017 | `schemas/interest-ledger.md`, `playbooks/handle-interest-led-branch.md` |
 | URD-REQ-024 | ADD-FR-018 | `teacher/engagement-monitor.md`, `teacher/engagement-intervention-rules.md` |
 | URD-REQ-025 / 026 | ADD-FR-019 | `tools/quality_check_course_okf.py`, `tools/lint_prompt_visibility.py` |
+
+## Round 5 Visual Teaching Extension
+
+| FR | Functional Requirement | DP | Design Parameter |
+|---|---|---|---|
+| ADD-FR-020 | Detect concepts that require visual teaching. | ADD-DP-020 | `schemas/visual-teaching-trigger.md` and visual trigger rules in course plans. |
+| ADD-FR-021 | Define image generation/source priority. | ADD-DP-021 | `teacher/visual-teaching-policy.md` and `teacher/diagram-source-rules.md`. |
+| ADD-FR-022 | Generate simple reusable diagrams when supported. | ADD-DP-022 | `tools/render_diagram_asset.py` and `playbooks/generate-diagram-with-python.md`. |
+| ADD-FR-023 | Source complex diagrams from authoritative open materials. | ADD-DP-023 | `playbooks/find-authoritative-diagram.md` and `schemas/external-image-source.md`. |
+| ADD-FR-024 | Persist diagrams as reusable course assets. | ADD-DP-024 | `assets/diagrams/`, `assets/diagrams/index.md`, and `schemas/diagram-asset.md`. |
+| ADD-FR-025 | Insert diagrams into lessons near the explanation. | ADD-DP-025 | `playbooks/insert-diagram-in-lesson.md` and `playbooks/update-diagram-index.md`. |
+| ADD-FR-026 | Recover from diagram-generation failure without empty responses. | ADD-DP-026 | `playbooks/diagram-failure-recovery.md`. |
+| ADD-FR-027 | Evaluate visual teaching quality. | ADD-DP-027 | `tools/check_diagram_quality.py` and the visual section of `tools/quality_check_course_okf.py`. |
+
+### Visual Matrix Fragment
+
+The visual extension remains lower triangular:
+
+```text
+FR20 -> DP20
+FR21 -> DP20, DP21
+FR22 -> DP20, DP21, DP22
+FR23 -> DP20, DP21, DP23
+FR24 -> DP22, DP23, DP24
+FR25 -> DP24, DP25
+FR26 -> DP21, DP22, DP23, DP26
+FR27 -> DP20, DP21, DP22, DP23, DP24, DP25, DP26, DP27
+```
+
+Earlier factory functions do not depend on the visual quality gate. Visual quality is checked after generation and any deterministic seed repair.

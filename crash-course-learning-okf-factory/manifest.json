@@ -25,7 +25,17 @@
     "schemas/teacher-notebook.md",
     "schemas/visibility-policy.md",
     "schemas/interest-ledger.md",
-    "tools/lint_prompt_visibility.py"
+    "tools/lint_prompt_visibility.py",
+    "schemas/visual-teaching-trigger.md",
+    "schemas/diagram-asset.md",
+    "schemas/external-image-source.md",
+    "playbooks/generate-diagram-with-python.md",
+    "playbooks/find-authoritative-diagram.md",
+    "playbooks/insert-diagram-in-lesson.md",
+    "playbooks/update-diagram-index.md",
+    "playbooks/diagram-failure-recovery.md",
+    "tools/render_diagram_asset.py",
+    "tools/check_diagram_quality.py"
   ],
   "generated_bundle_type": "Course Learning OKF",
   "required_generated_state_files": [
@@ -38,16 +48,22 @@
     "state/plan-changes.md",
     "state/interest-ledger.md"
   ],
-  "mvp_helper": "tools/materialize_course_okf.py + tools/quality_check_course_okf.py + tools/lint_prompt_visibility.py",
+  "mvp_helper": "tools/materialize_course_okf.py + tools/quality_check_course_okf.py + tools/lint_prompt_visibility.py + tools/check_diagram_quality.py + tools/render_diagram_asset.py",
   "test_command": "python -m pytest -q",
-  "quality_gate": "post_generation_structural_validation_plus_content_quality_repair_loop_plus_teaching_runtime_quality",
+  "quality_gate": "post_generation_structural_validation_plus_content_quality_repair_loop_plus_teaching_runtime_quality_plus_visual_teaching_quality",
   "required_generated_teacher_files": [
     "teacher/teacher-notebook.md",
     "teacher/visibility-rules.md",
     "teacher/teaching-protocol.md",
     "teacher/engagement-monitor.md",
     "teacher/engagement-intervention-rules.md",
-    "teacher/time-policy.md"
+    "teacher/time-policy.md",
+    "teacher/visual-teaching-policy.md",
+    "teacher/diagram-quality-rules.md",
+    "teacher/diagram-source-rules.md"
   ],
-  "revision_round": "darwin-round4-teaching-runtime"
+  "revision_round": "darwin-round5-visual-teaching-protocol",
+  "required_generated_visual_files": [
+    "assets/diagrams/index.md"
+  ]
 }

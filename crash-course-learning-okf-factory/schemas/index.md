@@ -17,3 +17,6 @@
 * [Teacher Notebook](teacher-notebook.md) - Private teacher-side runtime notes.
 * [Visibility Policy](visibility-policy.md) - Student-visible / teacher-private content contract.
 * [Interest Ledger](interest-ledger.md) - Learner-led branch tracking.
+* [Visual Teaching Trigger](visual-teaching-trigger.md) - When diagrams are required or recommended.
+* [Diagram Asset](diagram-asset.md) - Metadata for reusable generated or sourced diagrams.
+* [External Image Source](external-image-source.md) - Source, license, and attribution record for external diagrams.

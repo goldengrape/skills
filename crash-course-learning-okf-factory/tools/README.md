@@ -91,3 +91,25 @@ validation_result:
   structural: ...
   quality_gate: ...
 ```
+
+## `tools/render_diagram_asset.py`
+
+Renders small reusable teaching diagrams for Course OKF instances. It is intended for stable MVP diagrams such as AD/SRAS/LRAS, output gaps, and policy shifts.
+
+```bash
+python tools/render_diagram_asset.py \
+  --diagram ad_sras_four_shocks \
+  --output-dir ./out/course-okf-macroeconomics-pass/assets/diagrams \
+  --write-index \
+  --course-root ./out/course-okf-macroeconomics-pass
+```
+
+## `tools/check_diagram_quality.py`
+
+Checks visual teaching quality: visual policy files, diagram index, diagram assets, and complex ASCII graph misuse.
+
+```bash
+python tools/check_diagram_quality.py ./out/course-okf-macroeconomics-pass
+```
+
+`tools/quality_check_course_okf.py` now includes this gate under `visual_teaching_quality`.

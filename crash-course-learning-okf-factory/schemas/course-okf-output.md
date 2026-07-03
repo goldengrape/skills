@@ -90,3 +90,21 @@ quality_gate.final_report.teaching_runtime_quality.passed == true
 ```
 
 If the quality gate fails, the factory must keep `validation_result.passed=false` and return the exact failures and repair actions.
+
+## Round 5 Validation Result Extension
+
+`generation-output.json` may include visual teaching quality through the quality report:
+
+```yaml
+validation_result:
+  passed: structural.passed && quality_gate.passed
+  structural: ...
+  quality_gate:
+    final_report:
+      visual_teaching_quality:
+        passed: true
+        curve_lessons_detected: true
+        diagram_assets_found:
+          - assets/diagrams/day3-ad-curve.png
+        indexed_png_count: 1
+```

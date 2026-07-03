@@ -111,3 +111,63 @@ def test_strict_time_policy_is_recorded(tmp_path: Path):
     time_policy = (root / "teacher/time-policy.md").read_text(encoding="utf-8")
     assert "time_policy: strict" in mission
     assert "current_time_policy: strict" in time_policy
+
+from tools.check_diagram_quality import check_diagram_quality
+from tools.render_diagram_asset import render
+
+
+def test_visual_teaching_layer_exists_for_generated_courses(tmp_path: Path):
+    factory_input = normalize({"course_name": "Management", "baseline": "zero"})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+
+    assert (root / "teacher/visual-teaching-policy.md").exists()
+    assert (root / "teacher/diagram-quality-rules.md").exists()
+    assert (root / "teacher/diagram-source-rules.md").exists()
+    assert (root / "assets/diagrams/index.md").exists()
+
+    report = output["validation_result"]["quality_gate"]["final_report"]
+    assert report["visual_teaching_quality"]["passed"] is True
+
+
+def test_macroeconomics_seed_generates_reusable_diagram_assets(tmp_path: Path):
+    factory_input = normalize({"course_name": "宏观经济学", "baseline": "zero", "days_available": 7})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+
+    diagram_dir = root / "assets/diagrams"
+    assert (diagram_dir / "index.md").exists()
+    expected = [
+        "day3-ad-curve.png",
+        "day3-sras-curve.png",
+        "day3-lras-curve.png",
+        "day3-ad-sras-four-shocks.png",
+        "day3-output-gaps.png",
+    ]
+    for filename in expected:
+        assert (diagram_dir / filename).exists(), filename
+        assert (diagram_dir / filename).stat().st_size > 1000
+
+    visual = check_diagram_quality(root)
+    assert visual["passed"] is True
+    assert visual["curve_lessons_detected"] is True
+    assert len(visual["diagram_assets_found"]) >= 5
+
+
+def test_visual_quality_gate_detects_complex_ascii_curve(tmp_path: Path):
+    factory_input = normalize({"course_name": "Management", "baseline": "zero"})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+    (root / "plan/day-1.md").write_text(
+        "# Day 1\n\n价格水平 P\n```text\nP |   / SRAS\n  |  /\n  | /____ 真实产出 Y\n```\n", encoding="utf-8"
+    )
+    visual = check_diagram_quality(root)
+    assert visual["passed"] is False
+    assert any(f["code"] == "complex_ascii_diagram_detected" for f in visual["failures"])
+
+
+def test_render_diagram_asset_writes_png(tmp_path: Path):
+    path = render("ad_sras_four_shocks", tmp_path)
+    assert path.exists()
+    assert path.suffix == ".png"
+    assert path.stat().st_size > 1000

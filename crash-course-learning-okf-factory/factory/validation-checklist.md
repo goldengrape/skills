@@ -84,3 +84,19 @@ Use this checklist after generating a course OKF.
 # Local Materializer Check
 
 When `tools/materialize_course_okf.py` is used, verify that the generated course folder contains `generation-output.json` and `quality-report.json`. `validation_result.passed` is true only when structural validation, content quality, and teaching runtime quality all pass.
+
+## Round 5 Visual Teaching Validation
+
+A generated Course OKF must pass the visual teaching gate when visual triggers are present.
+
+Required checks:
+
+- `teacher/visual-teaching-policy.md` exists and prefers Python/matplotlib for simple generated diagrams.
+- `teacher/diagram-source-rules.md` exists and requires source/license/attribution for external images.
+- `teacher/diagram-quality-rules.md` exists and requires axes, labels, source/generator, and diagram index records.
+- `assets/diagrams/index.md` exists.
+- Curve/model lessons have generated or sourced diagram assets.
+- Complex ASCII diagrams are not used as the main explanation for curve/model lessons.
+- Diagram assets are listed in `assets/diagrams/index.md`.
+
+Failure keeps `validation_result.passed=false`.

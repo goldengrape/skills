@@ -10,7 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Dict, Iterable, List, Optional
+from typing import Callable, Dict, Iterable, List, Optional, Tuple
+
+try:
+    from tools.render_diagram_asset import METADATA as DIAGRAM_METADATA, render_many, write_index
+except ModuleNotFoundError:  # allow running as a script from tools/
+    from render_diagram_asset import METADATA as DIAGRAM_METADATA, render_many, write_index  # type: ignore
 
 
 @dataclass(frozen=True)
@@ -60,9 +65,39 @@ def _macro_topics() -> List[Dict[str, str]]:
     ]
 
 
+
+def _write_macro_visual_assets(root: Path) -> List[str]:
+    diagrams = [
+        "ad_curve",
+        "sras_curve",
+        "lras_curve",
+        "ad_sras_equilibrium",
+        "ad_sras_four_shocks",
+        "output_gaps",
+        "policy_closing_output_gaps",
+    ]
+    output_dir = root / "assets/diagrams"
+    paths = render_many(diagrams, output_dir, prefix="day3-")
+    rows: List[Tuple[str, Path, str, str, str]] = []
+    used_in_map = {
+        "ad_curve": "plan/day-3.md; teacher/teacher-notebook.md; learning-records/day-3.md",
+        "sras_curve": "plan/day-3.md; teacher/teacher-notebook.md; learning-records/day-3.md",
+        "lras_curve": "plan/day-3.md; teacher/teacher-notebook.md; learning-records/day-3.md",
+        "ad_sras_equilibrium": "plan/day-3.md; teacher/teacher-notebook.md; learning-records/day-3.md",
+        "ad_sras_four_shocks": "plan/day-3.md; quizzes/day-3-quiz.md; final-review/compressed-notes.md",
+        "output_gaps": "plan/day-3.md; final-review/compressed-notes.md",
+        "policy_closing_output_gaps": "plan/day-4.md; final-review/compressed-notes.md",
+    }
+    for diagram, path in zip(diagrams, paths):
+        meta = DIAGRAM_METADATA[diagram]
+        rows.append((path.stem, path, meta["topic"], used_in_map[diagram], meta["notes"]))
+    write_index(output_dir, root, rows)
+    return [str(path.relative_to(root)) for path in paths] + ["assets/diagrams/index.md"]
+
 def _write_macro(root: Path, course_name: str, days: int, daily_minutes: int) -> List[str]:
     topics = _macro_topics()
     written: List[str] = []
+    written.extend(_write_macro_visual_assets(root))
     written.append(_write(root, "course-map.md", _fm("Course Map", "Macroeconomics Course Map", "Minimal pass-level macroeconomics map.", ["course-map", "macroeconomics"]) + """# Macroeconomics Course Map
 
 ## Exam Goal
@@ -82,6 +117,10 @@ def _write_macro(root: Path, course_name: str, days: int, daily_minutes: int) ->
 ## Dependency Order
 
 GDP / CPI / unemployment → AD-AS model → fiscal and monetary policy → stabilization essay answers → final mock exam.
+
+## Visual Teaching Requirements
+
+AD-AS, LRAS, output gap, policy shift, Phillips curve, and money-market topics require diagrams. Use `assets/diagrams/index.md` to reuse generated images when possible.
 
 ## High-Risk Confusions
 
@@ -181,6 +220,13 @@ This session protects A/B priority macroeconomics content needed for a pass-leve
 | 45-55 | Feedback: check definition accuracy, causal chain, and policy direction |
 | 55-60 | State update: update score-history, recall-deck, misconceptions, and next-action |
 
+## Visual Requirements
+
+- If the session explains a curve, graph shift, equilibrium model, or output gap, use a diagram.
+- Prefer generated Python/matplotlib diagrams from `assets/diagrams/`.
+- Insert the image near the matching explanation and record it in `teacher/teacher-notebook.md`.
+- Do not use complex ASCII diagrams as the main explanation.
+
 ## Must Produce
 
 - One 3-5 point short answer.
@@ -209,6 +255,10 @@ This session protects A/B priority macroeconomics content needed for a pass-leve
 ## One-Page Spine
 
 GDP measures output. CPI measures consumer-price inflation. Unemployment measures unused labor within the labor force. AD-AS explains short-run output and price movements. Fiscal policy changes government spending and taxes. Monetary policy changes money, interest rates, and aggregate demand. Stabilization policy tries to reduce recessions and overheating, but short-run gains can have long-run tradeoffs.
+
+## Reusable Diagram Assets
+
+Use `assets/diagrams/day3-ad-sras-four-shocks.png`, `assets/diagrams/day3-output-gaps.png`, and `assets/diagrams/day3-policy-closing-output-gaps.png` for AD-AS and policy review when available.
 
 ## Default Short-Answer Structure
 
