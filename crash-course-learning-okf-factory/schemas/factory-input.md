@@ -75,3 +75,11 @@ preferences:
 # Notes
 
 When a field is missing, use a safe default and record it in the generated `mission.md` under `Assumptions`. Do not ask for clarification unless the missing field blocks generation.
+
+## Round 6 Field
+
+```yaml
+target_learning_level: L1 | L2 | L3 | L4 | L5 | L6 | L7 | L8 | L9
+```
+
+Default is `L6` for A-priority concepts. Users may override to lighter exam-pass targets or deeper transfer/fluency targets.

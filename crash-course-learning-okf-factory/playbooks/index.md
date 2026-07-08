@@ -20,3 +20,4 @@
 * [Insert Diagram In Lesson](insert-diagram-in-lesson.md) - Place diagrams beside the relevant explanation.
 * [Update Diagram Index](update-diagram-index.md) - Record diagrams as reusable course assets.
 * [Diagram Failure Recovery](diagram-failure-recovery.md) - Avoid empty responses when diagram generation fails.
+* [Manage Learning Control](manage-learning-control.md) - Negotiate target level, preserve productive friction, run L6/L7 checks, and update evidence.

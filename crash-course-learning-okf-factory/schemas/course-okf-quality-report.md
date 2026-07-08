@@ -92,3 +92,19 @@ teacher/time-policy.md
 # Rule
 
 `validation_result.passed` is true only when structural validation, content quality, and teaching runtime quality pass.
+
+## Round 7 Compact Learning Control Quality
+
+```yaml
+learning_control_quality:
+  passed: boolean
+  learning_contract_present: boolean
+  default_core_target: L6 | other | unknown
+  assistance_modes_checked: boolean
+  productive_friction_policy_present: boolean
+  barehand_checkpoints_present: boolean
+  failures: []
+  warnings: []
+```
+
+Hard failures include missing compact learning contract, missing L1-L9 stages, missing assistance modes, missing L6 misuse checks, missing feedback/source anchor, missing model-vs-reality distinction, missing negative-feature list, or unsupported mastery claims.

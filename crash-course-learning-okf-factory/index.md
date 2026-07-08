@@ -59,3 +59,7 @@ Given a course name and a learner baseline, the factory should produce a new OKF
 ## Local MVP Helper
 
 Use `tools/materialize_course_okf.py` when you need a deterministic skeleton generator for the required Course Learning OKF file tree. It creates initial state, day plans, quizzes, final-review files, `generation-output.json`, and `quality-report.json`. If quality fails and a local course seed exists, it repairs and rechecks once.
+
+## Round 6 Note
+
+This factory now includes a learning-contract layer: L1-L9 learning stages, default L6 core target, AI assistance modes, productive friction, verifiability, barehand checkpoints, and evidence-level quality checks.

@@ -171,3 +171,45 @@ def test_render_diagram_asset_writes_png(tmp_path: Path):
     assert path.exists()
     assert path.suffix == ".png"
     assert path.stat().st_size > 1000
+
+from tools.check_learning_stage_evidence import check_learning_stage_evidence
+
+
+def test_learning_contract_defaults_to_l6_and_quality_gate_passes(tmp_path: Path):
+    factory_input = normalize({"course_name": "Management", "baseline": "zero"})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+
+    assert output["initial_state"]["target_learning_level"] == "L6"
+    assert (root / "learning-contract/index.md").exists()
+    assert (root / "teacher/learning-control-policy.md").exists()
+    assert (root / "state/concept-mastery-state.md").exists()
+    assert (root / "state/assessment-evidence-ledger.md").exists()
+    assert not (root / "teacher/ai-diet-policy.md").exists()
+
+    report = output["validation_result"]["quality_gate"]["final_report"]
+    assert report["learning_control_quality"]["passed"] is True
+    assert report["learning_control_quality"]["default_core_target"] == "L6"
+
+
+def test_target_learning_level_override_is_recorded(tmp_path: Path):
+    factory_input = normalize({"course_name": "Management", "baseline": "zero", "target_learning_level": "L7"})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+
+    assert output["initial_state"]["target_learning_level"] == "L7"
+    contract = (root / "learning-contract/index.md").read_text(encoding="utf-8")
+    concept_state = (root / "state/concept-mastery-state.md").read_text(encoding="utf-8")
+    assert "target_learning_level: L7" in contract
+    assert "default_target_level: L7" in concept_state
+
+
+def test_learning_stage_quality_detects_missing_contract(tmp_path: Path):
+    factory_input = normalize({"course_name": "Management", "baseline": "zero"})
+    output = materialize(factory_input, tmp_path)
+    root = tmp_path / output["course_slug"]
+    (root / "learning-contract/index.md").unlink()
+
+    report = check_learning_stage_evidence(root)
+    assert report["passed"] is False
+    assert any(f["code"] == "missing_learning_control_file" for f in report["failures"])

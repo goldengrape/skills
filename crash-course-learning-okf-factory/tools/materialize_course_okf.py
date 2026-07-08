@@ -35,10 +35,12 @@ DEFAULT_EXAM_FORMAT = "unknown"
 DEFAULT_COURSE_TYPE = "concept_heavy"
 DEFAULT_MATERIALS_AVAILABLE = "none"
 DEFAULT_TIME_POLICY = "soft"
+DEFAULT_TARGET_LEARNING_LEVEL = "L6"
 
 VALID_BASELINES = {"zero", "weak", "partial", "review"}
 VALID_NEXT_ACTIONS = {"run_day_1", "continue", "repair", "review", "simulate", "final_review"}
 VALID_TIME_POLICIES = {"soft", "strict"}
+VALID_TARGET_LEARNING_LEVELS = {f"L{i}" for i in range(1, 10)}
 
 STATE_FILES = [
     "state/current-state.md",
@@ -49,6 +51,8 @@ STATE_FILES = [
     "state/next-action.md",
     "state/plan-changes.md",
     "state/interest-ledger.md",
+    "state/concept-mastery-state.md",
+    "state/assessment-evidence-ledger.md",
 ]
 
 FINAL_REVIEW_FILES = [
@@ -70,10 +74,15 @@ TEACHER_RUNTIME_FILES = [
     "teacher/visual-teaching-policy.md",
     "teacher/diagram-quality-rules.md",
     "teacher/diagram-source-rules.md",
+    "teacher/learning-control-policy.md",
 ]
 
 VISUAL_ASSET_FILES = [
     "assets/diagrams/index.md",
+]
+
+LEARNING_CONTRACT_FILES = [
+    "learning-contract/index.md",
 ]
 
 RESUME_RULES = [
@@ -87,6 +96,8 @@ RESUME_RULES = [
     "read teacher/teacher-notebook.md without displaying teacher_thinks",
     "read state/interest-ledger.md",
     "read assets/diagrams/index.md when a topic uses diagrams",
+    "read learning-contract/index.md before selecting assessment difficulty",
+    "read state/concept-mastery-state.md and state/assessment-evidence-ledger.md before claiming a concept is stable",
 ]
 
 STATE_UPDATE_RULES = [
@@ -98,6 +109,7 @@ STATE_UPDATE_RULES = [
     "update misconceptions for wrong distinctions",
     "record interest-led branches when learner asks deeper questions",
     "record generated or sourced diagrams in assets/diagrams/index.md",
+    "update concept evidence level, AI assistance mode, and productive friction checks",
     "write next action before ending",
 ]
 
@@ -114,6 +126,7 @@ class FactoryInput:
     course_type: str = DEFAULT_COURSE_TYPE
     materials_available: str = DEFAULT_MATERIALS_AVAILABLE
     time_policy: str = DEFAULT_TIME_POLICY
+    target_learning_level: str = DEFAULT_TARGET_LEARNING_LEVEL
     materials: List[Dict[str, Any]] = field(default_factory=list)
     constraints: List[str] = field(default_factory=list)
     language: str = "zh"
@@ -166,6 +179,10 @@ def normalize(raw: Dict[str, Any]) -> FactoryInput:
     if time_policy not in VALID_TIME_POLICIES:
         raise ValueError(f"time_policy must be one of {sorted(VALID_TIME_POLICIES)}")
 
+    target_learning_level = str(raw.get("target_learning_level", DEFAULT_TARGET_LEARNING_LEVEL)).strip().upper() or DEFAULT_TARGET_LEARNING_LEVEL
+    if target_learning_level not in VALID_TARGET_LEARNING_LEVELS:
+        raise ValueError(f"target_learning_level must be one of {sorted(VALID_TARGET_LEARNING_LEVELS)}")
+
     materials = raw.get("materials", []) or []
     if not isinstance(materials, list):
         raise ValueError("materials must be a list")
@@ -187,6 +204,7 @@ def normalize(raw: Dict[str, Any]) -> FactoryInput:
         course_type=str(raw.get("course_type", DEFAULT_COURSE_TYPE)),
         materials_available=str(raw.get("materials_available", DEFAULT_MATERIALS_AVAILABLE)),
         time_policy=time_policy,
+        target_learning_level=target_learning_level,
         materials=materials,
         constraints=[str(item) for item in constraints],
         language=str(raw.get("language", "zh")),
@@ -340,6 +358,7 @@ def teacher_index_content(input_data: FactoryInput) -> str:
             "visual-teaching-policy.md",
             "diagram-quality-rules.md",
             "diagram-source-rules.md",
+            "learning-control-policy.md",
             "rubrics/",
             "answer-keys/",
         ],
@@ -377,6 +396,11 @@ Show only `teacher_says` in the conversation before the learner answers. Keep `t
 | blind_score | No answer elements or scoring hints were shown before the learner answered. |
 | semi_assisted_score | The format was scaffolded, but specific answer elements were hidden. |
 | assisted_score | Specific answer elements or substantial hints were shown before the learner answered. |
+| barehand_score | No hints, no notes, no answer cues, often cross-day mixed transfer. |
+
+## Learning-Stage Rule
+
+Default core target is L6: the learner can use a concept and distinguish common misuses. Do not claim L6 from guided work. Use blind checks for L6 and barehand or transfer checks for L7+.
 
 ## Visual Teaching
 
@@ -434,6 +458,7 @@ def teacher_notebook_content(input_data: FactoryInput) -> str:
 course: {input_data.course_name}
 visibility: teacher_private_runtime_file
 time_policy: {input_data.time_policy}
+target_learning_level: {input_data.target_learning_level}
 status: initialized
 ```
 
@@ -642,6 +667,154 @@ def diagram_index_content() -> str:
 - Do not use complex ASCII diagrams as formal course assets.
 """
 
+
+def learning_contract_index_content(input_data: FactoryInput) -> str:
+    return frontmatter("Learning Contract", "Learning Contract", "Compact target level, AI-assistance, verifiability, and evidence contract.", ["learning-contract", "learning-stage", "ai-diet"]) + f"""# Learning Contract
+
+```yaml
+course_name: {input_data.course_name}
+target_learning_level: {input_data.target_learning_level}
+default_core_target: L6 unless user override is explicit
+time_policy: {input_data.time_policy}
+days_available: {input_data.days_available}
+daily_minutes: {input_data.daily_minutes}
+visual_teaching: generated_or_authoritative_images
+barehand_checkpoint: every_2_to_3_days_for_L6_plus
+feedback_policy: product_and_source_anchored
+```
+
+## User-facing negotiation
+
+Before generating or starting a course, explain the learning stages, state that A-priority concepts default to L6, then ask for course name, goal, target level, days, daily minutes, materials, diagram preference, time policy, and whether barehand checkpoints are acceptable. If the user omits answers, continue with the defaults above and record assumptions here.
+
+## Learning stages
+
+| Level | Meaning | Evidence |
+|---|---|---|
+| L1 | 听到过 / heard of | no longer unfamiliar |
+| L2 | 能跟随 / can follow | explanation sounds plausible |
+| L3 | 能识别 / receptive | identify or understand in context |
+| L4 | 能回忆 / retrieve | recall definition, formula, or diagram without notes |
+| L5 | 标准使用 / standard use | solve same-type tasks |
+| L6 | 辨别误用 / discrimination | detect common confusions, boundaries, flawed answers |
+| L7 | 迁移 / transfer | use in new or cross-day mixed contexts |
+| L8 | 流畅 / fluency | low-hint, mixed, or timed use with low load |
+| L9 | 批判教学创造 / critique-teach-create | teach, correct, design examples, or create |
+
+## Priority targets
+
+| Priority | Default target | Required evidence |
+|---|---|---|
+| A | {input_data.target_learning_level} | recall + standard use + L6 misuse check when target is L6+ |
+| B | L5 | recall + standard use + one common confusion check |
+| C | L3-L4 | recognition + short recall |
+| Interest extension | L3-L4 unless promoted | short explanation + interest-ledger entry |
+
+## Assistance modes and evidence ceiling
+
+| Mode | Before-answer help | Score type | Evidence ceiling |
+|---|---|---|---|
+| guided | explanation, examples, framework | assisted_score | L3-L4 |
+| semi_guided | task format but no answer points | semi_assisted_score | L5 |
+| blind | prompt only, no answer cues | blind_score | L6-L7 |
+| barehand | no notes, no hints, cross-day mixed task | barehand_score | L7-L9 |
+
+Rules: guided work cannot prove L6; L6 needs blind misuse-discrimination evidence; L7 needs blind or barehand transfer evidence.
+
+## Verifiability policy
+
+| Level | Examples | Assessment |
+|---|---|---|
+| high | calculation, code tests, grammar, standard model direction | exact checks and repair tests |
+| medium | policy explanation, history causality, model interpretation | rubric + model-vs-reality distinction |
+| low | values, open interpretation, creative direction | cautious source-anchored feedback; avoid pseudo-precise scores |
+
+## Productive friction and AI diet
+
+Preserve independent recall, choosing the model, own explanation, misconception repair, misuse discrimination, and transfer. Remove only tool friction: file organization, diagram generation, formatting, and source indexing. Do not show answer keys or hidden rubric before blind/barehand assessment.
+
+## Negative features
+
+Do not generate streaks, badges, rankings, peer comparisons, personality labels, or pseudo-precise mastery dashboards. Record evidence instead: score type, assistance mode, concept level, misconception, source, diagram, and next check.
+"""
+
+
+def learning_control_policy_content() -> str:
+    return frontmatter("Teacher Runtime", "Learning Control Policy", "Minimal policy for stage-aligned assessment, AI diet, verifiability, productive friction, and evidence-based feedback.", ["teacher", "learning-control", "ai-diet"]) + """# Learning Control Policy
+
+## Stage-aligned assessment
+
+- L1-L3: explanation and recognition are enough.
+- L4: ask recall without notes.
+- L5: use standard same-type tasks.
+- L6: add blind misuse-discrimination, flawed-answer, or boundary checks.
+- L7: add transfer or cross-day mixed tasks.
+- L8: add low-hint mixed or timed fluency checks.
+- L9: ask the learner to teach, critique, design examples, or create.
+
+## AI assistance modes
+
+| Mode | Allowed before answer | Evidence ceiling |
+|---|---|---|
+| guided | framework, example, hints | L3-L4 |
+| semi_guided | answer format only | L5 |
+| blind | prompt only | L6-L7 |
+| barehand | no notes, no hints, cross-day | L7-L9 |
+
+Record the mode with every score. Do not use guided evidence to claim L6.
+
+## Productive friction
+
+Preserve recall, model choice, own explanation, misconception repair, misuse detection, and transfer. Reduce file, diagram, formatting, and source-indexing friction.
+
+## Verifiability
+
+Use exact scoring for high-verifiability work. Use rubrics and explicit model-vs-reality separation for medium-verifiability work. Avoid pseudo-precise mastery claims for low-verifiability work.
+
+## Feedback anchor
+
+Feedback must point to the learner answer, rubric, source material, diagram, test result, or previous misconception. Do not assign personality or global ability labels.
+
+## Model vs reality
+
+Give the textbook/exam model first, name its assumptions, then add real-world complications as extensions.
+
+## Negative features
+
+Do not generate badges, streaks, rankings, peer comparison, ability labels, or mastery percentages.
+"""
+
+
+def concept_mastery_state_content(input_data: FactoryInput) -> str:
+    return frontmatter("State", "Concept Mastery State", "Compact per-concept target level, evidence level, and next check.", ["state", "learning-stage"]) + f"""# Concept Mastery State
+
+```yaml
+default_target_level: {input_data.target_learning_level}
+evidence_policy: do_not_claim_mastery_without_stage_and_assistance_mode
+L6_rule: requires blind misuse-discrimination evidence
+L7_rule: requires transfer or barehand evidence
+```
+
+| Concept | Priority | Target level | Current evidence level | Latest assistance mode | Evidence | Next required check |
+|---|---|---|---|---|---|---|
+| TBD from priority-map | A | {input_data.target_learning_level} | L1 | guided | initialized | recall + standard use + misuse discrimination |
+
+## Append updates here or in `assessment-evidence-ledger.md`.
+"""
+
+
+def assessment_evidence_ledger_content() -> str:
+    return frontmatter("State", "Assessment Evidence Ledger", "Append-only evidence for stage changes, transfer, barehand checks, and assistance modes.", ["state", "evidence", "learning-stage"]) + """# Assessment Evidence Ledger
+
+| Date | Concept | Event type | Assistance mode | Score type | Result | Evidence level candidate | Notes |
+|---|---|---|---|---|---|---|---|
+
+Event types: recall, standard_application, misuse_discrimination, transfer, barehand, flawed_answer_review, fluency.
+
+Default schedule: for L6+ targets, run a no-hint cross-day barehand checkpoint every 2-3 learning days when feasible.
+"""
+
+
 def rubric_content(input_data: FactoryInput, day: int) -> str:
     return frontmatter("Teacher Rubric", f"Day {day} Rubric", "Private rubric for scoring after the learner answers.", ["teacher", "rubric"]) + f"""# Day {day} Rubric
 
@@ -698,7 +871,7 @@ def materialize(input_data: FactoryInput, output_root: Path) -> Dict[str, Any]:
     if root.exists() and any(root.iterdir()):
         raise FileExistsError(f"output directory already exists and is not empty: {root}")
 
-    dirs = ["plan", "state", "sessions", "learning-records", "quizzes", "final-review", "teacher", "teacher/rubrics", "teacher/answer-keys", "assets", "assets/diagrams", "assets/diagrams/external"]
+    dirs = ["plan", "state", "sessions", "learning-records", "quizzes", "final-review", "learning-contract", "teacher", "teacher/rubrics", "teacher/answer-keys", "assets", "assets/diagrams", "assets/diagrams/external"]
     for directory in dirs:
         (root / directory).mkdir(parents=True, exist_ok=True)
 
@@ -711,6 +884,7 @@ baseline: {input_data.baseline}
 days_available: {input_data.days_available}
 daily_minutes: {input_data.daily_minutes}
 time_policy: {input_data.time_policy}
+target_learning_level: {input_data.target_learning_level}
 target_score: {input_data.target_score}
 exam_date: {input_data.exam_date or 'unknown'}
 exam_format: {input_data.exam_format}
@@ -718,7 +892,7 @@ course_type: {input_data.course_type}
 
 ## Assumptions
 
-- Goal is pass-level readiness, not full mastery.
+- Goal is pass-level readiness with core concepts reaching the configured learning stage target; default core target is L6.
 - Daily minutes are a soft planning target unless `time_policy: strict`.
 - User-provided materials outrank generic knowledge.
 - Missing source evidence must be recorded in `resources.md`.
@@ -727,6 +901,8 @@ course_type: {input_data.course_type}
     write(root / "resources.md", frontmatter("Resource Registry", "Resources", "Sources, confidence, and gaps.", ["resources", "provenance"]) + resources_body(input_data), created_files)
     write(root / "priority-map.md", frontmatter("Priority Map", "Priority Map", "A/B/C exam-value classification.", ["priority", "exam"]) + "# Priority Map\n\n## A — Must know\n\n- TBD from resources.\n\n## B — Stabilizers\n\n- TBD from resources.\n\n## C — Short-term low value\n\n- TBD from resources.\n", created_files)
     write(root / "glossary.md", frontmatter("Glossary", "Glossary", "Terms and concise exam definitions.", ["glossary"]) + "# Glossary\n\nAdd high-value definitions here.\n", created_files)
+
+    write(root / "learning-contract/index.md", learning_contract_index_content(input_data), created_files)
 
     write(root / "plan/index.md", index_content("Plan", "Daily plan index.", ["seven-day-plan.md"] + [f"day-{day}.md" for day in range(1, input_data.days_available + 1)]), created_files)
     write(root / "plan/seven-day-plan.md", frontmatter("Plan", "Crash-Course Plan", "Configured-day plan for pass-level readiness.", ["plan"]) + seven_day_body(input_data), created_files)
@@ -742,6 +918,8 @@ course_type: {input_data.course_type}
     write(root / "state/next-action.md", next_action_body(), created_files)
     write(root / "state/plan-changes.md", frontmatter("State", "Plan Changes", "Adaptation log for future daily plans.", ["state", "adaptation"]) + "# Plan Changes\n\n| Date | Trigger evidence | Changed files | Reason |\n|---|---|---|---|\n", created_files)
     write(root / "state/interest-ledger.md", interest_ledger_body(input_data), created_files)
+    write(root / "state/concept-mastery-state.md", concept_mastery_state_content(input_data), created_files)
+    write(root / "state/assessment-evidence-ledger.md", assessment_evidence_ledger_content(), created_files)
 
     write(root / "teacher/index.md", teacher_index_content(input_data), created_files)
     write(root / "teacher/teaching-protocol.md", teaching_protocol_content(input_data), created_files)
@@ -753,6 +931,7 @@ course_type: {input_data.course_type}
     write(root / "teacher/visual-teaching-policy.md", visual_teaching_policy_content(), created_files)
     write(root / "teacher/diagram-quality-rules.md", diagram_quality_rules_content(), created_files)
     write(root / "teacher/diagram-source-rules.md", diagram_source_rules_content(), created_files)
+    write(root / "teacher/learning-control-policy.md", learning_control_policy_content(), created_files)
     write(root / "assets/diagrams/index.md", diagram_index_content(), created_files)
     for day in range(1, input_data.days_available + 1):
         write(root / f"teacher/rubrics/day-{day}-rubric.md", rubric_content(input_data, day), created_files)
@@ -797,6 +976,7 @@ course_type: {input_data.course_type}
             "pass_readiness": "very_low",
             "risk_level": "high",
             "time_policy": input_data.time_policy,
+            "target_learning_level": input_data.target_learning_level,
             "next_action": "run_day_1",
         },
         "seven_day_plan": "plan/seven-day-plan.md",
@@ -857,6 +1037,7 @@ completed_sessions: 0
 pass_readiness: very_low
 risk_level: high
 time_policy: {input_data.time_policy}
+target_learning_level: {input_data.target_learning_level}
 last_session_date: null
 next_action: run_day_1
 interest_profile:
@@ -883,6 +1064,10 @@ read_before_start:
   - state/misconceptions.md
   - state/score-history.md
   - state/interest-ledger.md
+  - state/concept-mastery-state.md
+  - learning-contract/index.md
+  - state/assessment-evidence-ledger.md
+  - teacher/learning-control-policy.md
   - sessions/day-1-session.md
   - teacher/teacher-notebook.md
   - teacher/visual-teaching-policy.md
@@ -929,6 +1114,7 @@ def required_paths(days_available: int) -> List[str]:
     base.extend(STATE_FILES)
     base.extend(TEACHER_RUNTIME_FILES)
     base.extend(VISUAL_ASSET_FILES)
+    base.extend(LEARNING_CONTRACT_FILES)
     base.extend(f"teacher/rubrics/day-{day}-rubric.md" for day in range(1, days_available + 1))
     base.extend(f"teacher/answer-keys/day-{day}-answer-key.md" for day in range(1, days_available + 1))
     base.extend(f"quizzes/day-{day}-quiz.md" for day in range(1, days_available + 1))
@@ -966,6 +1152,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--course-type", help="Course type.")
     parser.add_argument("--materials-available", help="Material availability.")
     parser.add_argument("--time-policy", choices=sorted(VALID_TIME_POLICIES), help="soft allows interest-led extensions; strict treats daily minutes as a hard limit.")
+    parser.add_argument("--target-learning-level", choices=sorted(VALID_TARGET_LEARNING_LEVELS), help="Target learning stage L1-L9; default L6 for core concepts.")
     return parser.parse_args(argv)
 
 
@@ -982,6 +1169,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "course_type": args.course_type,
         "materials_available": args.materials_available,
         "time_policy": args.time_policy,
+        "target_learning_level": args.target_learning_level,
     }
     for key, value in overrides.items():
         if value is not None:

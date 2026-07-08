@@ -31,3 +31,7 @@ assessments:
 * If answer elements were shown before the answer, do not record the result as `blind_score`.
 * Every quiz, mock exam, Feynman task, or exam-style answer review should create one assessment entry.
 * If two consecutive entries for an A-topic are below pass-like, set `next_action: repair` or `review`.
+
+## Round 6 Fields
+
+Assessment rows should record `assistance_mode` and `evidence_level_candidate` so that scores are not over-interpreted. Guided scores cannot prove L6; barehand scores can support L7+ when transfer is demonstrated.

@@ -55,3 +55,13 @@ The ADD matrix is maintained as a decoupled / lower-triangular matrix. Structura
 | URD-REQ-034 Visual quality gate | ADD-FR-027 | `tools/check_diagram_quality.py`, `tools/quality_check_course_okf.py`, `validation-report.json` |
 
 Round 5 adds ADD-FR-020 through ADD-FR-027 for visual teaching while preserving the lower-triangular design principle.
+
+## Darwin Round 6 Trace Additions
+
+- URD-REQ-035..050 -> compact learning-control layer: `learning-contract/index.md`, `teacher/learning-control-policy.md`, `state/concept-mastery-state.md`, `state/assessment-evidence-ledger.md`, `schemas/learning-control.md`, `playbooks/manage-learning-control.md`, `tools/check_learning_stage_evidence.py`.
+- Round7 rationale: preserve the learning-stage, AI-diet, verifiability, productive-friction, feedback-anchor, model-vs-reality, negative-feature, barehand, transfer, and assistance-mode requirements while removing duplicate runtime files.
+
+
+## Round 7 Occam Trace
+
+Round 7 does not remove user-facing learning-control capability. It changes the implementation mapping from many atomic files to four compact runtime files plus one schema and one playbook. Quality gates now test the compact contract instead of individual policy fragments.

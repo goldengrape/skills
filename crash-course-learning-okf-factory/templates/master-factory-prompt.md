@@ -79,3 +79,7 @@ When generating a Course OKF, include visual teaching support. If a course topic
 6. Store diagrams under `assets/diagrams/` and update `assets/diagrams/index.md`.
 7. Insert images near their explanation in the lesson.
 8. Validate visual teaching through `visual_teaching_quality` before returning `passed=true`.
+
+## Learning Contract Step
+
+Before generating a course OKF, explain L1-L9 learning stages. State the default: A-priority concepts target L6. Ask the user for desired level, goal, time budget, materials, diagram preference, time policy, and barehand checkpoint acceptance. If incomplete, continue with documented assumptions.

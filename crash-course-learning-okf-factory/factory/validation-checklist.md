@@ -100,3 +100,14 @@ Required checks:
 - Diagram assets are listed in `assets/diagrams/index.md`.
 
 Failure keeps `validation_result.passed=false`.
+
+## Learning Control Quality Checklist
+
+- [ ] Learning contract explains L1-L9 and default L6.
+- [ ] Concept target levels are present.
+- [ ] AI assistance modes are defined and linked to score types.
+- [ ] Compact learning-control policy preserves recall, own explanation, misuse checks, and transfer.
+- [ ] L6 concepts have misuse-discrimination checks recorded in concept state/evidence ledger.
+- [ ] L7 targets have transfer or barehand checks recorded in the evidence ledger.
+- [ ] Feedback policy is evidence-anchored.
+- [ ] No unsupported mastery claims or pseudo-precise gamification.

@@ -109,3 +109,31 @@ teacher/diagram-source-rules.md
 ```
 
 If visual triggers are present, `assets/diagrams/` should also contain reusable generated PNG/SVG files or records of authoritative external diagrams.
+
+## Round 6 Learning-Control Additions
+
+Generated course instances must include:
+
+```text
+learning-contract/
+  index.md
+  index.md
+  index.md
+  index.md
+  index.md
+  index.md
+state/
+  concept-mastery-state.md
+  assessment-evidence-ledger.md
+  assessment-evidence-ledger.md
+  assessment-evidence-ledger.md
+  assessment-evidence-ledger.md
+teacher/
+  learning-control-policy.md
+  learning-control-policy.md
+  learning-control-policy.md
+  learning-control-policy.md
+  learning-control-policy.md
+  learning-control-policy.md
+  learning-control-policy.md
+```

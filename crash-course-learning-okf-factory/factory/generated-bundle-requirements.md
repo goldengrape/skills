@@ -75,3 +75,7 @@ teacher/
 ```
 
 A course that teaches curves, graph shifts, coordinate models, equilibrium diagrams, geometry, process flows, or spatial structures must either provide generated diagrams or record authoritative open-source diagram references. Complex ASCII diagrams are not acceptable as final teaching assets.
+
+## Learning Contract and AI Diet Requirements
+
+Every generated Course OKF must include a compact learning-control layer: `learning-contract/index.md`, `teacher/learning-control-policy.md`, `state/concept-mastery-state.md`, and `state/assessment-evidence-ledger.md`. A-priority concepts default to L6 unless the user overrides. L6 requires misuse-discrimination evidence; L7 requires transfer evidence. Scores must record assistance mode.

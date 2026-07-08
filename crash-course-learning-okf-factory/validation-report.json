@@ -1,35 +1,28 @@
 {
-  "evaluation_mode": "structural_check_plus_content_quality_plus_teaching_runtime_plus_visual_teaching_plus_local_tests",
-  "add_matrix_type": "decoupled_lower_triangular",
-  "upper_triangular_dependency_count": 0,
-  "revision_status": "passed",
-  "local_tests": {
-    "command": "python -m pytest -q",
-    "returncode": 0,
-    "summary": "11 passed in 6.36s"
+  "round": "darwin-round-7-occam-learning-control",
+  "tests": {
+    "pytest": "14 passed",
+    "macro_smoke": "passed"
   },
-  "darwin_round_5": {
-    "kept_revision": "visual-teaching-protocol",
-    "new_files": [
-      "schemas/visual-teaching-trigger.md",
-      "schemas/diagram-asset.md",
-      "schemas/external-image-source.md",
-      "playbooks/generate-diagram-with-python.md",
-      "playbooks/find-authoritative-diagram.md",
-      "playbooks/insert-diagram-in-lesson.md",
-      "playbooks/update-diagram-index.md",
-      "playbooks/diagram-failure-recovery.md",
-      "tools/render_diagram_asset.py",
-      "tools/check_diagram_quality.py"
+  "macro_smoke": {
+    "validation_passed": true,
+    "quality_gate_passed": true,
+    "quality_score": 100,
+    "learning_control_quality_passed": true,
+    "minimal_contract_files": [
+      "learning-contract/index.md",
+      "teacher/learning-control-policy.md",
+      "state/concept-mastery-state.md",
+      "state/assessment-evidence-ledger.md"
     ],
-    "macro_smoke_test": {
-      "course_name": "宏观经济学",
-      "time_policy": "soft",
-      "validation_result_passed": true,
-      "quality_gate_passed": true,
-      "visual_teaching_quality_passed": true,
-      "quality_score": 100,
-      "diagram_assets_found": 7
-    }
+    "diagram_asset_count": 7
+  },
+  "occam_result": {
+    "round6_created_files": 86,
+    "round7_created_files": 71,
+    "round6_generated_course_files": 95,
+    "round7_generated_course_files": 80,
+    "learning_control_runtime_artifacts_before": 17,
+    "learning_control_runtime_artifacts_after": 4
   }
 }

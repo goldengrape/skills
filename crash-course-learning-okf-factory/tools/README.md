@@ -113,3 +113,8 @@ python tools/check_diagram_quality.py ./out/course-okf-macroeconomics-pass
 ```
 
 `tools/quality_check_course_okf.py` now includes this gate under `visual_teaching_quality`.
+
+## Round 6 Learning-Control Tools
+
+- `check_learning_stage_evidence.py`: validates learning contract, L1-L9 rubric, AI assistance modes, productive friction policy, barehand checkpoints, and evidence-level tracking.
+- `materialize_course_okf.py --target-learning-level L6`: records the target learning level in generated course OKFs. Default is L6.

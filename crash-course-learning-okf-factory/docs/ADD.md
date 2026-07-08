@@ -188,3 +188,24 @@ FR27 -> DP20, DP21, DP22, DP23, DP24, DP25, DP26, DP27
 ```
 
 Earlier factory functions do not depend on the visual quality gate. Visual quality is checked after generation and any deterministic seed repair.
+
+## Darwin Round 6 — Learning Contract and AI Diet ADD Extension
+
+| FR | Functional Requirement | DP | Design Parameter |
+|---|---|---|---|
+| FR34 | Support compact L1-L9 learning control | DP34 | `learning-contract/index.md`, `schemas/learning-control.md` |
+| FR35 | Negotiate learning contract before generation | DP35 | `playbooks/manage-learning-control.md` |
+| FR36 | Default A-priority concepts to L6 | DP36 | `learning-contract/index.md` |
+| FR37 | Map concept priority to target level | DP37 | `learning-contract/index.md`, `state/concept-mastery-state.md` |
+| FR38 | Control assessment by verifiability and assistance mode | DP38 | `teacher/learning-control-policy.md` |
+| FR39 | Preserve productive friction and AI diet | DP39 | `teacher/learning-control-policy.md` |
+| FR40 | Record concept evidence and assistance mode | DP40 | `state/concept-mastery-state.md`, `state/assessment-evidence-ledger.md` |
+| FR41 | Support L6 misuse checks and L7 transfer checks | DP41 | `teacher/learning-control-policy.md`, `playbooks/manage-learning-control.md` |
+| FR42 | Check compact learning-control evidence consistency | DP42 | `tools/check_learning_stage_evidence.py` |
+
+The extension remains lower triangular: target definitions precede contract negotiation, target levels precede assessment design, assistance/evidence logging precedes stage validation, and quality checking depends on the preceding files.
+
+
+## Round 7 Occam Revision
+
+Round 6 split learning control across many small files. Round 7 collapses them into four runtime artifacts: one learning contract, one teacher control policy, one concept state, and one evidence ledger. This keeps the same FR coverage while reducing generated-course surface area and duplicated instructions.

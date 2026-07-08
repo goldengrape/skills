@@ -140,3 +140,29 @@ The default use case is: a learner has about one week, about one hour per day, a
 | URD-AC-014 | A generated macroeconomics Course OKF contains `assets/diagrams/`, `assets/diagrams/index.md`, and reusable AD/SRAS/LRAS/output-gap diagram assets after seed repair. |
 | URD-AC-015 | A curve-heavy generated course without a diagram fails the visual teaching quality gate. |
 | URD-AC-016 | A complex ASCII curve in student-visible plan or quiz files fails the visual teaching quality gate. |
+
+## Darwin Round 6 — Learning Contract and AI Diet Requirements
+
+- URD-REQ-035: Factory OKF must support L1-L9 learning-stage targets and allow the user to specify the target.
+- URD-REQ-036: If the user does not specify a target, A-priority core concepts default to L6: standard use plus misuse discrimination.
+- URD-REQ-037: Before generating a course, the factory must explain L1-L9, the default L6 target, assessment implications, and tradeoffs.
+- URD-REQ-038: The course must map concept priority to target levels: A defaults to L6, B to L5, C to L3-L4 unless overridden.
+- URD-REQ-039: The course must classify concept verifiability and use assessment methods that fit high, medium, or low verifiability.
+- URD-REQ-040: The course must distinguish guided, semi_guided, blind, and barehand assistance modes and record them with scores.
+- URD-REQ-041: L6 concepts must include misuse-discrimination, flawed-answer, or boundary-condition checks.
+- URD-REQ-042: L7 concepts must include transfer or cross-day mixed checks.
+- URD-REQ-043: L8 targets must include low-hint, mixed, or timed fluency checks.
+- URD-REQ-044: L9 targets must include teaching, critique, counterexample, or creation tasks.
+- URD-REQ-045: The course must preserve productive friction such as recall, own explanation, model choice, misuse detection, and transfer.
+- URD-REQ-046: The course must record current evidence level and assistance mode rather than a bare `mastered` claim.
+- URD-REQ-047: Feedback must be anchored to learner output, rubric, source, diagram, or test evidence, not personality labels.
+- URD-REQ-048: The course must include AI diet rules describing when to explain, hint, withhold answers, and run barehand checks.
+- URD-REQ-049: The course must separate textbook/exam models from real-world complexity.
+- URD-REQ-050: The factory must not generate low-value gamification such as badges, streaks, rankings, or pseudo-precise mastery dashboards by default.
+
+
+## Round 7 Occam Constraint
+
+- URD-REQ-051: Factory OKF should prefer the smallest runtime artifact set that preserves required learning-control behavior.
+- URD-REQ-052: Learning-control requirements may be consolidated when the consolidated artifact remains testable and actionable.
+- URD-REQ-053: Generated Course OKF instances should avoid policy-file proliferation; default compact layer is one learning contract, one teacher learning-control policy, one concept state, and one assessment evidence ledger.
