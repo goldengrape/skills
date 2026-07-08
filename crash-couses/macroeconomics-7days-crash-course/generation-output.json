@@ -1,0 +1,472 @@
+{
+  "course_okf_name": "宏观经济学 7 天 Crash Course 教学 Skill",
+  "course_slug": "course-okf-macroeconomics-pass",
+  "updated_from": "crash-course-learning-okf-factory-darwin-round4",
+  "update_timestamp": "2026-06-30T00:00:00-07:00",
+  "created_files": [
+    {
+      "path": "SKILL.md",
+      "required": false,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "course-map.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "final-review/answer-templates.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "final-review/compressed-notes.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "final-review/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "final-review/mock-exam.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "final-review/must-know-list.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "generation-output.json",
+      "required": false,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "glossary.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "learning-records/0001-initial-baseline.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "learning-records/day-1-macroeconomics-learning-record.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "learning-records/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "log.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "manifest.json",
+      "required": false,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "mission.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-1.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-2.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-3.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-4.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-5.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-6.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/day-7.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "plan/seven-day-plan.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "priority-map.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quality-report.json",
+      "required": false,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-1-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-2-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-3-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-4-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-5-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-6-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/day-7-quiz.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "quizzes/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "resources.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "sessions/day-1-session.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "sessions/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/current-state.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/interest-ledger.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/misconceptions.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/next-action.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/plan-changes.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/recall-deck.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/score-history.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "state/topic-ledger.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-1-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-2-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-3-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-4-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-5-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-6-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/answer-keys/day-7-answer-key.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/engagement-intervention-rules.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/engagement-monitor.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/index.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-1-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-2-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-3-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-4-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-5-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-6-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/rubrics/day-7-rubric.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/teacher-notebook.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/teaching-protocol.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/time-policy.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    },
+    {
+      "path": "teacher/visibility-rules.md",
+      "required": true,
+      "source_template": "round4-update+preserve-macro-content"
+    }
+  ],
+  "initial_state": {
+    "current_day": 2,
+    "days_remaining": 6,
+    "completed_sessions": 1,
+    "pass_readiness": "improving_but_early",
+    "risk_level": "medium_high",
+    "next_action": "run_day_2",
+    "time_policy": "soft"
+  },
+  "seven_day_plan": "plan/seven-day-plan.md",
+  "day_1_entrypoint": "learning-records/day-1-macroeconomics-learning-record.md",
+  "current_entrypoint": "plan/day-2.md",
+  "state_update_rules": [
+    "read state before teaching",
+    "read teacher/teacher-notebook.md without displaying teacher_thinks before learner answer",
+    "create or update session record after session",
+    "append teacher_says and teacher_thinks to teacher/teacher-notebook.md",
+    "update score history after assessment with score_type and prompt_visibility",
+    "update recall deck for missed or high-value items",
+    "update misconceptions for wrong distinctions",
+    "record interest-led branches in state/interest-ledger.md",
+    "write next action before ending",
+    "append plan changes when quiz result is below 60 percent or user materials change priorities"
+  ],
+  "resume_rules": [
+    "read SKILL.md",
+    "read state/current-state.md",
+    "read state/next-action.md",
+    "read state/recall-deck.md",
+    "read state/misconceptions.md",
+    "read state/score-history.md",
+    "read latest sessions/*.md",
+    "read relevant plan/day-N.md",
+    "read teacher/teacher-notebook.md without displaying teacher_thinks",
+    "read state/interest-ledger.md"
+  ],
+  "round4_update_summary": [
+    "added teacher runtime files",
+    "added teacher rubrics and answer keys for day 1-7",
+    "added state/interest-ledger.md",
+    "updated score-history with Score type and Prompt visibility",
+    "removed prompt visibility leak from student-visible daily plan and quizzes",
+    "imported Day 1 learning record and moved current state to Day 2"
+  ],
+  "validation_result": {
+    "passed": true,
+    "score": 100,
+    "threshold": 75,
+    "course_name": "宏观经济学",
+    "known_course_seed_terms": true,
+    "found_course_terms": [
+      "GDP",
+      "inflation",
+      "CPI",
+      "unemployment",
+      "aggregate demand",
+      "aggregate supply",
+      "fiscal policy",
+      "monetary policy",
+      "central bank",
+      "interest rate"
+    ],
+    "term_count": 10,
+    "placeholder_files": {},
+    "failures": [],
+    "warnings": [],
+    "repair_actions": [],
+    "quality_dimensions": {
+      "structure_presence": "checked",
+      "placeholder_absence": "checked",
+      "course_specificity": "checked_with_seed_terms",
+      "exam_readiness": "checked",
+      "recoverability": "checked",
+      "teaching_runtime_quality": {
+        "prompt_visibility": "checked",
+        "teacher_notebook": "checked",
+        "score_type": "checked",
+        "time_policy": "checked",
+        "interest_and_engagement": "checked"
+      }
+    },
+    "teaching_runtime_quality": {
+      "passed": true,
+      "student_visible_files_checked": [
+        "plan/day-1.md",
+        "plan/day-2.md",
+        "plan/day-3.md",
+        "plan/day-4.md",
+        "plan/day-5.md",
+        "plan/day-6.md",
+        "plan/day-7.md",
+        "quizzes/day-1-quiz.md",
+        "quizzes/day-2-quiz.md",
+        "quizzes/day-3-quiz.md",
+        "quizzes/day-4-quiz.md",
+        "quizzes/day-5-quiz.md",
+        "quizzes/day-6-quiz.md",
+        "quizzes/day-7-quiz.md"
+      ],
+      "forbidden_patterns": [
+        "至少提到",
+        "要求至少",
+        "答案要点",
+        "评分标准",
+        "标准答案",
+        "参考答案",
+        "正确答案",
+        "得分点",
+        "expected[_ -]?points",
+        "model answer",
+        "teacher_thinks",
+        "answer key"
+      ],
+      "failures": [],
+      "warnings": [],
+      "quality_dimensions": {
+        "prompt_visibility": "checked",
+        "teacher_notebook": "checked",
+        "score_type": "checked",
+        "time_policy": "checked",
+        "interest_and_engagement": "checked"
+      }
+    }
+  }
+}
