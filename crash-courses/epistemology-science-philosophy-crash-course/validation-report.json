@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "score": 86,
+  "structural": {
+    "passed": true,
+    "missing_files": [],
+    "warnings": []
+  },
+  "quality_report": "quality-report.json",
+  "warnings": [
+    {
+      "code": "no_visual_triggers_detected",
+      "path": "course_okf_root",
+      "message": "No curve/model visual trigger detected; diagrams are optional for this instance."
+    }
+  ],
+  "updated_with_epub_case_library": true
+}

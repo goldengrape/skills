@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "score": 86,
+  "threshold": 75,
+  "course_name": "认识论与科学哲学速通课",
+  "known_course_seed_terms": false,
+  "found_course_terms": [],
+  "term_count": 0,
+  "placeholder_files": {},
+  "failures": [],
+  "warnings": [
+    {
+      "code": "no_visual_triggers_detected",
+      "path": "course_okf_root",
+      "message": "No curve/model visual trigger detected; diagrams are optional for this instance."
+    }
+  ],
+  "repair_actions": [
+    "Continue human/AI review during live teaching; keep AI examples C-class only."
+  ],
+  "quality_dimensions": {
+    "structure_presence": "checked",
+    "placeholder_absence": "checked",
+    "course_specificity": "needs_manual_or_ai_review",
+    "exam_readiness": "checked",
+    "recoverability": "checked",
+    "teaching_runtime_quality": {
+      "prompt_visibility": "checked",
+      "teacher_notebook": "checked",
+      "score_type": "checked",
+      "time_policy": "checked",
+      "interest_and_engagement": "checked"
+    },
+    "visual_teaching_quality": {
+      "visual_policy": "checked",
+      "diagram_index": "checked",
+      "diagram_assets": "checked",
+      "ascii_complex_graphs": "checked"
+    },
+    "learning_control_quality": {
+      "learning_contract": "checked_compact",
+      "assistance_modes": "checked_compact",
+      "productive_friction": "checked_compact",
+      "feedback_anchor": "checked_compact",
+      "model_vs_reality": "checked_compact",
+      "negative_features": "checked_compact"
+    }
+  },
+  "teaching_runtime_quality": {
+    "passed": true,
+    "student_visible_files_checked": [
+      "plan/day-1.md",
+      "plan/day-2.md",
+      "plan/day-3.md",
+      "plan/day-4.md",
+      "plan/day-5.md",
+      "plan/day-6.md",
+      "plan/day-7.md",
+      "quizzes/day-1-quiz.md",
+      "quizzes/day-2-quiz.md",
+      "quizzes/day-3-quiz.md",
+      "quizzes/day-4-quiz.md",
+      "quizzes/day-5-quiz.md",
+      "quizzes/day-6-quiz.md",
+      "quizzes/day-7-quiz.md"
+    ],
+    "forbidden_patterns": [
+      "至少提到",
+      "要求至少",
+      "答案要点",
+      "评分标准",
+      "标准答案",
+      "参考答案",
+      "正确答案",
+      "得分点",
+      "expected[_ -]?points",
+      "model answer",
+      "teacher_thinks",
+      "answer key"
+    ],
+    "failures": [],
+    "warnings": [],
+    "quality_dimensions": {
+      "prompt_visibility": "checked",
+      "teacher_notebook": "checked",
+      "score_type": "checked",
+      "time_policy": "checked",
+      "interest_and_engagement": "checked"
+    }
+  },
+  "visual_teaching_quality": {
+    "passed": true,
+    "curve_lessons_detected": false,
+    "diagram_assets_found": [],
+    "indexed_png_count": 0,
+    "failures": [],
+    "warnings": [
+      {
+        "code": "no_visual_triggers_detected",
+        "path": "course_okf_root",
+        "message": "No curve/model visual trigger detected; diagrams are optional for this instance."
+      }
+    ],
+    "quality_dimensions": {
+      "visual_policy": "checked",
+      "diagram_index": "checked",
+      "diagram_assets": "checked",
+      "ascii_complex_graphs": "checked"
+    }
+  },
+  "learning_control_quality": {
+    "passed": true,
+    "learning_contract_present": true,
+    "default_core_target": "L6",
+    "assistance_modes_checked": true,
+    "productive_friction_policy_present": true,
+    "barehand_checkpoints_present": true,
+    "minimal_contract_files": [
+      "learning-contract/index.md",
+      "teacher/learning-control-policy.md",
+      "state/concept-mastery-state.md",
+      "state/assessment-evidence-ledger.md"
+    ],
+    "failures": [],
+    "warnings": [],
+    "quality_dimensions": {
+      "learning_contract": "checked_compact",
+      "assistance_modes": "checked_compact",
+      "productive_friction": "checked_compact",
+      "feedback_anchor": "checked_compact",
+      "model_vs_reality": "checked_compact",
+      "negative_features": "checked_compact"
+    }
+  },
+  "updated_with_epub_case_library": true,
+  "epub_case_library": "assets/cases/deepseek-epub-case-library.md",
+  "manual_ai_review": "completed_for_C_class_transfer_boundary"
+}
