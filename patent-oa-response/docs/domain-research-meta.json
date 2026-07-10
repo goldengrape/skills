@@ -1,0 +1,27 @@
+{
+  "research_version": "oa-domain-research-generic-v1.0",
+  "created_at": "2026-07-09T00:00:00-07:00",
+  "sources": [
+    "project_URD",
+    "project_ADD",
+    "project_TRACE",
+    "domain_rubric",
+    "generalized_failure_patterns"
+  ],
+  "excluded_from_generic_release": [
+    "real_case_reports",
+    "regression_case_files",
+    "case_numbers",
+    "client_names",
+    "application_numbers",
+    "real_publication_numbers",
+    "real_file_names"
+  ],
+  "confidence_level": "medium",
+  "known_limits": [
+    "No real case materials are bundled in the generic release",
+    "No cross-jurisdiction official rule library is embedded",
+    "Production use still requires professional review"
+  ],
+  "notes": "Generic release metadata. Real-case regression materials, if any, must be stored outside this bundle."
+}

@@ -1,0 +1,11 @@
+{
+  "rubric_version": "oa-domain-rubric-generic-v1.0",
+  "research_version": "oa-domain-research-generic-v1.0",
+  "evaluation_version": "oa-domain-rubric-eval-generic-v1.0",
+  "created_at": "2026-07-09T00:00:00-07:00",
+  "intended_use": "generic_bundle_quality_gate",
+  "privacy_status": "no_real_case_materials_included",
+  "hard_gate_range": "HG-01..HG-13",
+  "confidence_level": "medium",
+  "notes": "Generic release metadata. The rubric preserves general OA failure-mode checks while excluding real case reports, identifiers, file names and publication numbers."
+}

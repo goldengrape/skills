@@ -1,0 +1,27 @@
+{
+  "evaluation_version": "oa-domain-rubric-eval-generic-v1.0",
+  "created_at": "2026-07-09T00:00:00-07:00",
+  "overall_score": 87,
+  "conclusion": "accept_for_generic_bundle_quality_gate",
+  "confidence_level": "medium",
+  "scores": {
+    "RQ1_target_fit": 14,
+    "RQ2_research_basis": 12,
+    "RQ3_dimension_completeness": 9,
+    "RQ4_dimension_independence": 8,
+    "RQ5_observability": 14,
+    "RQ6_weight_reasonableness": 8,
+    "RQ7_hard_gates": 10,
+    "RQ8_test_prompt_fit": 8,
+    "RQ9_template_contamination_resistance": 4
+  },
+  "hard_gate_check": {
+    "rq1_minimum_met": true,
+    "rq5_minimum_met": true,
+    "rq7_minimum_met": true,
+    "template_contamination_found": false,
+    "real_case_materials_included": false
+  },
+  "required_revision": false,
+  "notes": "Generic release evaluation. Real-case regression materials are intentionally excluded."
+}
