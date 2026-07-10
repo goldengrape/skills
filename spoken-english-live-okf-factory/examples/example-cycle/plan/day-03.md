@@ -1,15 +1,24 @@
 ---
 type: Daily Plan
 title: Day 3 — Choice and Review
-description: Fifteen-minute free story, transfer, and cycle review.
-tags: [example, daily-plan]
-timestamp: 2026-07-09T18:10:00-07:00
+description: Fifteen-minute anchored review with learner-selected decision topic.
+tags: [example, daily-plan, review]
+timestamp: 2026-07-09T20:15:00-07:00
 ---
 
 # Day 3 — Choice and Review
 
-## Goal
+## Language objective
 Tell a short story and explain why a decision made sense.
+
+## Topic mode
+anchored
+
+## Planned topic or evergreen fallback
+A recent decision chosen by the learner; fallback: choosing how to spend a free afternoon.
+
+## Topic selection rules
+Let the learner choose the specific decision. Preserve storytelling, justification, and challenge-response objectives.
 
 ## Scenario and roles
 The coach is a curious friend who challenges one part of the decision.
@@ -30,10 +39,10 @@ Tell the story and respond to one challenge question.
 Natural justification and transition phrases.
 
 ## Learner-output target and coach-turn limit
-Learner speaks for roughly two-thirds or more of the session. Coach turns stay to one question, follow-up, or correction cue.
+Learner speaks for roughly two-thirds or more. Coach turns stay short.
 
 ## Fatigue or short-time fallback
-Continue the current scenario with one final answer, make at most one useful repair, then close out.
+One final explanation, at most one repair, then closeout.
 
 ## Repair and repetition
 Give a 30-second improved version.
@@ -41,8 +50,11 @@ Give a 30-second improved version.
 ## Transfer question
 How would you explain the decision in a work meeting?
 
-## Evidence to capture
+## Interest evidence to capture
+Compare engagement with Days 1–2 without treating fatigue as disinterest.
+
+## Language evidence to capture
 Independent phrase retrieval, response speed, and transfer quality.
 
 ## Closeout instruction
-Produce the session record, cycle review, and next-cycle proposal.
+Produce session record, cycle review, and next-cycle proposal.

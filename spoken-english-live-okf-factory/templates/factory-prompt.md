@@ -1,9 +1,9 @@
 ---
 type: Template
 title: Factory Prompt
-description: Copyable prompt for generating the next spoken-English Live cycle.
-tags: [template, factory, prompt]
-timestamp: 2026-07-09T18:10:00-07:00
+description: Copyable prompt for generating an interest-aware spoken-English Live cycle.
+tags: [template, factory, prompt, adaptive-topics]
+timestamp: 2026-07-09T20:15:00-07:00
 ---
 
 # Factory Prompt
@@ -25,8 +25,25 @@ Defaults unless I override them:
 - session_mode: ChatGPT Live
 - target English: clear global English
 - correction style: brief live micro-corrections plus repair at natural pauses
+- topic policy: guided_adaptive
+- planned/adaptive topic ratio: approximately 60/40
+- interest discovery: enabled, using explicit or repeated evidence
+- current events: disabled unless I enable them
 
-Keep no more than three primary cycle targets. Generate Markdown only. Do not run or require Python, hooks, a virtual machine, or hidden state.
+If current events are enabled:
+- use them only in optional adaptive slots;
+- verify facts at session time;
+- respect preferred and excluded categories;
+- provide an evergreen fallback;
+- keep background explanation short and speaking-first.
 
-Return the complete course-pack files followed by a validation report. Do not claim files were saved or committed.
+Keep no more than three primary language targets. Topics are practice vehicles, not additional targets. Generate Markdown only. Do not run or require Python, hooks, a virtual machine, hidden state, or automatic GitHub writes.
+
+Return:
+1. Cycle Evidence Snapshot
+2. Cycle Blueprint
+3. complete file tree and Markdown contents
+4. Validation Report
+
+Do not claim files were saved or committed.
 ```

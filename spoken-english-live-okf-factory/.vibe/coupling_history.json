@@ -1,7 +1,7 @@
 {
   "project": "spoken-english-live-okf-factory",
-  "version": "0.6",
-  "updated_at": "2026-07-09T20:45:00-07:00",
+  "version": "0.8",
+  "updated_at": "2026-07-09T21:30:00-07:00",
   "retries": [
     {
       "retry": 0,
@@ -48,6 +48,17 @@
         "harden DP-004 recovery",
         "harden DP-005 evidence thresholds",
         "add DP-006 learner checkpoint"
+      ]
+    },
+    {
+      "retry": 5,
+      "status": "lower_triangular_preserved",
+      "finding": "Topic-fit, affinity/load separation, topic diversity, and current-event budgets were added inside the existing DP authorities without a parallel interest or news subsystem.",
+      "changes": [
+        "add shared topic-intent vocabulary",
+        "add confound-aware evidence fields",
+        "add topic portfolio rules",
+        "bound current-event verification"
       ]
     }
   ],

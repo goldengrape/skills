@@ -1,6 +1,6 @@
 {
-  "version": "0.6",
-  "updated_at": "2026-07-09T20:45:00-07:00",
+  "version": "0.8",
+  "updated_at": "2026-07-09T21:30:00-07:00",
   "chains": [
     {
       "urd": "URD-REQ-001",
@@ -119,8 +119,8 @@
     "test_prompts": "evaluation/domain-test-prompts.json",
     "rubric_quality": "evaluation/domain-rubric-evaluation.md",
     "scorecard": "evaluation/domain-scorecard-template.md",
-    "dry_run": "evaluation/dry-run-validation.md",
-    "optimization_report": "evaluation/darwin-optimization-report.md",
+    "dry_run": "evaluation/v0.8-dry-run-validation.md",
+    "optimization_report": "evaluation/darwin-optimization-report-v0.8.md",
     "results": "results.tsv"
   },
   "entrypoint": "SKILL.md"

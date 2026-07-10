@@ -3,10 +3,33 @@ type: Changelog
 title: Spoken English Live OKF Factory Changelog
 description: Version history for the factory bundle.
 tags: [changelog]
-timestamp: 2026-07-09T20:45:00-07:00
+timestamp: 2026-07-09T21:30:00-07:00
 ---
 
 # Changelog
+
+## 0.8 — 2026-07-09
+
+- Added adaptive topic intents: deepen a confirmed interest, test a possible interest, refresh variety, or review transfer.
+- Added a six-part topic-fit check covering language-objective fit, consent/safety, knowledge accessibility, evidence basis, recent-topic balance, and time fit.
+- Separated topic affinity from language load, background knowledge, prompt/task quality, fatigue/time, and privacy/sensitivity before interest updates.
+- Added recent-topic history and a default ceiling of three sessions per broad topic in a normal seven-day guided-adaptive cycle unless the learner requests a thematic cycle.
+- Added load-reduction fallbacks and explicit switch triggers to adaptive day plans.
+- Added a 30-second current-event verification budget and three-part context capsule before immediate fallback.
+- Added HG-10 for interest-inference integrity plus adversarial tests for expertise confounds, topic monoculture, and slow current-event verification.
+- Re-ran the Darwin ratchet from a v0.7 provisional baseline of 86.4 to a v0.8 provisional composite score of 90.2.
+- Preserved the seven-DP lower-triangular architecture and Markdown-only runtime.
+
+
+## 0.7 — 2026-07-09
+
+- Added `guided_adaptive` topic policy as the default: stable language objectives with a mix of anchored and adaptive-capable conversation topics.
+- Added evidence thresholds for explicit, confirmed, possible, low-engagement, avoided, and retired interests without creating a separate interest-ledger authority.
+- Added optional current-event slots with runtime verification, source/date provenance, sensitive-topic preferences, short context limits, and evergreen fallbacks.
+- Added runtime topic selection, two-choice behavior, low-engagement topic switching, and interest discovery without preference interrogation.
+- Extended session closeout with topic-selection basis, engagement signals, current-event provenance, and a non-destructive next-topic recommendation.
+- Extended cycle rollover and validation to assess topic mix, interest evidence, news suitability, and preservation of fixed language objectives.
+- Preserved the seven-DP lower-triangular architecture and Markdown-only runtime.
 
 ## 0.6 — 2026-07-09
 

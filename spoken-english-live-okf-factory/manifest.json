@@ -1,9 +1,9 @@
 {
-  "okf_version": "0.6",
+  "okf_version": "0.8",
   "bundle": "spoken-english-live-okf-factory",
   "title": "Spoken English Live OKF Factory",
-  "description": "Markdown-first meta-factory for continuous ChatGPT Live spoken-English training cycles.",
-  "timestamp": "2026-07-09T20:45:00-07:00",
+  "description": "Markdown-first meta-factory for continuous, interest-aware ChatGPT Live spoken-English training cycles with confound-aware topic adaptation.",
+  "timestamp": "2026-07-09T21:30:00-07:00",
   "entrypoints": [
     "SKILL.md",
     "index.md",
@@ -27,13 +27,24 @@
   "architecture": "lower-triangular",
   "evaluation": {
     "framework": "darwin-skill-2.0",
-    "domain_rubric_version": "0.1",
-    "rubric_quality_score": 94,
+    "domain_rubric_version": "0.3",
+    "rubric_quality_score": 95,
     "rubric_quality_decision": "accept",
     "research_confidence": "medium",
     "is_frozen": true,
-    "latest_provisional_composite_score": 88.4,
+    "latest_provisional_composite_score": 90.2,
     "evidence_mode": "interaction_simulation",
-    "full_live_validated": false
+    "full_live_validated": false,
+    "previous_version_score": 86.4
+  },
+  "default_topic_policy": "guided_adaptive",
+  "default_planned_ratio": 0.6,
+  "default_adaptive_ratio": 0.4,
+  "current_events_enabled_by_default": false,
+  "topic_adaptation": {
+    "selection_model": "objective_fit_plus_interest_evidence_plus_load_check",
+    "recent_topic_window": 3,
+    "default_max_same_topic_sessions_per_7_day_cycle": 3,
+    "current_event_verification_budget_seconds": 30
   }
 }

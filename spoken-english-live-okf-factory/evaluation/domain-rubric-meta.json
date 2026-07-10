@@ -1,5 +1,5 @@
 {
-  "rubric_version": "0.1",
+  "rubric_version": "0.3",
   "research_version": "0.1",
   "source_skill_path": "SKILL.md",
   "common_weight": 0.35,
@@ -7,11 +7,14 @@
   "research_confidence_level": "medium",
   "requires_user_confirmation": false,
   "is_frozen": true,
-  "quality_score": 94,
+  "quality_score": 95,
   "quality_decision": "accept",
   "evaluation_version": "0.1",
   "created_at": "2026-07-09T19:10:00-07:00",
-  "notes": "Frozen for the first Darwin optimization round. Weights 0.35/0.65 and clear intelligible global English are accepted. Scores remain provisional until a real ChatGPT Live session is observed.",
+  "notes": "Frozen for v0.8 optimization by explicit user instruction. Adds affinity/load separation, topic portfolio balance, and bounded current-event verification. Scores remain provisional until full Live observation.",
   "confirmed_at": "2026-07-09T20:00:00-07:00",
-  "confirmed_by": "user_request_to_optimize_after_review"
+  "confirmed_by": "user_request_to_optimize_after_review",
+  "version": "0.3",
+  "status": "frozen_for_v0.8_optimization",
+  "timestamp": "2026-07-09T21:30:00-07:00"
 }

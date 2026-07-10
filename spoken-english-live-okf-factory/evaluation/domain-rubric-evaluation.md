@@ -3,20 +3,20 @@ type: Domain Rubric Evaluation
 title: Spoken English Live OKF Factory Rubric Quality Evaluation
 description: Darwin RQ1–RQ9 quality review of the proposed domain scoring scheme.
 tags: [darwin, rubric-quality, evaluation]
-timestamp: 2026-07-09T19:20:00-07:00
+timestamp: 2026-07-09T21:30:00-07:00
 ---
 
 # Domain Rubric Quality Evaluation
 
 ## Result
 
-- **Overall quality score:** 94/100
-- **Decision:** `needs_user_confirmation`
+- **Overall quality score:** 95/100
+- **Decision:** `accept`
 - **Hard-gate review:** passed
 - **Research confidence:** medium
-- **Rubric freeze status:** not frozen
+- **Rubric freeze status:** frozen for the v0.8 optimization run
 
-The rubric is sufficiently grounded and operational to enter Darwin Phase 0.35. It should not yet be frozen because three policy choices remain for the user: the common/domain weighting, whether a real Live session is mandatory for a non-provisional baseline, and the default pronunciation target.
+The rubric is sufficiently grounded and operational for the v0.8 optimization run. The user explicitly requested Darwin optimization after reviewing the earlier policy, so the 35/65 weighting and clear intelligible global-English target are frozen for this run. A real Live session is still mandatory before the package score becomes non-provisional.
 
 ## RQ1 — Goal Match
 
@@ -52,26 +52,26 @@ No major project responsibility is left unscored.
 
 **Score: 9/10**
 
-The boundaries are mostly clean:
+The boundaries are sufficiently clean for operational scoring:
 
 - D3 evaluates the task's speaking opportunity;
 - D4 evaluates how the coach conducts the interaction;
 - D5 evaluates feedback events;
 - D6 evaluates time and fatigue control.
 
-Some natural overlap remains because a long correction also affects speaking share and time. The rubric resolves this by scoring the correction defect primarily under D5 and recording its secondary effects under D4 or D6 only when the interaction or timebox is observably damaged.
+Topic affinity, task difficulty, and Live orchestration now have explicit evidence fields, reducing the earlier overlap. A long correction is scored primarily under D5, with secondary D4 or D6 effects only when interaction or time is observably damaged.
 
 ## RQ5 — Observability and Scoreability
 
-**Score: 13/15**
+**Score: 14/15**
 
-Each dimension includes 1/5/10 anchors, common failures, and concrete evidence to inspect. The three evidence modes prevent static review from pretending to validate Live behavior. The score is reduced because learner/coach speaking share lacks objective telemetry and pronunciation reliability requires direct audio observation.
+Each dimension includes 1/5/10 anchors, common failures, and concrete evidence to inspect. The three evidence modes prevent static review from pretending to validate Live behavior. The score is reduced only because learner/coach speaking share lacks objective telemetry and pronunciation reliability requires direct audio observation. Interest adaptation is now observable through topic intent, engagement-cause classification, recent-topic balance, and hard gate HG-10.
 
 ## RQ6 — Weight Reasonableness
 
 **Score: 9/10**
 
-The highest weights go to authentic speaking, Live orchestration, and corrective feedback because these are the main value and risk areas. Continuity and evidence integrity receive meaningful weight. Runtime compactness receives a smaller numeric weight because its severe failures are also protected by hard gates. The 35/65 common/domain composite is reasonable but requires user confirmation.
+The highest weights go to authentic speaking, Live orchestration, and corrective feedback because these are the main value and risk areas. Continuity and evidence integrity receive meaningful weight. Runtime compactness receives a smaller numeric weight because its severe failures are also protected by hard gates. The 35/65 common/domain composite is frozen for this optimization run; later longitudinal evidence may justify revisiting it.
 
 ## RQ7 — Hard-Gate Reasonableness
 
@@ -83,7 +83,7 @@ The hard gates target failures that invalidate the workflow regardless of polish
 
 **Score: 10/10**
 
-The eight prompts cover:
+The twelve prompts cover:
 
 - cold-start generation;
 - conflicting evidence;
@@ -92,7 +92,11 @@ The eight prompts cover:
 - evidence-sensitive closeout;
 - mixed-completion rollover;
 - adversarial runtime requests;
-- naturalness coaching without grammar errors.
+- naturalness coaching without grammar errors;
+- adaptive interest discovery and current-event fallback;
+- expertise versus interest confounds;
+- topic monoculture prevention;
+- slow current-event verification fallback.
 
 Every dimension and hard gate is exercised by at least one prompt. The suite includes both normal and adversarial cases and clearly labels full-Live versus proxy evidence.
 
@@ -114,21 +118,14 @@ The rubric is not a renamed copy of Darwin's common structural rubric. Its dimen
 
 ## Required Revisions Before Freezing
 
-No structural rewrite is required. The user must confirm or revise:
-
-1. `common_weight = 0.35`, `domain_weight = 0.65`;
-2. whether at least one `full_live` test is mandatory for a non-provisional baseline;
-3. whether “clear, intelligible global English” is the default pronunciation target;
-4. whether the first baseline uses the included example learner or the user's real profile.
-
-After any modification, rerun this RQ1–RQ9 evaluation before freezing.
+None for this optimization run. Full Live observation remains required before treating the package score as non-provisional.
 
 ## Decision Rationale
 
 The quality threshold is exceeded and all critical RQ minimums pass:
 
 - RQ1: 15/15, above the 10/15 minimum;
-- RQ5: 13/15, above the 10/15 minimum;
+- RQ5: 14/15, above the 10/15 minimum;
 - RQ7: 10/10, above the 6/10 minimum.
 
-Because research confidence is medium and Darwin requires human confirmation before freezing, the decision is `needs_user_confirmation`, not automatic acceptance.
+The user explicitly requested this optimization after the scoring policy was established. The decision is therefore `accept` for this run, while the resulting package score remains provisional until Live observation.

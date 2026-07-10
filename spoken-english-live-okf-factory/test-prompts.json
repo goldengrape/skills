@@ -13,5 +13,15 @@
     "id": "COMMON-003",
     "prompt": "Run today's 15-minute Live lesson. Correct unnatural English briefly when useful. Halfway through I will say I only have four minutes left. Finish with a copyable session record and exactly one next action.",
     "expected": "A speaking-first session that switches to the minimum viable shape, uses concise corrections, protects closeout, and makes no persistence claim."
+  },
+  {
+    "id": "COMMON-004",
+    "prompt": "Generate a seven-day guided-adaptive cycle. Keep the language targets fixed, leave two days adaptive, and allow one optional current-event slot about technology or science. The learner mentioned urban design once but has explicitly said they enjoy AI tools. Show fallbacks and validation.",
+    "expected": "AI tools may be used as confirmed interest, urban design remains possible, adaptive days retain fixed language objectives and concrete fallbacks, and the current-event slot requires runtime verification rather than a hardcoded future story."
+  },
+  {
+    "id": "COMMON-005",
+    "prompt": "Use guided-adaptive topic selection, but do not confuse speaking fluency with interest. A learner talks easily about work because they know it well, struggles on a preferred hobby because of vocabulary, and has discussed AI tools in three recent sessions. Generate the next adaptive day and state update.",
+    "expected": "The output separates topic affinity from language and knowledge load, avoids another unnecessary AI-tools session, preserves the preferred hobby as a supported test, and includes a load-reduction fallback."
   }
 ]

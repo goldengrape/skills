@@ -3,7 +3,7 @@ type: Domain Rubric
 title: Spoken English Live OKF Factory Domain Rubric
 description: Evidence-backed scoring scheme for course-cycle generation, ChatGPT Live session quality, persistence, and rollover.
 tags: [darwin, domain-rubric, english-speaking, chatgpt-live]
-timestamp: 2026-07-09T19:10:00-07:00
+timestamp: 2026-07-09T21:30:00-07:00
 ---
 
 # Domain Rubric — Spoken English Live OKF Factory
@@ -89,13 +89,14 @@ Evaluates whether the system faithfully uses the learner's current instructions,
 |---:|---|
 | 1 | Ignores available learner evidence, fabricates details, hides conflicts, or generates a generic plan unrelated to the stated goal. |
 | 5 | Uses the learner's main goal and some history, but defaults, conflicts, recency, or evidence gaps are only partly visible; personalization is shallow. |
-| 10 | Produces a clear evidence snapshot; respects evidence priority; records defaults, conflicts, and gaps; and ties important course decisions to current instructions or observable prior evidence. |
+| 10 | Produces a clear evidence snapshot; respects evidence priority; records defaults, conflicts, and gaps; separates topic affinity from language, knowledge, prompt, fatigue, and privacy load; and ties important course decisions to current instructions or observable prior evidence. |
 
 **Common failures**
 
 - Treating an estimated level as certain.
 - Ignoring the latest learner instruction in favor of an older record.
 - Mentioning interests without using them in a task.
+- Treating fluent talk caused by expertise as confirmed interest, or language struggle as dislike.
 - Claiming improvement not demonstrated in session evidence.
 
 **Evidence to check**
@@ -120,11 +121,12 @@ Evaluates whether the cycle is bounded, coherent, and sequenced for a three-day 
 |---:|---|
 | 1 | Has no clear cycle purpose, contains more than three unrelated primary targets, repeats the same exercise, or cannot fit the selected cycle length. |
 | 5 | Has a plausible focus and daily sequence, but progression, transfer, retesting, or target boundaries are weak or generic. |
-| 10 | Uses no more than one scenario target, one fluency/discourse target, and one repair target; each is evidence-backed; days progress from entry to variation, transfer, and review; prior phrases or errors are deliberately retrieved or retested. |
+| 10 | Uses no more than one scenario target, one fluency/discourse target, and one repair target; each is evidence-backed; days progress from entry to variation, transfer, and review; prior phrases or errors are deliberately retrieved or retested; adaptive slots deliberately balance deepening, testing, and variety. |
 
 **Common failures**
 
 - Seven disconnected daily topics.
+- Repeating the easiest confirmed interest until the cycle becomes a topic monoculture.
 - Inflating a focused three-day need into a generic seven-day plan.
 - Repeating the same role-play without changing pressure, support, or context.
 - Carrying every previous target forward automatically.
@@ -182,7 +184,7 @@ Evaluates the quality of real-time turn-taking, pacing, follow-up, pause handlin
 |---:|---|
 | 1 | The coach monologues, asks several questions at once, fills every pause, loses the scenario, or repeatedly prevents the learner from completing a thought. |
 | 5 | The interaction is generally conversational, but prompts are sometimes long, follow-ups feel mechanical, pause handling is impatient, or difficulty adjustment is inconsistent. |
-| 10 | The coach asks one useful question at a time, listens through ordinary pauses, follows the learner's meaning, uses concise natural follow-ups, adjusts support or pressure without losing the task, and keeps the learner speaking more than the coach. |
+| 10 | The coach asks one useful question at a time, listens through ordinary pauses, follows the learner's meaning, uses concise natural follow-ups, applies a quick topic-fit check, separates affinity from load before switching topics, adjusts support or pressure without losing the task, and keeps the learner speaking more than the coach. |
 
 **Common failures**
 
@@ -277,7 +279,7 @@ Evaluates whether the closeout creates a trustworthy, useful record instead of a
 |---:|---|
 | 1 | Omits the session record, state patch, or next action; fabricates evidence; records every slip as recurring; or claims files were saved automatically. |
 | 5 | Produces a usable summary and next step, but evidence categories are blurred, reusable phrases are incomplete, or state updates are not clearly traceable to the session. |
-| 10 | Records completed work, observed strengths and blockers, high-value corrections, reusable expressions, pronunciation confidence labels, fatigue/time notes where relevant, and exactly one next action; distinguishes recurring patterns, one-off slips, and uncertainty; outputs a clear Markdown patch without claiming it was written. |
+| 10 | Records completed work, observed strengths and blockers, high-value corrections, reusable expressions, pronunciation confidence labels, fatigue/time notes where relevant, topic intent, engagement-cause classification, and exactly one next action; distinguishes recurring patterns, one-off slips, and uncertainty; outputs a clear Markdown patch without claiming it was written. |
 
 **Common failures**
 
@@ -309,7 +311,7 @@ Evaluates whether learning evidence changes the next session and next cycle in a
 |---:|---|
 | 1 | Generates a generic next cycle, ignores available records, fabricates progress, or carries all prior targets forward without judgment. |
 | 5 | Mentions prior errors, phrases, or scenarios but uses them superficially; continue/change/retire/test decisions are incomplete or weakly supported. |
-| 10 | Cites concrete session evidence; makes explicit continue, change, retire, and test-next decisions; retrieves useful phrases; retests uncertainty; varies practiced scenarios; adjusts cycle length or duration when evidence supports it; and produces a compact carry-over snapshot for the next evidence intake. |
+| 10 | Cites concrete session evidence; makes explicit continue, change, retire, and test-next decisions; retrieves useful phrases; retests uncertainty; varies practiced scenarios; balances confirmed-interest depth with possible-interest tests and deliberate variety; adjusts cycle length or duration when evidence supports it; and produces a compact carry-over snapshot for the next evidence intake. |
 
 **Common failures**
 
@@ -317,6 +319,8 @@ Evaluates whether learning evidence changes the next session and next cycle in a
 - Repeating the same scenario because it is easy to generate.
 - Treating skipped sessions as failed performance.
 - Ignoring learner interests or fatigue patterns recorded during the cycle.
+- Confirming an interest from one casual mention, or treating one tired session as disinterest.
+- Changing topics without preserving the language objective.
 
 **Evidence to check**
 
@@ -388,6 +392,8 @@ A hard-gate failure overrides the numeric score. The result is `FAIL` until the 
 | HG-06 | Continuity | A next-cycle proposal is generated despite available prior evidence but does not cite or use that evidence for planning decisions. |
 | HG-07 | Runtime compatibility | The pack requires Python, hooks, a VM, hidden database, connected apps, plugins, or automatic repository writes in order to perform its core workflow. |
 | HG-08 | Validation integrity | Validation silently repairs or approves a pack with blocking or major defects instead of reporting failure. |
+| HG-09 | Current-event integrity | A current event is presented as current fact without fresh verification, exceeds the verification/context budget, violates recorded exclusions, lacks an evergreen fallback, or consumes the session as a news lecture. |
+| HG-10 | Interest-inference integrity | Interest is promoted or downgraded from evidence primarily explained by language load, background knowledge, prompt/task quality, fatigue/time, privacy/sensitivity, or one isolated non-explicit signal. |
 
 ## Score Interpretation
 
@@ -417,13 +423,17 @@ For ratchet decisions, retain a modification only when:
 3. the composite score strictly improves, or a documented full-Live result improves while the composite change is within evaluator noise;
 4. at least one independent judge or human reviewer confirms the claimed improvement.
 
-## Questions for User Confirmation
+## Policy Frozen for This Optimization Run
 
-1. Should `common_weight = 0.35` and `domain_weight = 0.65` be frozen for the first optimization round?
-2. Should one real ChatGPT Live session be mandatory before any baseline score is considered non-provisional?
-3. Is “clear, intelligible global English” the default pronunciation target, with American or British targets used only when the learner explicitly requests them?
-4. Should the first baseline evaluation use the included example learner, or the user's own learner profile and prior records?
+- `common_weight = 0.35`, `domain_weight = 0.65`;
+- at least one observed Live session is required before a non-provisional score;
+- default pronunciation target is clear, intelligible global English;
+- v0.8 baseline uses the included example and adversarial simulations; personal learner evidence should be used for later deployment evaluation.
 
 ## Confidence Level
 
 **Medium.** The rubric is evidence-backed and operational, but it has not yet been calibrated against longitudinal learner outcomes or independent teacher ratings.
+
+## v0.8 Extension Notes
+
+Version 0.3 extends D1, D2, D4, D7, and D8 with topic-intent balance, affinity/load separation, recent-topic control, and bounded current-event verification. HG-10 protects against false interest inference. It is frozen for the v0.8 Darwin optimization run; scores remain provisional until an observed Live session is available.

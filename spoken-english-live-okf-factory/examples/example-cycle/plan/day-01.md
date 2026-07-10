@@ -1,18 +1,27 @@
 ---
 type: Daily Plan
 title: Day 1 — Weekend Recap
-description: Fifteen-minute baseline story and repair session.
+description: Fifteen-minute anchored baseline story and repair session.
 tags: [example, daily-plan]
-timestamp: 2026-07-09T18:10:00-07:00
+timestamp: 2026-07-09T20:15:00-07:00
 ---
 
 # Day 1 — Weekend Recap
 
-## Goal
+## Language objective
 Tell a short past event in 3–5 connected sentences.
 
+## Topic mode
+anchored
+
+## Planned topic or evergreen fallback
+Weekend recap.
+
+## Topic selection rules
+Use the planned topic. If the learner has no suitable weekend event, use “a recent small surprise” while preserving past-event narration.
+
 ## Scenario and roles
-The coach is a friend asking what happened over the weekend.
+The coach is a friend asking what happened.
 
 ## Time budget
 15 minutes.
@@ -21,7 +30,7 @@ The coach is a friend asking what happened over the weekend.
 Use “What happened was…” once.
 
 ## Opening question
-What was the most memorable thing you did last weekend?
+What was the most memorable thing that happened to you recently?
 
 ## Main speaking task
 Tell the event, then answer two natural follow-up questions.
@@ -30,10 +39,10 @@ Tell the event, then answer two natural follow-up questions.
 Past tense consistency and natural connectors.
 
 ## Learner-output target and coach-turn limit
-Learner speaks for roughly two-thirds or more of the session. Coach turns stay to one question, follow-up, or correction cue.
+Learner speaks for roughly two-thirds or more. Coach turns stay to one question, follow-up, or correction cue.
 
 ## Fatigue or short-time fallback
-Continue the current scenario with one final answer, make at most one useful repair, then close out.
+One final answer, at most one useful repair, then closeout.
 
 ## Repair and repetition
 Repeat one improved sentence.
@@ -41,8 +50,11 @@ Repeat one improved sentence.
 ## Transfer question
 How would you tell the same story to a coworker?
 
-## Evidence to capture
-Longest connected answer, connector use, and one recurring blocker.
+## Interest evidence to capture
+Notice whether the learner introduces a preferred subject, but do not confirm an interest from one mention.
+
+## Language evidence to capture
+Longest connected answer, connector use, and one blocker.
 
 ## Closeout instruction
-Produce the session record and one next action.
+Produce the session record, topic evidence, and one next action.

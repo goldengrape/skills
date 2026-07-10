@@ -204,5 +204,109 @@
       "HG-01",
       "HG-02"
     ]
+  },
+  {
+    "id": "DOMAIN-009",
+    "name": "Adaptive interest discovery and verified current-event fallback",
+    "mode": "interaction_simulation",
+    "prompt": "Run an adaptive 15-minute session whose fixed language objective is comparing advantages and disadvantages. The learner explicitly likes AI tools, mentioned urban design once last week, and was terse about cooking during a tired session. Current events are enabled for technology and science but not politics. If a suitable current item is available, verify it and use no more than three short sentences of context; otherwise use an evergreen AI-tools comparison. During the session, the learner becomes animated about urban design and asks to revisit it. Produce closeout and next-topic recommendation.",
+    "purpose": "Test separation of language objective from topic, evidence-sensitive interest updates, current-event verification/fallback, and non-destructive next-topic adaptation.",
+    "expected_checks": [
+      "The compare-and-contrast language objective remains fixed regardless of topic.",
+      "Cooking is not downgraded solely from the tired session.",
+      "Urban design may become confirmed after the learner explicitly asks to revisit it.",
+      "Any current event includes source/date/verification evidence and short context, or the evergreen fallback is used.",
+      "The state patch recommends the next topic without claiming future day files were rewritten."
+    ],
+    "target_dimensions": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D6",
+      "D7",
+      "D8",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-03",
+      "HG-05",
+      "HG-06",
+      "HG-07",
+      "HG-09"
+    ]
+  },
+  {
+    "id": "DOMAIN-010",
+    "name": "Expertise-interest confound",
+    "mode": "interaction_simulation",
+    "prompt": "Run an adaptive speaking segment. The learner can speak fluently and at length about tax compliance because it is their job, but explicitly says the subject is boring. They struggle to say much about urban design because they lack vocabulary, yet ask to try it again next week. Produce the interest update and next-topic recommendation.",
+    "purpose": "Test whether the system separates observable fluency and knowledge from actual topic affinity.",
+    "expected_checks": [
+      "Tax compliance is not promoted as an interest merely because speech was fluent or detailed.",
+      "The explicit negative preference is respected.",
+      "Urban design is not downgraded because of language load.",
+      "Urban design may remain possible or become explicit-confirmed because the learner asks to revisit it.",
+      "The next task reduces language load rather than abandoning the topic."
+    ],
+    "target_dimensions": [
+      "D1",
+      "D4",
+      "D7",
+      "D8"
+    ],
+    "target_hard_gates": [
+      "HG-05",
+      "HG-10"
+    ]
+  },
+  {
+    "id": "DOMAIN-011",
+    "name": "Adaptive topic monoculture prevention",
+    "mode": "full_generation",
+    "prompt": "Generate the next seven-day guided-adaptive cycle. AI tools are a confirmed interest and were used in four of the last five completed sessions. The learner still likes the topic but did not request a thematic cycle. Two possible interests are urban design and cooking. Preserve the language targets and produce the topic strategy.",
+    "purpose": "Test exploration/deepening balance and recent-topic controls.",
+    "expected_checks": [
+      "AI tools remain confirmed but do not dominate the new cycle.",
+      "At least one possible-interest test or variety-refresh slot appears.",
+      "Any AI-tools reuse changes language function, pressure, role, or perspective.",
+      "No more than three sessions use the same broad topic without learner request.",
+      "The language progression remains coherent."
+    ],
+    "target_dimensions": [
+      "D2",
+      "D8",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-06",
+      "HG-10"
+    ]
+  },
+  {
+    "id": "DOMAIN-012",
+    "name": "Current-event verification budget fallback",
+    "mode": "interaction_simulation",
+    "prompt": "Run a current-event-optional 15-minute session about technology. Verification is slow and the event needs several paragraphs of background. The language objective is expressing cautious predictions. Show the opening and closeout behavior.",
+    "purpose": "Test bounded verification, context economy, and graceful fallback.",
+    "expected_checks": [
+      "Verification stops within the configured 30-second budget.",
+      "The unverified or overly complex event is not presented as current fact.",
+      "The evergreen fallback is used without calling the session a failure.",
+      "The cautious-prediction language objective remains fixed.",
+      "Closeout records fallback use and no fabricated source."
+    ],
+    "target_dimensions": [
+      "D3",
+      "D4",
+      "D6",
+      "D7",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-03",
+      "HG-05",
+      "HG-09"
+    ]
   }
 ]
