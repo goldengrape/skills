@@ -1,0 +1,127 @@
+{
+  "version": "0.6",
+  "updated_at": "2026-07-09T20:45:00-07:00",
+  "chains": [
+    {
+      "urd": "URD-REQ-001",
+      "fr": [
+        "ADD-FR-001"
+      ],
+      "dp": [
+        "ADD-DP-001"
+      ],
+      "artifacts": [
+        "contracts/cycle-evidence-contract.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-002",
+      "fr": [
+        "ADD-FR-002",
+        "ADD-FR-003"
+      ],
+      "dp": [
+        "ADD-DP-002",
+        "ADD-DP-003"
+      ],
+      "artifacts": [
+        "playbooks/derive-cycle-blueprint.md",
+        "schemas/course-pack-layout.md",
+        "playbooks/materialize-cycle-pack.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-003",
+      "fr": [
+        "ADD-FR-004"
+      ],
+      "dp": [
+        "ADD-DP-004"
+      ],
+      "artifacts": [
+        "runtime/live-session-protocol.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-004",
+      "fr": [
+        "ADD-FR-004"
+      ],
+      "dp": [
+        "ADD-DP-004"
+      ],
+      "artifacts": [
+        "runtime/live-session-protocol.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-005",
+      "fr": [
+        "ADD-FR-005"
+      ],
+      "dp": [
+        "ADD-DP-005"
+      ],
+      "artifacts": [
+        "playbooks/close-live-session.md",
+        "templates/session-record-template.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-006",
+      "fr": [
+        "ADD-FR-001",
+        "ADD-FR-005",
+        "ADD-FR-006"
+      ],
+      "dp": [
+        "ADD-DP-001",
+        "ADD-DP-005",
+        "ADD-DP-006"
+      ],
+      "artifacts": [
+        "contracts/cycle-evidence-contract.md",
+        "playbooks/close-live-session.md",
+        "playbooks/rollover-cycle.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-007",
+      "fr": [
+        "ADD-FR-002",
+        "ADD-FR-006"
+      ],
+      "dp": [
+        "ADD-DP-002",
+        "ADD-DP-006"
+      ],
+      "artifacts": [
+        "playbooks/derive-cycle-blueprint.md",
+        "playbooks/rollover-cycle.md"
+      ]
+    },
+    {
+      "urd": "URD-REQ-008",
+      "fr": [
+        "ADD-FR-007"
+      ],
+      "dp": [
+        "ADD-DP-007"
+      ],
+      "artifacts": [
+        "playbooks/validate-cycle-pack.md"
+      ]
+    }
+  ],
+  "evaluation": {
+    "research": "evaluation/domain-research.md",
+    "rubric": "evaluation/domain-rubric.md",
+    "test_prompts": "evaluation/domain-test-prompts.json",
+    "rubric_quality": "evaluation/domain-rubric-evaluation.md",
+    "scorecard": "evaluation/domain-scorecard-template.md",
+    "dry_run": "evaluation/dry-run-validation.md",
+    "optimization_report": "evaluation/darwin-optimization-report.md",
+    "results": "results.tsv"
+  },
+  "entrypoint": "SKILL.md"
+}

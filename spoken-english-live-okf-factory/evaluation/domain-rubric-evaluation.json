@@ -1,0 +1,29 @@
+{
+  "rubric_version": "0.1",
+  "evaluation_version": "0.1",
+  "created_at": "2026-07-09T19:20:00-07:00",
+  "overall_score": 94,
+  "dimension_scores": [
+    {"id": "RQ1", "name": "goal_match", "score": 15, "max_score": 15},
+    {"id": "RQ2", "name": "research_sufficiency", "score": 13, "max_score": 15},
+    {"id": "RQ3", "name": "dimension_completeness", "score": 10, "max_score": 10},
+    {"id": "RQ4", "name": "dimension_independence", "score": 9, "max_score": 10},
+    {"id": "RQ5", "name": "observability_and_scoreability", "score": 13, "max_score": 15},
+    {"id": "RQ6", "name": "weight_reasonableness", "score": 9, "max_score": 10},
+    {"id": "RQ7", "name": "hard_gate_reasonableness", "score": 10, "max_score": 10},
+    {"id": "RQ8", "name": "test_prompt_match", "score": 10, "max_score": 10},
+    {"id": "RQ9", "name": "template_contamination_resistance", "score": 5, "max_score": 5}
+  ],
+  "hard_gate_review": {
+    "passed": true,
+    "issues": []
+  },
+  "decision": "needs_user_confirmation",
+  "required_revisions": [
+    "Confirm or revise common_weight 0.35 and domain_weight 0.65",
+    "Confirm whether one full_live test is mandatory for a non-provisional baseline",
+    "Confirm clear intelligible global English as the default pronunciation target",
+    "Choose example learner or real learner evidence for the first baseline"
+  ],
+  "notes": "The rubric exceeds the quality threshold and all critical RQ minimums. It remains unfrozen pending Darwin Phase 0.35 user confirmation."
+}

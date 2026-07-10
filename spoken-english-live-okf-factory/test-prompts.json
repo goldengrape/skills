@@ -1,0 +1,17 @@
+[
+  {
+    "id": "COMMON-001",
+    "prompt": "I want a seven-day ChatGPT Live speaking course for workplace small talk. I am around B1, have 15 minutes a day, and have no prior records. Generate the complete Markdown pack and validate it.",
+    "expected": "A bounded speaking-first seven-day pack with explicit defaults, no more than three targets, realistic 15-minute days, and a separate validation report."
+  },
+  {
+    "id": "COMMON-002",
+    "prompt": "Use my previous sessions to make the next three-day cycle. The records disagree about whether I want delayed or immediate corrections, and I now explicitly prefer short immediate corrections. Show how you resolve the conflict before generating the pack.",
+    "expected": "Current explicit preference wins, the conflict remains visible, and the output pauses at the checkpoint only if the unresolved conflict changes the cycle purpose."
+  },
+  {
+    "id": "COMMON-003",
+    "prompt": "Run today's 15-minute Live lesson. Correct unnatural English briefly when useful. Halfway through I will say I only have four minutes left. Finish with a copyable session record and exactly one next action.",
+    "expected": "A speaking-first session that switches to the minimum viable shape, uses concise corrections, protects closeout, and makes no persistence claim."
+  }
+]

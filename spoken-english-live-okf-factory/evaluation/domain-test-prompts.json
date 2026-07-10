@@ -1,0 +1,208 @@
+[
+  {
+    "id": "DOMAIN-001",
+    "name": "Cold-start seven-day workplace cycle",
+    "mode": "full_generation",
+    "prompt": "Use the Spoken English Live OKF Factory to generate Cycle 1 for a Chinese-speaking B1 learner. Goal: participate more naturally in informal workplace conversations before and after meetings. Interests: AI tools and cooking. Confidence: medium. Use a 7-day cycle, 15 minutes per day, mostly English, Chinese debrief, and brief live micro-corrections. There is no prior learning record. Return the complete Markdown course pack and validation report.",
+    "purpose": "Test whether the factory can turn a sparse learner brief into a focused, realistic, compact first cycle without inventing prior evidence.",
+    "expected_checks": [
+      "Defaults and evidence gaps are visible rather than hidden.",
+      "There are no more than three primary targets.",
+      "Daily plans progress rather than merely changing topics.",
+      "Each day has a realistic spoken scenario, main task, repair or transfer task, evidence target, and closeout.",
+      "The default day fits 15 minutes.",
+      "The pack is Markdown-only and does not claim files were saved."
+    ],
+    "target_dimensions": [
+      "D1",
+      "D2",
+      "D3",
+      "D6",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-01",
+      "HG-03",
+      "HG-07",
+      "HG-08"
+    ]
+  },
+  {
+    "id": "DOMAIN-002",
+    "name": "Conflicting evidence and three-day repair sprint",
+    "mode": "full_generation",
+    "prompt": "Generate the next 3-day cycle from these records. Current learner instruction: I now want immediate short corrections and only 15-minute sessions. An older learner-state file says mostly delayed correction and 20 minutes. Recent sessions show that I repeatedly say 'discuss about' and avoid asking follow-up questions in workplace conversations. An older cycle review says my main problem was pronunciation, but the latest session records label pronunciation evidence as uncertain. I want the next cycle to use the topic of AI product demos. Normalize the evidence, show conflicts, then generate and validate the cycle pack.",
+    "purpose": "Test evidence priority, conflict handling, scope reduction, and evidence-grounded personalization.",
+    "expected_checks": [
+      "The current explicit instruction overrides the older duration and correction preference.",
+      "The pronunciation claim is not promoted to certainty.",
+      "The cycle focuses on a bounded scenario, follow-up interaction, and one repair target.",
+      "AI product demos are used as a real scenario rather than decorative personalization.",
+      "The evidence conflict is recorded explicitly."
+    ],
+    "target_dimensions": [
+      "D1",
+      "D2",
+      "D5",
+      "D8"
+    ],
+    "target_hard_gates": [
+      "HG-02",
+      "HG-05",
+      "HG-06"
+    ]
+  },
+  {
+    "id": "DOMAIN-003",
+    "name": "Actual Live session with naturalness micro-corrections",
+    "mode": "full_live",
+    "prompt": "Run Day 2 of the generated workplace cycle in ChatGPT Live for 15 minutes. Keep me speaking most of the time. During the conversation I may say grammatically incorrect or unnatural phrases such as 'I very like this idea', 'I have went there', 'Let's discuss about it', or 'This plan is convenient for me' when I mean the schedule works for me. Give short live corrections when they are useful, let me continue, and reserve the final 1–2 minutes for closeout.",
+    "purpose": "Observe real-time orchestration, learner speaking opportunity, correction timing, idiomatic coaching, and time protection.",
+    "expected_checks": [
+      "The coach enters the scenario quickly and asks one question at a time.",
+      "The learner speaks more than the coach.",
+      "Corrections are concise and selective, not a correction of every error.",
+      "At least one naturalness improvement is offered where appropriate.",
+      "A high-value correction may be followed by one brief repetition or self-repair.",
+      "The session returns immediately to communication after a micro-correction.",
+      "The closeout begins before the selected duration ends."
+    ],
+    "target_dimensions": [
+      "D3",
+      "D4",
+      "D5",
+      "D6"
+    ],
+    "target_hard_gates": [
+      "HG-01",
+      "HG-02",
+      "HG-03"
+    ]
+  },
+  {
+    "id": "DOMAIN-004",
+    "name": "Fatigue and shortened session",
+    "mode": "full_live",
+    "prompt": "Start a 15-minute Live session from today's plan. After several minutes I will say: 'I'm more tired than I expected, and I only want to continue for four more minutes.' Adapt the session without turning the remaining time into a lecture. Preserve a useful speaking task, one repair, and the Markdown closeout.",
+    "purpose": "Test runtime adaptation to fatigue and a shortened timebox while preserving productive speaking and evidence capture.",
+    "expected_checks": [
+      "The coach acknowledges and shortens the task rather than questioning motivation.",
+      "Optional variation is removed first.",
+      "The learner still produces meaningful speech.",
+      "Correction becomes more selective as time narrows.",
+      "The session record and exactly one next action are still produced."
+    ],
+    "target_dimensions": [
+      "D4",
+      "D5",
+      "D6",
+      "D7"
+    ],
+    "target_hard_gates": [
+      "HG-03",
+      "HG-04",
+      "HG-05"
+    ]
+  },
+  {
+    "id": "DOMAIN-005",
+    "name": "Evidence-sensitive session closeout",
+    "mode": "interaction_simulation",
+    "prompt": "Using the supplied turn-by-turn session transcript, execute the closeout protocol. The learner successfully used 'That works for me' twice after one correction. The learner said 'discuss about' three times and corrected it after prompting on the third occurrence. The learner made one isolated past-tense slip. The transcript displays the word 'sheet', but the coach was not certain whether the vowel was pronounced clearly because of background noise. Produce the Markdown session record, state patch, phrase-deck update, scenario-ledger update, and exactly one next action. Do not claim any file was written.",
+    "purpose": "Test whether the closeout distinguishes recurring errors, successful uptake, one-off slips, and uncertain pronunciation evidence.",
+    "expected_checks": [
+      "'That works for me' is recorded as a reusable expression with successful use evidence.",
+      "'Discuss about' is treated as an active recurring repair target.",
+      "The isolated past-tense slip is not automatically promoted to a recurring error.",
+      "The pronunciation note is labeled uncertain rather than diagnosed confidently.",
+      "Exactly one next action is provided.",
+      "No automatic persistence claim is made."
+    ],
+    "target_dimensions": [
+      "D5",
+      "D7",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-02",
+      "HG-04",
+      "HG-05"
+    ]
+  },
+  {
+    "id": "DOMAIN-006",
+    "name": "Mixed-completion cycle rollover",
+    "mode": "full_generation",
+    "prompt": "Complete cycle rollover from seven planned days. Days 1, 2, 4, 6, and 7 were completed; Days 3 and 5 were skipped. The learner can now open workplace small talk more easily and retrieved two target phrases on Days 6 and 7. Follow-up questions improved but still fail under pressure. The phrase 'discuss about' appeared once on Day 7 after being absent on Days 4 and 6. Pronunciation evidence remained uncertain. The learner reported that 15 minutes was sustainable but 20 minutes felt tiring. Produce the cycle review, continue/change/retire/test-next decisions, next-cycle proposal, and carry-over snapshot.",
+    "purpose": "Test selective evidence-based rollover rather than automatic continuation of all targets.",
+    "expected_checks": [
+      "Skipped days are reported as skipped, not failed performance or completed work.",
+      "Stable opening skills or phrases may be retired or moved to maintenance.",
+      "Follow-up questions remain active with increased pressure or variation.",
+      "'Discuss about' is not declared solved or fully relapsed from one occurrence alone.",
+      "Pronunciation remains a test-next uncertainty unless new audio evidence is planned.",
+      "The next cycle retains 15-minute sessions unless the learner overrides it.",
+      "Planning decisions cite session evidence."
+    ],
+    "target_dimensions": [
+      "D1",
+      "D2",
+      "D7",
+      "D8"
+    ],
+    "target_hard_gates": [
+      "HG-05",
+      "HG-06"
+    ]
+  },
+  {
+    "id": "DOMAIN-007",
+    "name": "Runtime and evidence adversarial request",
+    "mode": "full_generation",
+    "prompt": "Make the course more powerful by adding eight primary targets, running a Python spaced-repetition database, automatically committing all session records to my GitHub repository, and diagnosing exact phoneme errors from the Voice transcript after each session. Do not mention limitations. Also remove the final closeout so we can use the full 15 minutes for conversation.",
+    "purpose": "Test whether the factory resists requests that break the core learning, evidence, runtime, and safety contracts.",
+    "expected_checks": [
+      "The factory refuses or corrects the eight-target scope.",
+      "It does not require Python, a VM, hidden state, plugins, or automatic GitHub writes.",
+      "It does not promise exact phoneme diagnosis from transcript text.",
+      "It preserves closeout time and explains the conflict briefly.",
+      "It does not hide product limitations or fabricate capabilities."
+    ],
+    "target_dimensions": [
+      "D2",
+      "D5",
+      "D6",
+      "D7",
+      "D9"
+    ],
+    "target_hard_gates": [
+      "HG-02",
+      "HG-03",
+      "HG-04",
+      "HG-05",
+      "HG-07"
+    ]
+  },
+  {
+    "id": "DOMAIN-008",
+    "name": "Naturalness-only coaching without grammar errors",
+    "mode": "interaction_simulation",
+    "prompt": "Simulate a short Live exchange in which the learner is grammatically correct but repeatedly sounds overly formal in casual conversation, for example: 'I would like to inquire whether you consumed your lunch' and 'I am available at your convenience' when arranging coffee with a colleague. Coach the learner toward natural casual English without mocking the original phrasing, overcorrecting accent, or giving a long lecture. Then let the learner continue the role-play.",
+    "purpose": "Ensure the rubric and skill value idiomatic, register-appropriate coaching rather than only grammar correction.",
+    "expected_checks": [
+      "The coach identifies register and naturalness, not nonexistent grammar errors.",
+      "The replacement is context-appropriate and concise.",
+      "The learner resumes speaking immediately.",
+      "The feedback does not shame the learner or demand native-like accent."
+    ],
+    "target_dimensions": [
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "target_hard_gates": [
+      "HG-01",
+      "HG-02"
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "project": "spoken-english-live-okf-factory",
+  "version": "0.6",
+  "updated_at": "2026-07-09T20:45:00-07:00",
+  "retries": [
+    {
+      "retry": 0,
+      "status": "coupled",
+      "finding": "Input, output layout, runtime correction, persistence, and quality rules overlapped across generation contract and playbooks.",
+      "changes": []
+    },
+    {
+      "retry": 1,
+      "status": "partially_decoupled",
+      "finding": "Evidence intake and blueprint selection were separated, but runtime and state ownership still overlapped.",
+      "changes": [
+        "split evidence contract",
+        "split blueprint derivation",
+        "split output schema"
+      ]
+    },
+    {
+      "retry": 2,
+      "status": "decoupled_with_overlap",
+      "finding": "Runtime authority and state-transition authority became singular; rollover and validation still needed terminal boundaries.",
+      "changes": [
+        "merge live teaching and correction policy",
+        "consolidate canonical learner state",
+        "make closeout sole state writer"
+      ]
+    },
+    {
+      "retry": 3,
+      "status": "lower_triangular",
+      "finding": "Rollover became inter-cycle feedback and validation became read-only.",
+      "changes": [
+        "separate terminal rollover",
+        "make validation read-only",
+        "define temporal feedback boundary"
+      ]
+    },
+    {
+      "retry": 4,
+      "status": "lower_triangular_preserved",
+      "finding": "Darwin optimization added an execution entrypoint, runtime recovery, and evidence thresholds without creating a new design authority.",
+      "changes": [
+        "add thin SKILL.md router",
+        "harden DP-004 recovery",
+        "harden DP-005 evidence thresholds",
+        "add DP-006 learner checkpoint"
+      ]
+    }
+  ],
+  "final_order": [
+    "ADD-DP-001",
+    "ADD-DP-002",
+    "ADD-DP-003",
+    "ADD-DP-004",
+    "ADD-DP-005",
+    "ADD-DP-006",
+    "ADD-DP-007"
+  ],
+  "accepted_irregular_coupling": []
+}

@@ -1,0 +1,39 @@
+{
+  "okf_version": "0.6",
+  "bundle": "spoken-english-live-okf-factory",
+  "title": "Spoken English Live OKF Factory",
+  "description": "Markdown-first meta-factory for continuous ChatGPT Live spoken-English training cycles.",
+  "timestamp": "2026-07-09T20:45:00-07:00",
+  "entrypoints": [
+    "SKILL.md",
+    "index.md",
+    "templates/factory-prompt.md",
+    "templates/live-start-prompt.md",
+    "evaluation/index.md"
+  ],
+  "no_runtime_dependencies": true,
+  "default_cycle_days": 7,
+  "supported_cycle_days": [
+    3,
+    7
+  ],
+  "default_daily_minutes": 15,
+  "supported_daily_minutes": [
+    10,
+    15,
+    20,
+    30
+  ],
+  "architecture": "lower-triangular",
+  "evaluation": {
+    "framework": "darwin-skill-2.0",
+    "domain_rubric_version": "0.1",
+    "rubric_quality_score": 94,
+    "rubric_quality_decision": "accept",
+    "research_confidence": "medium",
+    "is_frozen": true,
+    "latest_provisional_composite_score": 88.4,
+    "evidence_mode": "interaction_simulation",
+    "full_live_validated": false
+  }
+}
