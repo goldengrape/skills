@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "updated_at": "2026-07-04T00:00:00-07:00",
+  "source_epub": "休谟_康德与DeepSeek_从经验归纳到可检验推理.epub",
+  "source_chapter_count": 21,
+  "new_files": [
+    "assets/cases/deepseek-epub-case-library.md",
+    "teacher/ai-extension-use-rules.md",
+    "update-report-epub-integration.json"
+  ],
+  "modified_files": [
+    "resources.md",
+    "priority-map.md",
+    "course-map.md",
+    "state/interest-ledger.md",
+    "state/topic-ledger.md",
+    "quizzes/day-7-quiz.md",
+    "teacher/answer-keys/day-7-answer-key.md",
+    "teacher/rubrics/day-7-rubric.md",
+    "final-review/mock-exam.md",
+    "manifest.json",
+    "quality-report.json",
+    "validation-report.json",
+    "log.md"
+  ],
+  "policy": "C-class AI extension only; no mainline replacement; no long quotes copied from epub."
+}
