@@ -1,4 +1,4 @@
 interface:
   display_name: "Delegate to ChatGPT Web"
-  short_description: "Send ZIP tasks to ChatGPT Web and retrieve results."
-  default_prompt: "Use $delegate-to-chatgpt-web to send this task and its authorized files to the current ChatGPT Web conversation, then download and validate the result ZIP."
+  short_description: "Safely exchange ZIP tasks with ChatGPT Web."
+  default_prompt: "Use $delegate-to-chatgpt-web to delegate this bounded task through the signed-in Codex in-app Browser, upload only explicitly authorized inputs as a ZIP, and download, validate, and safely extract only the matching result ZIP."
