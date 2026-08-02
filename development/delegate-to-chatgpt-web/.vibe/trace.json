@@ -756,6 +756,34 @@
     {
       "id": "WIKI-PAGE-007",
       "created_at": "2026-08-02T21:34:43.210776+00:00"
+    },
+    {
+      "id": "URD-REQ-013",
+      "created_at": "2026-08-02T21:51:39.665276+00:00"
+    },
+    {
+      "id": "URD-AC-013",
+      "created_at": "2026-08-02T21:51:55.581172+00:00"
+    },
+    {
+      "id": "TDD-TEST-034",
+      "created_at": "2026-08-02T21:51:55.581172+00:00"
+    },
+    {
+      "id": "DEC-006",
+      "created_at": "2026-08-02T21:52:07.912960+00:00"
+    },
+    {
+      "id": "URD-CON-007",
+      "created_at": "2026-08-02T21:52:34.826040+00:00"
+    },
+    {
+      "id": "URD-OOS-008",
+      "created_at": "2026-08-02T21:52:39.269998+00:00"
+    },
+    {
+      "id": "RMD-STOP-010",
+      "created_at": "2026-08-02T21:52:43.495228+00:00"
     }
   ],
   "links": [
@@ -1031,6 +1059,62 @@
       "target": "DEC-005",
       "note": "Repository layout summary derives from the confirmed setup decision.",
       "updated_at": "2026-08-02T21:34:43.210776+00:00"
+    },
+    {
+      "source": "URD-REQ-013",
+      "relation": "refines_to",
+      "target": "ADD-FR-004",
+      "note": "ZIP-only input exchange and attachment verification.",
+      "updated_at": "2026-08-02T21:51:39.665276+00:00"
+    },
+    {
+      "source": "URD-REQ-013",
+      "relation": "refines_to",
+      "target": "ADD-FR-006",
+      "note": "ZIP-only result selection; previewable files are not download targets.",
+      "updated_at": "2026-08-02T21:51:47.377020+00:00"
+    },
+    {
+      "source": "URD-AC-013",
+      "relation": "verified_by",
+      "target": "TDD-TEST-034",
+      "note": "Select only the matching ZIP and never open previewable result attachments.",
+      "updated_at": "2026-08-02T21:51:55.581172+00:00"
+    },
+    {
+      "source": "DEC-006",
+      "relation": "protected_by",
+      "target": "TDD-TEST-034",
+      "note": "ZIP-only browser selection rule.",
+      "updated_at": "2026-08-02T21:52:07.912960+00:00"
+    },
+    {
+      "source": "TDD-TEST-034",
+      "relation": "implemented_by",
+      "target": "RMD-TASK-007",
+      "note": "Browser workflow must reject previewable non-ZIP result controls.",
+      "updated_at": "2026-08-02T21:52:16.340775+00:00"
+    },
+    {
+      "source": "URD-CON-007",
+      "relation": "constrains",
+      "target": "DEC-006",
+      "note": "Preview behavior requires ZIP-only browser selection.",
+      "updated_at": "2026-08-02T21:52:34.826040+00:00"
+    },
+    {
+      "source": "URD-OOS-008",
+      "relation": "excluded_by",
+      "target": "DEC-006",
+      "note": "Single previewable-file exchange is outside the protocol.",
+      "updated_at": "2026-08-02T21:52:39.269998+00:00"
+    },
+    {
+      "source": "URD-REQ-013",
+      "relation": "guarded_by",
+      "target": "RMD-STOP-010",
+      "note": "Do not click when only previewable non-ZIP results exist.",
+      "updated_at": "2026-08-02T21:52:43.495228+00:00"
     }
   ]
 }

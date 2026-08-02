@@ -32,6 +32,7 @@
 | TDD-TEST-010 | URD-AC-010 | 日志不泄漏认证信息 | 日志输入含模拟 token/cookie 字段 | persist diagnostics | 敏感字段被拒绝或脱敏，任务证据字段完整。 |
 | TDD-TEST-011 | URD-AC-011 | 验证时暂停 | 登录页、验证码或权限弹窗样本 | browser step | 返回 needs_input/failed；没有绕过或继续发送。 |
 | TDD-TEST-012 | URD-AC-012 | 端到端真实往返 | 2026-08-02 小型 ZIP fixture | live delegate | ChatGPT 读取输入，生成 ZIP；本地哈希匹配且 4 个预期文件可解压。 |
+| TDD-TEST-034 | URD-AC-013 | 避免可预览附件 | 页面样本同时含当前任务的结果 ZIP、`.md`、`.txt`、`.html`、`.py`，以及只含可预览附件的变体 | resolve result control | 混合样本只选择 ZIP 且不打开预览；无 ZIP 样本无点击副作用并返回 `needs_input` 或 `RESULT_ZIP_NOT_FOUND`。 |
 
 ## 接口契约测试
 
@@ -74,7 +75,7 @@
 - `fixture-small/`：UTF-8 文本、嵌套目录和已知哈希。
 - `fixture-sensitive/`：仅含模拟密钥格式，不含真实凭据。
 - `fixture-unsafe-zips/`：路径穿越、绝对路径、超限条目和坏 CRC。
-- `browser-fixtures/`：去除账号和个人内容的页面结构样本。
+- `browser-fixtures/`：去除账号和个人内容的页面结构样本，包含 ZIP 与可预览附件并存、只有可预览附件两种结果控件状态。
 - live 测试只上传专用无敏感数据 fixture，并使用唯一 task_id。
 
 ## 建议命令

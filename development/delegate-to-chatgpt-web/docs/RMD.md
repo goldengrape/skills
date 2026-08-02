@@ -57,10 +57,10 @@ delegate-to-chatgpt-web-project/
 | RMD-TASK-004 | 实现 State Journal 和恢复规则 | 002 | `task_state.py` | `uv run pytest -q tests/test_task_state.py` | `feat/rmd-004-state` | TDD-008、020、028 通过。 |
 | RMD-TASK-005 | 实现 Result Validator | 002 | `validate_result_package.py` | `uv run pytest -q tests/test_result_package.py` | `feat/rmd-005-result` | TDD-007、019、027 通过。 |
 | RMD-TASK-006 | 实现 Download Resolver | 002, 004 | `download_snapshot.py` | `uv run pytest -q tests/test_download_snapshot.py` | `feat/rmd-006-download` | TDD-006、018、026 通过。 |
-| RMD-TASK-007 | 编写 Browser workflow、任务协议和恢复 reference | 002–006 | 3 个 reference 文件 | 文档契约检查 | `feat/rmd-007-references` | 每个网页副作用有前置观察、唯一定位和后置收据。 |
+| RMD-TASK-007 | 编写 Browser workflow、任务协议和恢复 reference | 002–006 | 3 个 reference 文件 | 文档契约检查 | `feat/rmd-007-references` | 每个网页副作用有前置观察、唯一定位和后置收据；上传和下载只使用 ZIP，禁止点击可预览的非 ZIP 附件。 |
 | RMD-TASK-008 | 编写精简 SKILL.md 和 agents/openai.yaml | 007 | 可触发 Skill | `quick_validate.py` | `feat/rmd-008-skill` | SKILL.md <500 行；触发描述覆盖范围和非范围。 |
 | RMD-TASK-009 | 用伪 Browser Adapter 完成 coordinator 集成 | 003–008 | 端到端离线测试 | `uv run pytest -q -m "not live"` | `feat/rmd-009-integration` | TDD-001–011、021、032 通过。 |
-| RMD-TASK-010 | 在真实 ChatGPT Web 上进行一次受控往返 | 009 | live 测试记录 | `uv run pytest -q -m live` | `test/rmd-010-live` | TDD-012、030、033 通过或明确报告页面变化。 |
+| RMD-TASK-010 | 在真实 ChatGPT Web 上进行一次受控往返 | 009 | live 测试记录 | `uv run pytest -q -m live` | `test/rmd-010-live` | TDD-012、030、033、034 通过或明确报告页面变化；结果文件位于 ZIP 内，不进入单文件预览。 |
 | RMD-TASK-011 | 全量校验、前向测试和安装候选版本 | 010 | 验证报告、安装包 | pytest、ruff、quick_validate、check_project_docs | `chore/rmd-011-release` | 所有门槛通过，用户批准安装位置。 |
 
 ## Git 检查点
@@ -92,6 +92,7 @@ delegate-to-chatgpt-web-project/
 | RMD-STOP-007 | live 测试需要发送真实消息但未获授权 | 不执行 live 测试。 |
 | RMD-STOP-008 | 登录、验证码、新权限或页面无法可靠定位 | 返回 needs_input/PAGE_CHANGED，不绕过。 |
 | RMD-STOP-009 | 单元测试、ruff、Skill 验证或文档检查失败 | 不提交发布检查点。 |
+| RMD-STOP-010 | 页面只提供可预览的非 ZIP 结果附件 | 不点击附件，不进入预览；返回 `needs_input` 或 `RESULT_ZIP_NOT_FOUND`。 |
 
 ## 回退点
 

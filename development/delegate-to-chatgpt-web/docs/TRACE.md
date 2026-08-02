@@ -16,6 +16,7 @@
 | URD-REQ-009 | ADD-FR-008 → ADD-DP-008 | MDD-MOD-008 / MDD-API-008 | TDD-TEST-008, TDD-TEST-020, TDD-TEST-028 | RMD-TASK-004, RMD-TASK-009 |
 | URD-REQ-010 | ADD-FR-008 → ADD-DP-008 | MDD-MOD-001 / MDD-API-009 | TDD-TEST-009, TDD-TEST-021 | RMD-TASK-002, RMD-TASK-009 |
 | URD-REQ-011 | ADD-FR-008 → ADD-DP-008 | MDD-MOD-008 / MDD-API-008 | TDD-TEST-010, TDD-TEST-029 | RMD-TASK-004, RMD-TASK-009 |
+| URD-REQ-013, URD-AC-013 | ADD-FR-004, ADD-FR-006 → ADD-DP-004, ADD-DP-006 | MDD-MOD-004, MDD-MOD-006 / MDD-API-004, MDD-API-006 | TDD-TEST-034 | RMD-TASK-007–010 |
 | URD-AC-012 | DEC-001, DEC-002, DEC-004 | 全流程 | TDD-TEST-012, TDD-TEST-030, TDD-TEST-033 | RMD-TASK-010–011 |
 
 ## 设计决定追踪
@@ -26,16 +27,17 @@
 | DEC-002 | MDD-MOD-002, MDD-MOD-003, MDD-MOD-006–008 | TDD-TEST-013–020, TDD-TEST-031 |
 | DEC-003 | RMD-TASK-001, RMD-TASK-008, RMD-TASK-011 | Skill Creator quick validation |
 | DEC-004 | RMD-TASK-009–010 | TDD-TEST-012, TDD-TEST-033 |
+| DEC-006 | MDD-MOD-004, MDD-MOD-005, MDD-MOD-006, RMD-TASK-007–010 | TDD-TEST-034 |
 
 ## Wiki 追踪
 
 | 页面 | 回答的问题 | 来源 |
 | --- | --- | --- |
-| WIKI-PAGE-001 `wiki/requirements/end-to-end.md` | 完整往返必须满足什么？ | URD-GOAL-001, URD-REQ-001–012 |
+| WIKI-PAGE-001 `wiki/requirements/end-to-end.md` | 完整往返必须满足什么？ | URD-GOAL-001, URD-REQ-001–013 |
 | WIKI-PAGE-002 `wiki/decisions/in-app-browser.md` | 为什么只使用内置浏览器？ | DEC-001, URD-CON-001 |
 | WIKI-PAGE-003 `wiki/modules/runtime.md` | 运行时模块怎样分工？ | ADD-DP-001–008, MDD-MOD-001–008 |
-| WIKI-PAGE-004 `wiki/interfaces/contracts.md` | 哪些接口副作用最关键？ | MDD-API-001–009 |
-| WIKI-PAGE-005 `wiki/tests/release-gates.md` | 发布前必须通过什么？ | TDD-TEST-001–033, RMD-TASK-011 |
+| WIKI-PAGE-004 `wiki/interfaces/contracts.md` | 哪些接口副作用最关键？ | MDD-API-001–009, URD-REQ-013 |
+| WIKI-PAGE-005 `wiki/tests/release-gates.md` | 发布前必须通过什么？ | TDD-TEST-001–034, RMD-TASK-011 |
 | WIKI-PAGE-006 `wiki/paths/build-order.md` | 实现顺序是什么？ | RMD-TASK-001–011 |
 
 ## 更新规则
@@ -45,3 +47,11 @@
 | DEC-005 | implements | RMD-TASK-001 | The skill candidate and uv development project use separate repository subdirectories. |
 | DEC-005 | summarized_by | wiki/decisions/repository-layout.md | Derived path summary for development use. |
 | WIKI-PAGE-007 | derived_from | DEC-005 | Repository layout summary derives from the confirmed setup decision. |
+| URD-REQ-013 | refines_to | ADD-FR-004 | ZIP-only input exchange and attachment verification. |
+| URD-REQ-013 | refines_to | ADD-FR-006 | ZIP-only result selection; previewable files are not download targets. |
+| URD-AC-013 | verified_by | TDD-TEST-034 | Select only the matching ZIP and never open previewable result attachments. |
+| DEC-006 | protected_by | TDD-TEST-034 | ZIP-only browser selection rule. |
+| TDD-TEST-034 | implemented_by | RMD-TASK-007 | Browser workflow must reject previewable non-ZIP result controls. |
+| URD-CON-007 | constrains | DEC-006 | Preview behavior requires ZIP-only browser selection. |
+| URD-OOS-008 | excluded_by | DEC-006 | Single previewable-file exchange is outside the protocol. |
+| URD-REQ-013 | guarded_by | RMD-STOP-010 | Do not click when only previewable non-ZIP results exist. |

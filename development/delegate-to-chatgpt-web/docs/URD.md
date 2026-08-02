@@ -50,6 +50,7 @@
 | URD-REQ-010 | 返回结构化的 `completed`、`needs_input` 或 `failed` 结果。 | must |
 | URD-REQ-011 | 保存非敏感日志、文件清单、校验值、状态变化和必要的失败诊断。 | must |
 | URD-REQ-012 | 遇到登录、验证码、新权限、未授权资料或显著改变范围的追问时暂停。 | must |
+| URD-REQ-013 | 与 ChatGPT Web 交换的输入和结果资料统一使用 ZIP。不得把点击后会进入预览状态的 `md`、`txt`、`html`、`py` 等单个附件作为下载目标；页面没有对应结果 ZIP 时返回 `needs_input` 或 `RESULT_ZIP_NOT_FOUND`。 | must |
 
 ## 非当前范围
 
@@ -62,6 +63,7 @@
 | URD-OOS-005 | 多账号自动切换 | 涉及身份和权限。 |
 | URD-OOS-006 | 模型自动选择、长期调度和跨设备执行 | 不影响首版完整往返。 |
 | URD-OOS-007 | 自动执行结果 ZIP 中的代码、宏或安装程序 | 下载内容不可信。 |
+| URD-OOS-008 | 使用单个可预览附件在 Codex 与 ChatGPT Web 之间交换任务资料 | 点击此类附件会进入预览状态，不是本 Skill 的下载协议。 |
 
 ## 验收条件
 
@@ -79,6 +81,7 @@
 | URD-AC-010 | URD-REQ-011 | 任务记录足以定位失败且不含认证信息。 | 日志字段完整，敏感字段扫描为空。 |
 | URD-AC-011 | URD-REQ-012 | 登录、验证码或权限请求导致暂停。 | 未尝试绕过，结果说明需要用户处理。 |
 | URD-AC-012 | URD-REQ-001–URD-REQ-011 | 复现 2026-08-02 ZIP 往返测试。 | 上传可读、网页生成 ZIP、下载哈希匹配、4 个文件可解压。 |
+| URD-AC-013 | URD-REQ-013 | 页面同时出现当前任务的结果 ZIP 和可预览附件时只下载 ZIP；页面只有可预览附件时不点击。 | 浏览器动作记录中没有打开预览；有 ZIP 时下载目标唯一匹配该 ZIP，无 ZIP 时返回 `needs_input` 或 `RESULT_ZIP_NOT_FOUND`。 |
 
 ## 约束
 
@@ -90,6 +93,7 @@
 | URD-CON-004 | reliability | 网页 DOM、按钮文字和下载文件名可能变化。 | 使用语义定位、状态观察和明确错误。 |
 | URD-CON-005 | packaging | 实际 Skill 包必须精简，只包含 `SKILL.md`、`agents/` 和必要资源。 | 设计文档不得放入安装包。 |
 | URD-CON-006 | implementation | 确定性文件操作默认使用 Python 标准库，开发依赖使用 uv。 | 减少运行时依赖。 |
+| URD-CON-007 | web behavior | ChatGPT Web 会为 `md`、`txt`、`html`、`py` 等可预览附件打开预览界面，该界面不作为可靠下载路径。 | 浏览器协议只上传和下载 ZIP，不点击可预览结果附件。 |
 
 ## 假设
 
