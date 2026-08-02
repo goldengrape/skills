@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "updates": [
+    {
+      "date": "2026-08-02",
+      "source": "Codex-ChatGPT-Web-URD-v1.1.md",
+      "changed": ["URD","ADD","MDD","TDD","RMD","TRACE","wiki"],
+      "summary": "建立 delegate-to-chatgpt-web Skill 的 strict 级开发设计；未开始实现。"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "classification": "decoupled",
+  "execution_order": ["ADD-DP-001","ADD-DP-002","ADD-DP-003","ADD-DP-004","ADD-DP-005","ADD-DP-006","ADD-DP-007"],
+  "observer": "ADD-DP-008",
+  "attempts": [
+    {"attempt":1,"problem":"单一委派器同时处理文件、浏览器、状态和解压。","change":"拆分本地确定性处理与浏览器副作用。","result":"文件逻辑可独立测试。"},
+    {"attempt":2,"problem":"所有模块直接修改 state.json。","change":"改为不可变事件，由 State Journal 原子写入。","result":"状态格式不再耦合业务模块。"},
+    {"attempt":3,"problem":"响应判断、下载触发和文件发现混合。","change":"分出 Response Monitor 与 Download Resolver。","result":"页面变化和下载路径变化可分别处理。"}
+  ],
+  "accepted_couplings": []
+}

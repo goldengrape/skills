@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delegate to ChatGPT Web"
+  short_description: "Send ZIP tasks to ChatGPT Web and retrieve results."
+  default_prompt: "Use $delegate-to-chatgpt-web to send this task and its authorized files to the current ChatGPT Web conversation, then download and validate the result ZIP."

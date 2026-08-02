@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "document_strength": "strict",
+  "last_updated": "2026-08-02",
+  "source_of_truth": "docs",
+  "source_urd": "outputs/Codex-ChatGPT-Web-URD-v1.1.md",
+  "wiki_is_derived": true,
+  "implementation_started": false
+}
