@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1",
+  "run_id": "{{RUN_ID}}",
+  "created_at": "{{TIMESTAMP}}",
+  "updated_at": "{{TIMESTAMP}}",
+  "stage": "INIT",
+  "outcome": null,
+  "mode": "standard",
+  "workspace": {
+    "backend": "{{WORKSPACE_BACKEND}}",
+    "authorized_root": "{{WORKSPACE_ROOT}}",
+    "control_namespace": ".archon/runs/{{RUN_ID}}"
+  },
+  "policy": {
+    "generator_count": 4,
+    "minimum_usable_generators": 3,
+    "top_k": 2,
+    "verifier_mode": "auto",
+    "combine_critic_ranker": true,
+    "max_extra_evaluators": 1,
+    "max_generator_replacements": 1,
+    "max_fusion_retries": 1
+  },
+  "executions": {
+    "generators": {},
+    "evaluators": [],
+    "fuser": null
+  },
+  "artifacts": {
+    "task": "task.md",
+    "verification": [],
+    "critique": null,
+    "ranking": null,
+    "fusion": null,
+    "final": null
+  },
+  "history": []
+}

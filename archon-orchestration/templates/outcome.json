@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1",
+  "run_id": "",
+  "outcome": "DONE",
+  "final_artifact_ref": "",
+  "selected_candidates": [],
+  "evaluation_confidence": null,
+  "verification_summary": [],
+  "escalations": [],
+  "known_limitations": []
+}

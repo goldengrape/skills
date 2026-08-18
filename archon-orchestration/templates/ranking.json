@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1",
+  "ranking": [],
+  "top_k": [],
+  "rejected": [],
+  "confidence": 0.0,
+  "unresolved_disagreements": [],
+  "preserve_insights": [],
+  "evaluator_notes": ""
+}

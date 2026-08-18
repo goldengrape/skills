@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1",
+  "execution_id": "",
+  "role": "generator",
+  "candidate_id": "G1",
+  "status": "completed",
+  "artifact_ref": "",
+  "summary": "",
+  "assumptions": [],
+  "evidence": [],
+  "limitations": [],
+  "direct_workspace_write": true,
+  "started_at": "",
+  "completed_at": ""
+}

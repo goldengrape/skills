@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1",
+  "candidates": [
+    {
+      "candidate_id": "G1",
+      "strengths": [],
+      "weaknesses": [],
+      "missing_assumptions": [],
+      "risks": [],
+      "unique_insights": [],
+      "reusable_parts": [],
+      "evidence_conflicts": []
+    }
+  ]
+}
