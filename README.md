@@ -11,6 +11,11 @@
   - **适用场景**：系统架构设计、模块解耦分析、定义严格的接口契约（DbC）。
   - **特点**：结合函数式编程原则，确保架构的科学性与可维护性。
 
+- **[Archon Orchestration](archon-orchestration/SKILL.md)**
+  - **核心用途**：通过多个独立 Agent Executor 执行 Generate → Critique → Rank / Filter → Fuse 的推理编排流程。
+  - **适用场景**：复杂编程、研究、数学、方案设计，以及需要多候选、交叉批评、融合和可选验证的任务。
+  - **特点**：以 Orchestrator、Shared Workspace、Agent Executor 为核心抽象，支持 GitHub/Google Drive 等共享工作区和异质模型执行。
+
 - **[Literate Programming (文学化编程)](file:///c:/Users/golde/code/skills/literate-programming/SKILL.md)**
   - **核心用途**：运用文学化编程哲学，通过“织入（Weaving）”故事的方式对 codebase 进行深度分析。
   - **适用场景**：复杂项目架构审计、生成文学化架构记录（LAR）、像讲故事一样解释代码逻辑。

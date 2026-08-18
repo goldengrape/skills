@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Initialize a local/mounted Archon Shared Workspace run."""
+from __future__ import annotations
+import argparse, json, re
+from datetime import datetime, timezone
+from pathlib import Path
+
+MODES = {"standard", "fast", "strict"}
+BACKENDS = {"github", "google_drive", "filesystem", "other"}
+
+
+def utcnow() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def make_run_id() -> str:
+    return datetime.now(timezone.utc).strftime("run-%Y%m%d-%H%M%S")
+
+
+def safe_run_id(value: str) -> str:
+    if not re.fullmatch(r"[A-Za-z0-9._-]+", value):
+        raise SystemExit("run-id may contain only letters, digits, dot, underscore, and hyphen")
+    return value
+
+
+def policy(mode: str, generators: int | None) -> dict:
+    base = {
+        "generator_count": 4,
+        "minimum_usable_generators": 3,
+        "top_k": 2,
+        "verifier_mode": "auto",
+        "combine_critic_ranker": True,
+        "max_extra_evaluators": 1,
+        "max_generator_replacements": 1,
+        "max_fusion_retries": 1,
+    }
+    if mode == "fast":
+        base.update({"generator_count": 4, "minimum_usable_generators": 3, "max_extra_evaluators": 0, "max_fusion_retries": 0})
+    elif mode == "strict":
+        base.update({"generator_count": 4, "minimum_usable_generators": 4, "combine_critic_ranker": False})
+    if generators is not None:
+        base["generator_count"] = generators
+        base["minimum_usable_generators"] = min(base["minimum_usable_generators"], generators)
+    return base
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default=".")
+    ap.add_argument("--run-id")
+    ap.add_argument("--mode", choices=sorted(MODES), default="standard")
+    ap.add_argument("--workspace-backend", choices=sorted(BACKENDS), default="filesystem")
+    ap.add_argument("--generator-count", type=int)
+    ap.add_argument("--force", action="store_true")
+    args = ap.parse_args()
+
+    if args.generator_count is not None and not (1 <= args.generator_count <= 16):
+        raise SystemExit("generator-count must be between 1 and 16")
+
+    root = Path(args.root).resolve()
+    run_id = safe_run_id(args.run_id or make_run_id())
+    run = root / ".archon" / "runs" / run_id
+    if run.exists() and not args.force:
+        raise SystemExit(f"run already exists: {run}")
+
+    for rel in ["generation", "verification", "critique", "ranking", "fusion", "final"]:
+        (run / rel).mkdir(parents=True, exist_ok=True)
+
+    pol = policy(args.mode, args.generator_count)
+    for i in range(1, pol["generator_count"] + 1):
+        (run / "generation" / f"G{i}").mkdir(parents=True, exist_ok=True)
+
+    now = utcnow()
+    manifest = {
+        "schema_version": "0.1",
+        "run_id": run_id,
+        "created_at": now,
+        "updated_at": now,
+        "stage": "INIT",
+        "outcome": None,
+        "mode": args.mode,
+        "workspace": {
+            "backend": args.workspace_backend,
+            "authorized_root": str(root),
+            "control_namespace": f".archon/runs/{run_id}",
+        },
+        "policy": pol,
+        "executions": {"generators": {}, "evaluators": [], "fuser": None},
+        "artifacts": {"task": "task.md", "verification": [], "critique": None, "ranking": None, "fusion": None, "final": None},
+        "history": [{"at": now, "event": "initialized", "stage": "INIT"}],
+    }
+    (run / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    task = "# Frozen Task\n\n## Objective\n\n<TODO>\n\n## Inputs / Base Artifacts\n\n- <TODO>\n\n## Constraints\n\n- <TODO>\n\n## Success Criteria\n\n- <TODO>\n\n## Assumptions\n\n- <none or TODO>\n\n## Open Questions\n\n- <none or TODO>\n"
+    (run / "task.md").write_text(task, encoding="utf-8")
+    (run / "executors.json").write_text(json.dumps({"schema_version":"0.1","executors":[]}, indent=2) + "\n", encoding="utf-8")
+    print(run_id)
+    print(run)
+    print("Next: freeze task.md, record executor capabilities, then advance to GENERATING.")
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())

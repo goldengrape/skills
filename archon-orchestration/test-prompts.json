@@ -1,0 +1,37 @@
+[
+  {
+    "id": "open-research-no-verifier",
+    "prompt": "帮我研究一个开放性的产品战略问题。请用 Archon 流程，多生成几个独立方案再综合；没有可靠验证器就不要硬造评分器。",
+    "expected": "Initializes/resumes a Shared Workspace run, uses isolated parallel Generators, then Critic, Ranker, and Fuser; does not invent deterministic verification."
+  },
+  {
+    "id": "coding-with-verifier",
+    "prompt": "这个 GitHub repo 有一个复杂 bug。用四个独立 agent 提方案，能跑测试就先验证，再比较并融合。",
+    "expected": "Uses 4 isolated Generator namespaces/branches from the same base, runs real tests when available, feeds evidence into Critic/Ranker, fuses top candidates, and verifies the fused result again."
+  },
+  {
+    "id": "generator-failure-quorum",
+    "prompt": "四个 Generator 里有一个页面失败了，另外三个已经完成。继续处理，不要从头再跑全部。",
+    "expected": "Records the failed Generator, respects the generation barrier, continues with 3/4 if policy allows, and does not repeat completed expensive generations."
+  },
+  {
+    "id": "low-confidence-escalation",
+    "prompt": "两个最佳候选很接近，快速 Judge 也说自己没把握。",
+    "expected": "Adds at most one extra evaluator by default, reconciles results, and avoids fixed 3 expensive Critics."
+  },
+  {
+    "id": "isolation-violation",
+    "prompt": "G3 不小心看到了 G1 的结果，但其他 Generator 都是独立的。",
+    "expected": "Marks G3 contaminated, excludes it as an independent sample, and replaces it once if budget/policy permits."
+  },
+  {
+    "id": "resume-after-orchestrator-restart",
+    "prompt": "Orchestrator 重启了。Shared Workspace 里已经有四个 Generator 结果和 critique，请继续。",
+    "expected": "Reads manifest and artifacts first, reconciles state, skips already completed expensive stages, and resumes from the first incomplete logical stage."
+  },
+  {
+    "id": "drive-document-workflow",
+    "prompt": "我给你一个 Google Drive folder，做一份复杂方案文档。让多个 web agent 独立写方案，再批评、排序、融合。",
+    "expected": "Uses Drive folder namespaces as Shared Workspace, isolates Generator subfolders, preserves artifact references, and writes fusion as a new artifact rather than overwriting candidates."
+  }
+]
