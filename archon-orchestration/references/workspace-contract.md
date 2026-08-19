@@ -2,7 +2,24 @@
 
 Load this file when initializing, resuming, repairing, or finalizing a run.
 
-The Shared Workspace is the durable source of run state. The user should create or approve it before substantive orchestration. Orchestrator conversation memory is not sufficient for a resumable run.
+The Shared Workspace is the durable source of run state **and the primary transport for substantive run artifacts**. The user should create or approve it before substantive orchestration. Orchestrator conversation memory is not sufficient for a resumable run and should not become a substitute file-transfer channel.
+
+## Control plane vs artifact plane
+
+Keep these responsibilities separate:
+
+```text
+Orchestrator conversation / browser prompt:
+  compact control instructions, IDs, refs, constraints, status receipts
+
+Shared Workspace:
+  frozen task, base inputs, candidate artifacts, diffs/files, critique, ranking,
+  fusion output, verification evidence, manifest and final outcome
+```
+
+When an Executor can read/write the Shared Workspace directly, pass stable refs instead of copying artifact bodies into prompts or responses. Prefer a small receipt pointing to a durable artifact over a long returned artifact body.
+
+Adapters may tighten this rule. In particular, the GitHub adapter defaults to `direct_required`: GitHub is the data plane, and return-only/chat-mediated artifact transport is disabled unless the user explicitly accepts a degraded path.
 
 ## Minimum logical operations
 
@@ -20,6 +37,25 @@ identify_version(artifact)
 
 Version identity may be a commit SHA, Drive revision ID, immutable file ID, timestamped snapshot, content hash, or another stable backend identifier.
 
+## Workspace I/O policy
+
+Record the active policy in manifest or equivalent run metadata:
+
+```yaml
+workspace_io_mode: direct_required | direct_preferred | return_only_allowed
+inline_artifact_transport: false
+allow_return_only_fallback: false
+```
+
+Meaning:
+
+- `direct_required`: selected Executors must read/write substantive artifacts in the workspace themselves. Capability mismatch is a dispatch failure unless the user explicitly changes policy.
+- `direct_preferred`: use direct workspace I/O whenever supported; a permitted fallback may normalize returned artifacts.
+- `return_only_allowed`: Executor output may travel through its return channel and be normalized by Orchestrator.
+- `inline_artifact_transport: false`: do not duplicate durable workspace artifacts into chat/file-upload channels unless required by an explicitly allowed fallback.
+
+Never silently change `direct_required` to return-only merely because a browser executor lacks workspace access.
+
 ## Logical namespace
 
 Default logical layout:
@@ -34,7 +70,7 @@ Default logical layout:
       generation/
         G1/
           dispatch.json (optional)
-          raw-return.md (return-only executors, when safe)
+          raw-return.md (return-only executors, when explicitly allowed and safe)
           candidate.*
           result.json
         G2/
@@ -62,6 +98,7 @@ A backend may map these logical namespaces differently (GitHub Generator namespa
 * run ID
 * stage and outcome
 * workspace root and backend
+* workspace I/O and browser-execution policy
 * policy and budget counters
 * scheduled Generators and execution records
 * artifact references
@@ -87,7 +124,7 @@ A manifest entry that claims completion without an observable result or artifact
 | `executors.json` | Optional capability inventory |
 | `generation/<ID>/dispatch.json` | Optional durable dispatch package or reference |
 | `generation/<ID>/result.json` | Normalized terminal execution result |
-| `generation/<ID>/raw-return.md` | Safe raw return from return-only Executor, when applicable |
+| `generation/<ID>/raw-return.md` | Safe raw return from explicitly allowed return-only Executor, when applicable |
 | `critique/critique.json` | Logical Critic output |
 | `ranking/ranking.json` | Logical Ranker output |
 | `fusion/result.json` | Fuser result metadata |
@@ -109,11 +146,15 @@ Example:
 }
 ```
 
-For return-only Executors, the Orchestrator may create the artifact from returned content and then assign the stable `artifact_ref`. Return-only content is not durable until the Orchestrator writes it into the Shared Workspace or stores a stable external reference.
+For direct-write Executors, the receipt should point to the workspace artifact and version; the Orchestrator verifies that ref rather than asking for a duplicate body.
+
+For explicitly allowed return-only Executors, the Orchestrator may create the artifact from returned content and then assign the stable `artifact_ref`. Return-only content is not durable until the Orchestrator writes it into the Shared Workspace or stores a stable external reference.
 
 ## Return-only normalization
 
-When an Executor cannot write directly to the Shared Workspace, the Orchestrator writes the returned output into the assigned namespace and records `direct_workspace_write: false` with `return_only_normalized_by_orchestrator: true`. The normalized artifact becomes the candidate of record.
+When an Executor cannot write directly to the Shared Workspace **and the active workspace policy allows fallback**, the Orchestrator writes the returned output into the assigned namespace and records `direct_workspace_write: false` with `return_only_normalized_by_orchestrator: true`. The normalized artifact becomes the candidate of record.
+
+Record the transport downgrade in manifest/history. Do not treat return-only normalization as equivalent to direct-write capability during executor selection for a `direct_required` run.
 
 ## Reconciliation rule
 
