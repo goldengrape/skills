@@ -120,7 +120,27 @@ criteria. `manifest.json` should include at least:
 ```
 
 The dispatch commit that creates or updates this contract becomes the immutable input version for
-the browser delegation. Record its SHA before sending any message.
+the browser delegation. Record its SHA before sending any message; do not try to embed that commit's
+own SHA inside files created by the same commit.
+
+A completed `result.json` should contain stable task metadata and the already-known dispatch commit,
+not the SHA of the commit that contains `result.json` itself. Example:
+
+```json
+{
+  "schema_version": "1",
+  "task_id": "...",
+  "repository": "owner/repo",
+  "task_branch": "delegate/<task_id>",
+  "dispatch_commit": "<sha>",
+  "outputs": [],
+  "summary": "...",
+  "limitations": []
+}
+```
+
+The final `result_commit` is returned in the compact ChatGPT receipt after GitHub has created it and
+is then independently verified by the local orchestrator.
 
 ## Workflow
 
@@ -218,8 +238,8 @@ Result contract: <path>
 Use the authorized GitHub capability to read TASK.md and manifest.json at the dispatch commit.
 Work only within the repository/branch/path scope declared there.
 Write all substantive outputs directly to the task branch and commit/version them.
-Write the completion record to result.json with the matching task ID, output refs, summary,
-limitations, and resulting commit SHA.
+Write the completion record to result.json with the matching task ID, dispatch commit, output refs,
+summary, and limitations. Do not place the result commit SHA inside result.json itself.
 Do not paste full result files into chat and do not use file attachments or ZIP archives.
 If GitHub write access is unavailable or the task requires broader scope, stop and ask for input.
 When complete, reply only with a compact receipt containing task_id, repository, task_branch,
@@ -253,12 +273,13 @@ Do not trust the chat receipt by itself. Using the local/connected GitHub capabi
 
 1. The repository and task branch match the authorized request.
 2. The result commit exists and is reachable from the expected task branch.
-3. The result is based on the frozen task history and does not rewrite or replace unrelated history.
+3. The result commit descends from the recorded dispatch commit and does not rewrite or replace
+   unrelated history.
 4. `.delegate/<task_id>/result.json` exists at the result commit and contains the matching
-   `schema_version`, `task_id`, repository, branch, result commit, output refs, summary, and
+   `schema_version`, `task_id`, repository, task branch, dispatch commit, output refs, summary, and
    limitations.
-5. Every changed/created/deleted substantive path is within the authorized write paths or explicitly
-   allowed task-control namespace.
+5. Every changed/created/deleted substantive path since the dispatch commit is within the authorized
+   write paths or explicitly allowed task-control namespace.
 6. Required outputs exist and are referenced by `result.json`.
 7. The default/protected branch was not modified by the delegated task.
 8. No unexpected credentials, auth material, executable payloads, or out-of-scope artifacts were
