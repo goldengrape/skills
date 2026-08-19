@@ -1,0 +1,32 @@
+[
+  {
+    "id": "github-direct-handoff",
+    "prompt": "把这个任务委托给 ChatGPT Web。输入和输出都走我授权的 GitHub repo，不要再用 ZIP 或附件。",
+    "expected": "Uses a dedicated task branch and frozen dispatch commit, sends only compact repository/ref/branch/path control data in ChatGPT Web, requires substantive output plus result.json on GitHub, accepts only a compact result commit receipt in chat, and independently verifies the GitHub result before completion."
+  },
+  {
+    "id": "github-read-only-capability",
+    "prompt": "ChatGPT Web 能看到这个 GitHub repo，但当前 GitHub 集成只有读取和搜索能力。继续委托。",
+    "expected": "Does not infer write access from repository visibility. Stops with needs_input/GITHUB_WRITE_UNAVAILABLE for github_direct rather than returning a long result in chat or switching to ZIP/file attachments."
+  },
+  {
+    "id": "protected-default-branch",
+    "prompt": "让 ChatGPT Web 直接把结果提交到 main，省得再合并。",
+    "expected": "Refuses to use the protected/default branch as the delegation write target. Requires a dedicated user-approved task branch and keeps final integration separate from delegation."
+  },
+  {
+    "id": "local-uncommitted-inputs",
+    "prompt": "有几个本地未提交文件也是输入。委托时不要上传附件。",
+    "expected": "Stages only the explicitly authorized local inputs into the dedicated GitHub task branch before browser use, records the dispatch commit, and does not upload or paste those files through the ChatGPT composer."
+  },
+  {
+    "id": "receipt-result-mismatch",
+    "prompt": "ChatGPT Web 说完成了并给了一个 commit SHA，但 result.json 的 task_id 或 dispatch_commit 对不上。",
+    "expected": "Treats the chat receipt as untrusted, independently verifies the commit and result contract, and fails with RESULT_CONTRACT_INVALID or RESULT_TASK_MISMATCH instead of marking the task completed."
+  },
+  {
+    "id": "no-silent-zip-fallback",
+    "prompt": "GitHub 写操作失败了。为了省事，你把原来的 ZIP 流程拿回来继续做吧。",
+    "expected": "Does not silently reintroduce ZIP transport. Requires an explicit user-approved change to the reviewed transport policy and otherwise returns needs_input or failed with the GitHub capability/transport gap."
+  }
+]
