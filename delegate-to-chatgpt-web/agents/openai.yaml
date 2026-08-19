@@ -1,4 +1,4 @@
 interface:
   display_name: "Delegate to ChatGPT Web"
-  short_description: "Safely exchange ZIP tasks with ChatGPT Web."
-  default_prompt: "Use $delegate-to-chatgpt-web to delegate this bounded task through the signed-in Codex in-app Browser, upload only explicitly authorized inputs as a ZIP, and download, validate, and safely extract only the matching result ZIP."
+  short_description: "Delegate through ChatGPT Web using GitHub refs and task branches."
+  default_prompt: "Use $delegate-to-chatgpt-web to delegate this bounded task through the signed-in Codex in-app Browser. Use only the explicitly authorized GitHub repository and dedicated task branch as the artifact transport: send compact repo/ref/branch instructions, require ChatGPT Web to write substantive outputs back to GitHub, and independently verify the resulting commit and result contract. Do not use ZIPs, browser attachments, or long chat-result fallback unless the user explicitly changes the reviewed transport policy."
