@@ -7,7 +7,7 @@
   {
     "id": "coding-with-verifier",
     "prompt": "这个 GitHub repo 有一个复杂 bug。用四个独立 agent 提方案，能跑测试就先验证，再比较并融合。",
-    "expected": "Uses 4 isolated Generator namespaces/branches from the same base, runs real tests when available, feeds evidence into Critic/Ranker, fuses top candidates, and verifies the fused result again."
+    "expected": "Uses 4 isolated Generator namespaces/branches from the same base, defaults GitHub transport to direct repository I/O, runs real tests when available, feeds evidence into Critic/Ranker, fuses top candidates, and verifies the fused result again."
   },
   {
     "id": "generator-failure-quorum",
@@ -25,6 +25,21 @@
     "expected": "Marks G3 contaminated, excludes it as an independent sample, and replaces it once if budget/policy permits."
   },
   {
+    "id": "browser-project-base-fresh-pages",
+    "prompt": "我用 Oracle 控制 ChatGPT Web。这个 ChatGPT Project URL 作为 base URL：https://chatgpt.com/g/example/project。请跑四个独立 Generator。",
+    "expected": "Treats the Project URL only as browser_base_url; starts one distinct Oracle/browser invocation per Generator, creates a fresh tab/page and a fresh conversation for G1-G4, and never uses browser follow-up, oracle session, a saved conversation URL, or another Generator's thread as an independent candidate."
+  },
+  {
+    "id": "github-artifact-data-plane",
+    "prompt": "Shared Workspace 是这个 GitHub repo。四个 web Generator 都有 repo 读写能力，不要把仓库文件塞进输入框，也不要把完整候选答案搬回对话。",
+    "expected": "Sets GitHub workspace_io_mode to direct_required; dispatches compact task/base refs only; each Generator reads GitHub itself, writes its assigned branch/namespace, returns a compact artifact/commit receipt, and the Orchestrator verifies that ref before completion. It does not use Oracle --file/browser attachments or long inline artifact returns to duplicate GitHub content."
+  },
+  {
+    "id": "github-direct-capability-mismatch",
+    "prompt": "GitHub 是 Shared Workspace，但其中一个 browser agent 只能聊天，不能访问 GitHub。",
+    "expected": "Does not silently paste/upload GitHub artifacts into the chat for that Generator. Treats the executor as incompatible with direct_required transport, replaces/reconfigures it, or asks for explicit approval before enabling return-only fallback."
+  },
+  {
     "id": "resume-after-orchestrator-restart",
     "prompt": "Orchestrator 重启了。Shared Workspace 里已经有四个 Generator 结果和 critique，请继续。",
     "expected": "Reads manifest and artifacts first, reconciles state, skips already completed expensive stages, and resumes from the first incomplete logical stage."
@@ -35,9 +50,9 @@
     "expected": "Uses Drive folder namespaces as Shared Workspace, isolates Generator subfolders, preserves artifact references, and writes fusion as a new artifact rather than overwriting candidates."
   },
   {
-    "id": "return-only-normalization",
-    "prompt": "四个 web agent 只能在页面里返回结果，不能直接写 workspace。请继续用 Archon，但要把结果整理进各自命名空间后再评估。",
-    "expected": "Dispatches isolated return-only Executors, captures raw returns when safe, normalizes each usable result into generation/<ID>/result.json plus stable artifact refs, and does not evaluate transient page text directly."
+    "id": "explicit-return-only-normalization",
+    "prompt": "四个 web agent 只能在页面里返回结果，不能直接写 workspace。我明确允许这次使用 return-only fallback。请继续用 Archon，但要把结果整理进各自命名空间后再评估。",
+    "expected": "Records explicit permission for return-only fallback, dispatches isolated Executors, captures raw returns when safe, normalizes each usable result into generation/<ID>/result.json plus stable artifact refs, records degraded transport, and does not evaluate transient page text directly."
   },
   {
     "id": "stale-running-execution-resume",

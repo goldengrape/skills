@@ -11,7 +11,18 @@
     "authorized_root": "{{WORKSPACE_ROOT}}",
     "control_namespace": ".archon/runs/{{RUN_ID}}",
     "adapter": "",
-    "version": null
+    "version": null,
+    "io_policy": {
+      "workspace_io_mode": "direct_preferred",
+      "inline_artifact_transport": false,
+      "allow_return_only_fallback": false
+    }
+  },
+  "browser_execution": {
+    "base_url": null,
+    "fresh_page_per_generator": true,
+    "fresh_conversation_per_generator": true,
+    "allow_generator_followup_reuse": false
   },
   "policy": {
     "generator_count": 4,
