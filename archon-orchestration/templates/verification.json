@@ -1,11 +1,16 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
+  "run_id": "",
   "candidate_id": "",
+  "artifact_ref": "",
   "verifier": "",
   "status": "unavailable",
   "scope": "",
   "command_or_tool": "",
+  "started_at": "",
+  "completed_at": "",
   "summary": "",
-  "artifact_ref": "",
-  "limitations": []
+  "evidence_artifact_ref": "",
+  "limitations": [],
+  "infrastructure_error": null
 }

@@ -1,11 +1,32 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "run_id": "",
   "outcome": "DONE",
   "final_artifact_ref": "",
+  "final_artifact_version": null,
   "selected_candidates": [],
-  "evaluation_confidence": null,
+  "candidate_statuses": {},
+  "generation_barrier": {
+    "scheduled": 0,
+    "usable": 0,
+    "degradation_recorded": false
+  },
+  "evaluation": {
+    "critique_ref": "",
+    "ranking_ref": "",
+    "confidence": null,
+    "extra_evaluators": []
+  },
+  "fusion": {
+    "fusion_ref": "",
+    "winner_adoption": null,
+    "repair_retries": 0
+  },
   "verification_summary": [],
+  "replacements": [],
+  "schema_repairs": [],
   "escalations": [],
+  "reconciliation_notes": [],
+  "pending_approvals": [],
   "known_limitations": []
 }

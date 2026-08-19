@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "run_id": "{{RUN_ID}}",
   "created_at": "{{TIMESTAMP}}",
   "updated_at": "{{TIMESTAMP}}",
@@ -9,7 +9,9 @@
   "workspace": {
     "backend": "{{WORKSPACE_BACKEND}}",
     "authorized_root": "{{WORKSPACE_ROOT}}",
-    "control_namespace": ".archon/runs/{{RUN_ID}}"
+    "control_namespace": ".archon/runs/{{RUN_ID}}",
+    "adapter": "",
+    "version": null
   },
   "policy": {
     "generator_count": 4,
@@ -19,20 +21,41 @@
     "combine_critic_ranker": true,
     "max_extra_evaluators": 1,
     "max_generator_replacements": 1,
-    "max_fusion_retries": 1
+    "max_fusion_retries": 1,
+    "max_schema_repairs_per_result": 1
   },
+  "counters": {
+    "generator_replacements_used": 0,
+    "extra_evaluators_used": 0,
+    "fusion_retries_used": 0,
+    "schema_repairs_used": 0
+  },
+  "scheduled_generators": ["G1", "G2", "G3", "G4"],
   "executions": {
     "generators": {},
     "evaluators": [],
-    "fuser": null
+    "fuser": null,
+    "verifiers": []
   },
   "artifacts": {
     "task": "task.md",
+    "executors": "executors.json",
+    "generation": {},
     "verification": [],
     "critique": null,
     "ranking": null,
     "fusion": null,
     "final": null
+  },
+  "decisions": {
+    "generation_barrier": null,
+    "top_k": [],
+    "preserved_insights_ref": null,
+    "winner_adoption": null
+  },
+  "reconciliation": {
+    "last_checked_at": null,
+    "notes": []
   },
   "history": []
 }

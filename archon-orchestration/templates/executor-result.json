@@ -1,15 +1,30 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "execution_id": "",
+  "run_id": "",
   "role": "generator",
   "candidate_id": "G1",
+  "replaces": null,
   "status": "completed",
+  "usable": true,
   "artifact_ref": "",
+  "artifact_version": null,
+  "raw_return_ref": null,
+  "output_namespace": "generation/G1",
   "summary": "",
   "assumptions": [],
   "evidence": [],
   "limitations": [],
+  "files_changed_or_created": [],
   "direct_workspace_write": true,
+  "return_only_normalized_by_orchestrator": false,
+  "normalization_notes": "",
+  "schema_repairs_used": 0,
+  "contamination": {
+    "is_contaminated": false,
+    "reason": ""
+  },
+  "failure_reason": null,
   "started_at": "",
   "completed_at": ""
 }

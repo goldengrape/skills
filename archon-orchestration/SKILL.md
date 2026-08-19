@@ -1,423 +1,238 @@
 ---
 name: archon-orchestration
-description: Orchestrate multiple independent AI Agent Executors through a Shared Workspace using an Archon-style Generate → Critique → Rank/Filter → Fuse workflow. Use when a task benefits from multiple candidate solutions, cross-critique, ranking, synthesis, optional verification, browser-operated web agents, GitHub/Google Drive shared workspaces, resumable multi-agent runs, or heterogeneous model execution.
+description: Orchestrate multiple independent AI Agent Executors through a Shared Workspace using an Archon-style Generate → Critique → Rank/Filter → Fuse workflow. Use when a task benefits from multiple candidate solutions, cross-critique, ranking, synthesis, optional scoped verification, browser-operated or return-only web agents, GitHub/Google Drive shared workspaces, resumable multi-agent runs, or heterogeneous execution backends.
 ---
 
 # Archon Orchestration Skill
 
-Use this skill when one strong answer may not be reliable enough and the task benefits from inference-time search and synthesis across multiple Agent Executors.
+Use this skill when one strong answer is not reliable enough and the task benefits from independent candidate generation, structured evaluation, and evidence-aware synthesis.
 
-The public promise is simple:
+Public promise:
 
 ```text
-Generate several independent solutions, critique them, rank them, and fuse the best evidence into a stronger result.
+Generate independent candidates, critique them, rank/filter them, and fuse the strongest evidence and ideas into a better result.
 ```
 
-This skill is implementation-agnostic. Do not bind the workflow to Codex, ChatGPT, GitHub, Google Drive, or any single model vendor.
+This skill is implementation-agnostic. Do not bind the workflow to a vendor, model, product UI, repository host, document service, or browser product when a capability-level instruction is enough.
 
-## Core abstractions
+## Resident core
 
-Use exactly these architecture-level terms:
+Keep these facts in active context for every run. Everything else loads on demand via the phase routing table.
+
+### Core terms
 
 | Term | Meaning |
 | --- | --- |
-| **Orchestrator** | Loads this skill, discovers capabilities, creates/resumes a run, dispatches Agent Executors, enforces barriers, controls budget, and finalizes state. |
-| **Shared Workspace** | External shared state and artifact store supplied by the user, normally a dedicated GitHub repo or Google Drive folder. |
-| **Agent Executor** | A task execution backend that performs one role or subtask. It may be a browser-operated web agent, API-backed agent, local agent, or another compatible executor. |
+| **Orchestrator** | The controller that loads this skill, initializes or resumes a run, discovers capabilities, dispatches Agent Executors, normalizes returned results, enforces barriers, controls budget, reconciles state, and finalizes the outcome. |
+| **Shared Workspace** | User-authorized durable state and artifact storage. It is the source of truth for a resumable run. |
+| **Agent Executor** | A bounded execution backend: browser-operated agent, API-backed agent, local agent, deterministic program, verifier, or future compatible executor. |
 
-Roles are not Executors. `Generator`, `Critic`, `Ranker`, and `Fuser` are logical roles. A specific Agent Executor is chosen at runtime to perform each role.
+Roles are logical; Executors are physical. `Generator`, `Critic`, `Ranker`, `Fuser`, and optional `Verifier` describe why a step exists; the Orchestrator chooses a capable Executor at runtime.
 
-## Archon Core
+### Core flow
 
-The default logical flow is:
-
-```text
-Generate → Critique → Rank / Filter → Fuse
-```
-
-Optional evidence modules may be inserted when they are reliable:
+Preserve this flow:
 
 ```text
-Generate → [Verify] → Critique → Rank / Filter → Fuse → [Verify]
+Generate -> Critique -> Rank / Filter -> Fuse
 ```
 
-`Verifier` is not a universal prerequisite. For programming, numerical math, formal checks, or fact validation, it can provide strong evidence. For open research, writing, strategy, or design, do not invent a fake objective verifier.
-
-## Default execution policy
-
-Unless the user or task constraints require another policy:
+Scoped verification may be inserted only when a reliable check exists:
 
 ```text
-Generators: 4, parallel, isolated
-Critic: 1 logical stage
-Ranker: 1 logical stage
-Critic + Ranker physical execution: may be combined into one fast evaluation call
-Top K full candidates to Fuser: 2
-Lower-ranked candidates: pass only critic-extracted unique insights
-Fuser: 1 Agent Executor
-Verifier: auto / optional
-Extra evaluators: at most 1, only when evaluation is uncertain or high-risk
-Fusion retry: at most 1 when final verification fails and repair is justified
+Generate -> [Verify candidates] -> Critique -> Rank / Filter -> Fuse -> [Verify fused result]
 ```
 
-Prefer long-running, high-capability Agent Executors for `Generator` and complex `Fuser` work. Prefer faster/cheaper execution for `Critic` and `Ranker` when quality is sufficient.
+A verifier is evidence, not a universal judge. Use it for tests, builds, typechecks, formal checks, numeric checks, citation/date/quote checks, or similar bounded oracles. Do not invent deterministic verification for open-ended research, writing, strategy, or design.
+
+### Source-of-truth order
+
+When sources conflict, use this order:
+
+1. User's current explicit instruction and constraints.
+2. Frozen task snapshot for the run.
+3. `manifest.json` and durable artifacts in the Shared Workspace.
+4. Verification evidence from tools that actually ran.
+5. Critic/Ranker outputs and derived notes.
+6. Agent Executor conversational memory.
+
+Do not allow an Executor to silently add requirements. Record material assumptions in result metadata.
+
+### Default execution policy
+
+Unless task constraints or user instructions override it, with policy keys matching `manifest.json`:
+
+```yaml
+generator_count: 4
+minimum_usable_generators: 3
+top_k: 2
+verifier_mode: auto
+combine_critic_ranker: true
+max_extra_evaluators: 1
+max_generator_replacements: 1
+max_fusion_retries: 1
+max_schema_repairs_per_result: 1
+```
+
+Use high-capability Executors for Generator and complex Fuser work. Use faster/cheaper Executors for Critic and Ranker when quality is sufficient. Do not default to multiple expensive Critic votes. `Critique` and `Rank` are logically separate even when one physical execution produces both outputs.
 
 ## Shared Workspace requirement
 
-The user should provide a dedicated Shared Workspace before a substantive run:
+Before a substantive run, use a dedicated or explicitly approved Shared Workspace.
 
-- GitHub repository for code-, diff-, branch-, commit-, or PR-heavy work.
-- Google Drive folder for research, writing, planning, documents, spreadsheets, presentations, or mixed artifacts.
+* Code, diffs, branches, commits, or PRs: prefer a repository-style backend.
+* Research, writing, planning, documents, or mixed artifacts: prefer a folder/document backend.
+* Other backends are acceptable if they satisfy `references/workspace-contract.md`.
 
-Do not silently use unrelated user repositories or folders. If no Shared Workspace is available, ask for one or run only a clearly labeled non-persistent dry run.
+If no Shared Workspace is available, CHECKPOINT: ask for one, or run only a clearly labeled non-persistent dry run.
 
-The Shared Workspace is the source of truth for run state. Orchestrator memory is not sufficient for a resumable run.
+Read `references/workspace-contract.md` when initializing or resuming. Read only the matching adapter after the backend is known:
 
-Read `references/workspace-contract.md` when initializing or resuming a workspace. Read the matching adapter only after the backend is known.
+* `adapters/github.md`
+* `adapters/google-drive.md`
 
-## Source-of-truth order
+## Operating guardrails
 
-When information conflicts, use this order:
+### CHECKPOINT moments
 
-1. User's current explicit instruction and constraints.
-2. Frozen task snapshot for the current run.
-3. `manifest.json` and authoritative artifacts in the Shared Workspace.
-4. Verification evidence produced by approved tools.
-5. Critic/Ranker summaries and derived notes.
-6. Agent Executor conversational memory.
-
-Do not allow an Agent Executor to silently introduce new requirements. Record material assumptions in its result metadata.
-
-# Operating guardrails
-
-## 🔴 CHECKPOINT moments
-
-Pause for user approval when any of these occurs:
+Pause for user or policy approval when any of these occurs:
 
 | Moment | Show | Continue only when |
 | --- | --- | --- |
-| No dedicated Shared Workspace exists | required repo/folder and permission scope | the user provides/authorizes one, or accepts a non-persistent dry run |
-| Orchestrator would access a broad pre-existing workspace | exact repo/folder and intended namespace | the user confirms scope |
-| Budget escalation exceeds configured policy | extra Agent Executors, expected reason, current evidence | the user approves extra budget |
+| No dedicated Shared Workspace exists | required backend, root/scope, and permission need | user provides/authorizes one, or accepts a non-persistent dry run |
+| Orchestrator would access a broad pre-existing workspace | exact root, namespace, and intended reads/writes | user confirms scope |
+| Budget escalation exceeds policy | extra Executors/retries, reason, expected benefit, current evidence | user approves |
+| Manifest and workspace artifacts disagree materially | manifest stage, artifact facts, proposed reconciliation | user approves if reconciliation would discard or overwrite state |
 | Final action is irreversible or affects a protected/shared destination | merge/delete/overwrite/publish target and evidence | user or workspace policy approves |
-| Isolation cannot be guaranteed | what candidate cross-read risk exists | user accepts the limitation or execution is reconfigured |
+| Isolation cannot be guaranteed | cross-read risk and affected candidates | user accepts the limitation or execution is reconfigured |
 
-Routine writes inside a user-dedicated Archon workspace do not require repeated approval.
+Routine writes inside a user-dedicated Archon run namespace do not require repeated approval.
 
-## 🛑 STOP conditions
+### STOP conditions
 
-Stop the current stage and repair state when any of these is true:
+Stop the current stage and repair state when any trigger is true:
 
 | Trigger | Required action |
 | --- | --- |
 | Shared Workspace cannot be read/written as required | repair permissions or switch backend before dispatch |
-| Two Generators would write the same namespace | allocate isolated namespaces before starting either |
-| A Generator can see another current-run candidate before the generation barrier | re-isolate or restart the contaminated candidate |
+| Two active Executors would write the same isolated namespace | allocate separate namespaces before starting either |
+| A Generator can see another current-run candidate before the generation barrier | mark contaminated, re-isolate or replace if policy permits |
+| A return-only result is malformed or incomplete | capture raw return, attempt one schema repair if policy permits, otherwise mark failed |
 | Manifest stage and workspace artifacts disagree materially | reconcile state before dispatching more work |
-| Ranker lacks the candidate set or critique/evidence it claims to rank | rebuild evaluation input; do not fabricate ranking |
-| Fuser cannot access the selected artifacts | repair references before fusion |
-| A claimed verifier did not actually run | mark evidence as unavailable; never claim pass/fail |
-| An irreversible merge/delete/publish is needed without approval | stop and request approval |
+| Any scheduled Generator is non-terminal at the generation barrier | reattach/status-check, cancel, or wait per policy; do not evaluate yet |
+| Usable Generator count is below policy minimum | replace within budget; otherwise CHECKPOINT or fail/partial |
+| Ranker lacks the candidate set, critique, or evidence it claims to rank | rebuild evaluation input; do not fabricate ranking |
+| Fuser cannot access selected artifacts or preserved insights | repair references before fusion |
+| A claimed verifier did not actually run | mark evidence unavailable/error; never claim pass/fail |
+| Retry/replacement/schema-repair/escalation budget would be exceeded | CHECKPOINT for approval or stop |
+| Irreversible merge/delete/overwrite/publish is needed without approval | stop and request approval |
 
-## Anti-pattern blacklist
+### Anti-pattern blacklist
 
-Do not do these things while this skill is active:
+Do not:
 
-1. Do not let Generators read each other's current-run outputs before the generation barrier.
-2. Do not use one shared browser conversation as multiple supposedly independent Generators.
-3. Do not let multiple Executors write the same isolated namespace concurrently.
-4. Do not ask expensive long-running Agents to perform three redundant Critic votes by default.
-5. Do not treat a verifier as universally available or authoritative outside its coverage.
-6. Do not discard lower-ranked candidates before Critic has extracted unique useful insights.
-7. Do not merge a candidate into the final destination before ranking/fusion policy permits it.
-8. Do not hide failed, cancelled, timed-out, or contaminated Executor runs.
-9. Do not keep large duplicate artifacts in the control namespace when a stable artifact reference is enough.
-10. Do not exceed configured retries or budget silently.
-11. Do not claim an Agent Executor completed a task until its result/artifact is observable.
-12. Do not depend on a specific vendor UI when a capability-based instruction is sufficient.
+1. Let Generators read each other's current-run outputs before the generation barrier.
+2. Use one shared browser conversation as multiple supposedly independent Generators.
+3. Let multiple active Executors write the same isolated namespace.
+4. Ask expensive long-running Agents for three redundant Critic votes by default.
+5. Treat verifier output as complete quality judgment outside its scope.
+6. Discard lower-ranked candidates before Critic extracts unique useful insights.
+7. Merge or publish a candidate before ranking/fusion policy permits it.
+8. Hide failed, cancelled, timed-out, malformed, or contaminated Executor runs.
+9. Copy large artifacts into control state when a stable reference is enough.
+10. Exceed retry, replacement, schema-repair, or budget policy silently.
+11. Claim an Executor completed work until its result or artifact is observable.
+12. Evaluate transient return-only text without workspace normalization.
+13. Depend on a specific vendor UI when capability-based instructions suffice.
+14. Re-run completed expensive stages merely because Orchestrator memory was lost.
 
-# Run lifecycle
+## State model
 
-## 0. Inspect or initialize
-
-Before dispatch:
-
-1. Identify the Shared Workspace backend and exact user-approved scope.
-2. Discover Orchestrator capabilities: Skill loading, browser control, local shell/scripts, workspace access, API/tool access.
-3. Discover available Agent Executors and capability metadata.
-4. Decide whether a reliable Verifier exists for this task.
-5. Create or resume a run manifest.
-6. Freeze the task snapshot and shared base input.
-7. Choose execution policy and budget.
-
-For a locally mounted/synced workspace, the helper is:
-
-```bash
-python scripts/init_archon_run.py --root . --mode standard --workspace-backend github
-```
-
-If scripts cannot be run, create the equivalent state manually using `templates/manifest.json`.
-
-Use `checklists/run_start.md` before leaving this phase.
-
-## 1. Generate
-
-Dispatch independent Generator Agent Executors in parallel.
-
-Each Generator receives only:
-
-- frozen task snapshot
-- common constraints
-- shared base input
-- its own output namespace
-- role instructions
-- approved tools/capabilities
-
-Each Generator must not receive or read:
-
-- other Generator outputs from the same run
-- current-run critiques
-- current-run ranking
-- current-run fusion artifacts
-
-Default count is 4. Use distinct browser pages/sessions when browser-operated Agents are used.
-
-Read `references/role-prompts.md` before dispatching. For each execution, persist terminal status and an artifact reference.
-
-## 2. Generation barrier
-
-Do not begin Critique until every scheduled Generator is terminal: `completed`, `failed`, `cancelled`, or explicitly `contaminated`.
-
-Default recovery policy:
-
-- If 4/4 complete: continue.
-- If 3/4 complete and failed candidate adds no unique required coverage: continue and record degradation.
-- If fewer than 3 complete: replace failed Generator once if budget permits; otherwise checkpoint or fail the run.
-- If a Generator is contaminated by seeing another candidate: discard it and replace if possible.
-
-Use `checklists/generation_barrier.md`.
-
-## 3. Optional generation verification
-
-If the task has a reliable verifier, run it against candidates before Critique so the evaluation stage receives evidence rather than guesses.
-
-Examples:
-
-- programming: compile, tests, typecheck, lint, static analysis
-- math: numeric substitution, CAS, solver, formal checker
-- research: citation existence, dates, quoted values, source consistency
-
-Verification evidence is scoped. A passing test suite does not prove untested semantics; source existence does not prove strategic quality.
-
-Read `references/verifier-policy.md` when verification is enabled.
-
-## 4. Critique
-
-Critic reads all valid candidate artifacts plus optional evidence. It must produce structured analysis for each candidate:
-
-```text
-strengths
-weaknesses
-missing assumptions
-risks
-unique insights
-reusable parts
-conflicts with evidence
-```
-
-Critic does not modify candidate artifacts.
-
-## 5. Rank / Filter
-
-Ranker uses the frozen task, candidate artifacts, Critic output, and available verification evidence.
-
-It must output:
-
-- ordered ranking
-- rejected candidates with reasons
-- top K selection
-- confidence
-- unresolved disagreements
-- unique insights to preserve from lower-ranked candidates
-
-Anonymize model/vendor identity when practical so ranking focuses on artifacts rather than provider labels.
-
-Critic and Ranker may be executed in one fast physical call, but persist outputs as logically separate sections/artifacts.
-
-If confidence is low, evidence conflicts, or the task is high-risk, dispatch at most one additional evaluator by default and reconcile. Do not default to 3 expensive Critic Agents.
-
-Use `checklists/evaluation.md`.
-
-## 6. Fuse
-
-Fuser receives:
-
-- frozen task
-- full top K candidate artifacts (default K=2)
-- Critic findings for all candidates
-- Ranker decision
-- unique insights extracted from lower-ranked candidates
-- verification evidence when available
-
-The Fuser must create a new artifact. It must not merely declare a winner or copy candidate #1 without explaining why no synthesis is useful.
-
-For code work, Fuser should work in its own branch/namespace. For document work, Fuser should write a new final-draft artifact rather than overwriting candidates.
-
-Use `checklists/fusion.md`.
-
-## 7. Optional final verification
-
-When a reliable verifier exists, treat the fused result as a new candidate and verify it again.
-
-If final verification fails:
-
-1. Determine whether failure is artifact failure or verifier/infrastructure failure.
-2. If artifact failure and retry budget remains, send the evidence back to one repair/fusion execution.
-3. Re-run relevant verification.
-4. If still failing, prefer a previously verified top-ranked candidate when appropriate, or finalize as failed/partial with evidence.
-
-Never silently loop.
-
-## 8. Finalize
-
-Write the final outcome and update manifest to `DONE`, `PARTIAL`, or `FAILED`.
-
-Final report should include:
-
-- final artifact reference
-- candidate count and terminal statuses
-- selected top candidates
-- whether Critic/Ranker were combined physically
-- verifier coverage and exact evidence status
-- retries/escalations used
-- known limitations
-- any irreversible action still awaiting approval
-
-Use `checklists/finalize.md`.
-
-# State model
-
-Use these logical stages:
+Persist every stage transition in the Shared Workspace.
 
 ```text
 INIT
-→ GENERATING
-→ [VERIFYING_GENERATION]
-→ CRITIQUING
-→ RANKING
-→ FUSING
-→ [FINAL_VERIFY]
-→ FINALIZING
-→ DONE | PARTIAL | FAILED
+-> GENERATING
+-> [VERIFYING_GENERATION]
+-> CRITIQUING
+-> RANKING
+-> FUSING
+-> [FINAL_VERIFY]
+-> FINALIZING
+-> DONE | PARTIAL | FAILED
 ```
 
-`Critique` and `Rank` are logically separate even when physically performed by one call.
+`recover_run` is a mode, not a stage: reconcile manifest with artifacts, then resume from the first incomplete logical stage.
 
-Recommended helper:
+Local helper when the workspace is mounted or synced:
 
 ```bash
 python scripts/advance_archon_state.py --root . --run-id <RUN_ID> --to GENERATING
 ```
 
-Always persist stage changes in the Shared Workspace.
+## Phase routing
 
-# Modes
+`SKILL.md` is the control card. Load detailed material only for the current phase; `references/phase-cards.md` is the operational runbook.
 
-## mode: initialize_run
+| Phase / mode | Read | Required output |
+| --- | --- | --- |
+| Initialize or resume | `references/workspace-contract.md`, `references/executor-contract.md`, `references/execution-policy.md`, matching adapter, `checklists/run_start.md` | run namespace, `manifest.json`, frozen `task.md`, executor capability notes |
+| Generate | `references/phase-cards.md#generate`, `references/role-prompts.md#generator`, `references/executor-contract.md` | one terminal record per scheduled Generator; stable artifact refs or normalized return-only results |
+| Generation barrier | `references/phase-cards.md#generation-barrier`, `checklists/generation_barrier.md` | barrier decision; usable candidate set |
+| Optional candidate verification | `references/verifier-policy.md` | scoped evidence records; no fake unavailable evidence |
+| Critique + Rank | `references/phase-cards.md#critique-and-rank`, `references/role-prompts.md#critic`, `references/role-prompts.md#ranker`, `checklists/evaluation.md` | `critique/critique.json`, `ranking/ranking.json` |
+| Fuse | `references/phase-cards.md#fuse`, `references/role-prompts.md#fuser`, `checklists/fusion.md` | new fused artifact or explicitly justified winner adoption |
+| Optional final verification | `references/verifier-policy.md` | scoped evidence for fused result |
+| Finalize | `references/phase-cards.md#finalize`, `checklists/finalize.md` | `final/outcome.json`; manifest outcome `DONE`, `PARTIAL`, or `FAILED` |
+| Failure / recovery | `references/failure-recovery.md` | reconciled manifest and next safe phase |
 
-Goal: discover capabilities, bind a user-provided Shared Workspace, create a frozen task snapshot, and establish policy.
+## Executor dispatch and normalization
 
-Outputs:
+For every executor, record enough data to resume or audit: `execution_id`, `role`, `candidate_id` when relevant, `status`, start/end time, output namespace, `artifact_ref`, `direct_workspace_write`, evidence refs, limitations, contamination/failure reason when applicable.
 
-- run namespace
-- `manifest.json`
-- `task.md`
-- executor capability notes
-- chosen workspace adapter
+For browser-operated independent Generators:
 
-## mode: dispatch_generation
+* Use a distinct page/session per Generator.
+* Give each Generator only the frozen task, shared base input, allowed tools, and its own namespace.
+* Do not paste sibling candidate outputs, critiques, rankings, or fusion artifacts before the barrier.
+* Treat browser UI state as transient; persist durable output in the Shared Workspace.
 
-Goal: launch isolated parallel Generator Agent Executors.
+For return-only executors:
 
-Outputs:
+1. Collect the returned content; persist safe raw return to the assigned namespace (`raw-return.md`).
+2. Normalize complete returned content into a durable candidate artifact.
+3. Write `generation/<ID>/result.json` from `templates/executor-result.json`.
+4. Set `direct_workspace_write: false` and `return_only_normalized_by_orchestrator: true`.
+5. Record `raw_return_ref`, `artifact_ref`, and normalization notes.
+6. Do not call the executor complete until the normalized artifact or stable reference exists.
 
-- execution IDs/statuses
-- one namespace per Generator
-- normalized `result.json` per terminal execution
+## Local helper scripts
 
-## mode: critique_and_rank
+For a locally mounted or synced workspace:
 
-Goal: evaluate candidates after the generation barrier.
+```bash
+python scripts/init_archon_run.py --root . --mode standard --workspace-backend github
+python scripts/check_archon_run.py --root . --run-id <RUN_ID>
+```
 
-Outputs:
+Scripts are optional helpers. Remote-only Orchestrators may perform equivalent operations through their own workspace tools. If scripts cannot run, create equivalent state manually from `templates/manifest.json`, `templates/task.md`, and `templates/executor-result.json`.
 
-- `critique/critique.json`
-- `ranking/ranking.json`
+## Completion gate
 
-Rules:
+Before declaring completion, verify:
 
-- logical Critic and Ranker outputs remain distinguishable
-- one fast execution may produce both
-- add only one extra evaluator by default when uncertain
-
-## mode: fuse
-
-Goal: synthesize the top candidates plus preserved unique insights.
-
-Outputs:
-
-- fused artifact
-- `fusion/result.json`
-
-## mode: recover_run
-
-Goal: resume from Shared Workspace state after Orchestrator interruption.
-
-Rules:
-
-1. Read manifest first.
-2. Inspect workspace artifacts and terminal execution markers.
-3. Reconcile inconsistencies before dispatching new work.
-4. Never repeat a completed expensive stage solely because Orchestrator memory was lost.
-
-## mode: finalize_run
-
-Goal: persist outcome, evidence, limitations, and final artifact reference.
-
-# Workspace adapters
-
-Read only the adapter matching the selected backend:
-
-- `adapters/github.md`
-- `adapters/google-drive.md`
-
-The logical workspace contract is defined in `references/workspace-contract.md`.
-
-# Progressive disclosure
-
-Do not load every reference file into context at once.
-
-- On initialization/resume: read `workspace-contract.md`, `executor-contract.md`, `execution-policy.md`.
-- Before Generate/Critique/Rank/Fuse: read only the relevant section of `role-prompts.md`.
-- When verification is possible: read `verifier-policy.md`.
-- On failure/recovery: read `failure-recovery.md`.
-- For a backend: read only its adapter.
-
-# Shipping gates
-
-Before declaring a run complete, verify:
-
-- Shared Workspace scope was user-provided or explicitly approved.
-- Frozen task exists and material requirements were not silently changed.
-- Generator isolation was enforced or limitations are disclosed.
-- Generation barrier completed before evaluation.
-- Critic output covers all valid candidates.
-- Ranking cites candidate/evidence reasons and records confidence.
-- Fuser received top candidates plus preserved unique insights.
-- Final result is a new artifact or an explicitly justified accepted winner.
-- Verification claims correspond to commands/tools that actually ran.
-- Retry and escalation budgets were respected.
-- Manifest and final artifact references are consistent.
+* Shared Workspace scope was user-provided or explicitly approved.
+* Frozen task exists and material requirements were not changed silently.
+* Generator isolation was enforced or limitations are disclosed.
+* Return-only outputs were normalized before evaluation.
+* Generation barrier completed before evaluation.
+* Critic covered every usable candidate.
+* Ranking cites candidate/evidence reasons and records confidence.
+* Fuser received top candidates plus preserved lower-ranked insights.
+* Final result is a new artifact, or winner adoption is explicitly justified.
+* Verification claims correspond to commands/tools that actually ran.
+* Retry, replacement, schema-repair, and escalation budgets were respected.
+* Manifest, executor results, and final artifact references are consistent.
 
 Recommended local check:
 
@@ -425,13 +240,6 @@ Recommended local check:
 python scripts/check_archon_run.py --root . --run-id <RUN_ID>
 ```
 
-# Response style
+## User-facing response style
 
-When using this skill:
-
-- Keep user-facing updates short and stage-oriented.
-- Report partial failures instead of hiding them.
-- Distinguish evidence from model judgment.
-- Do not dump internal Executor conversations unless requested.
-- Prefer artifact references, decisions, and next stage over long duplicated content.
-- If the user only wants the final result, keep orchestration logs in the Shared Workspace and return a concise outcome summary.
+Keep updates short and stage-oriented. Report partial failures. Distinguish evidence from judgment. Return artifact references and outcome summaries rather than dumping internal executor conversations unless requested.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Initialize a local/mounted Archon Shared Workspace run."""
+"""Initialize a local/mounted Archon Shared Workspace run (manifest schema 0.2)."""
 from __future__ import annotations
 import argparse, json, re
 from datetime import datetime, timezone
@@ -33,6 +33,7 @@ def policy(mode: str, generators: int | None) -> dict:
         "max_extra_evaluators": 1,
         "max_generator_replacements": 1,
         "max_fusion_retries": 1,
+        "max_schema_repairs_per_result": 1,
     }
     if mode == "fast":
         base.update({"generator_count": 4, "minimum_usable_generators": 3, "max_extra_evaluators": 0, "max_fusion_retries": 0})
@@ -67,12 +68,15 @@ def main() -> int:
         (run / rel).mkdir(parents=True, exist_ok=True)
 
     pol = policy(args.mode, args.generator_count)
-    for i in range(1, pol["generator_count"] + 1):
-        (run / "generation" / f"G{i}").mkdir(parents=True, exist_ok=True)
+    scheduled = [f"G{i}" for i in range(1, pol["generator_count"] + 1)]
+    for gid in scheduled:
+        (run / "generation" / gid).mkdir(parents=True, exist_ok=True)
+    # No result.json placeholders are created here: a Generator is recorded only
+    # after it is terminal and its result has been normalized (or failed).
 
     now = utcnow()
     manifest = {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "run_id": run_id,
         "created_at": now,
         "updated_at": now,
@@ -83,20 +87,46 @@ def main() -> int:
             "backend": args.workspace_backend,
             "authorized_root": str(root),
             "control_namespace": f".archon/runs/{run_id}",
+            "adapter": "",
+            "version": None,
         },
         "policy": pol,
-        "executions": {"generators": {}, "evaluators": [], "fuser": None},
-        "artifacts": {"task": "task.md", "verification": [], "critique": None, "ranking": None, "fusion": None, "final": None},
+        "counters": {
+            "generator_replacements_used": 0,
+            "extra_evaluators_used": 0,
+            "fusion_retries_used": 0,
+            "schema_repairs_used": 0,
+        },
+        "scheduled_generators": scheduled,
+        "executions": {"generators": {}, "evaluators": [], "fuser": None, "verifiers": []},
+        "artifacts": {
+            "task": "task.md",
+            "executors": "executors.json",
+            "generation": {},
+            "verification": [],
+            "critique": None,
+            "ranking": None,
+            "fusion": None,
+            "final": None,
+        },
+        "decisions": {
+            "generation_barrier": None,
+            "top_k": [],
+            "preserved_insights_ref": None,
+            "winner_adoption": None,
+        },
+        "reconciliation": {"last_checked_at": None, "notes": []},
         "history": [{"at": now, "event": "initialized", "stage": "INIT"}],
     }
     (run / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     task = "# Frozen Task\n\n## Objective\n\n<TODO>\n\n## Inputs / Base Artifacts\n\n- <TODO>\n\n## Constraints\n\n- <TODO>\n\n## Success Criteria\n\n- <TODO>\n\n## Assumptions\n\n- <none or TODO>\n\n## Open Questions\n\n- <none or TODO>\n"
     (run / "task.md").write_text(task, encoding="utf-8")
-    (run / "executors.json").write_text(json.dumps({"schema_version":"0.1","executors":[]}, indent=2) + "\n", encoding="utf-8")
+    (run / "executors.json").write_text(json.dumps({"schema_version": "0.2", "executors": []}, indent=2) + "\n", encoding="utf-8")
     print(run_id)
     print(run)
     print("Next: freeze task.md, record executor capabilities, then advance to GENERATING.")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

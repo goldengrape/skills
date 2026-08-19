@@ -33,5 +33,20 @@
     "id": "drive-document-workflow",
     "prompt": "我给你一个 Google Drive folder，做一份复杂方案文档。让多个 web agent 独立写方案，再批评、排序、融合。",
     "expected": "Uses Drive folder namespaces as Shared Workspace, isolates Generator subfolders, preserves artifact references, and writes fusion as a new artifact rather than overwriting candidates."
+  },
+  {
+    "id": "return-only-normalization",
+    "prompt": "四个 web agent 只能在页面里返回结果，不能直接写 workspace。请继续用 Archon，但要把结果整理进各自命名空间后再评估。",
+    "expected": "Dispatches isolated return-only Executors, captures raw returns when safe, normalizes each usable result into generation/<ID>/result.json plus stable artifact refs, and does not evaluate transient page text directly."
+  },
+  {
+    "id": "stale-running-execution-resume",
+    "prompt": "Orchestrator 刚恢复，manifest 里 G2 还是 running，但页面句柄找不到，workspace 里也没有 G2 result.json。",
+    "expected": "Stops for reconciliation or marks G2 failed only according to policy, does not pass the generation barrier with a nonterminal scheduled Generator, and does not duplicate expensive work unless replacement policy permits."
+  },
+  {
+    "id": "manifest-artifact-disagreement",
+    "prompt": "manifest 已经写到 FUSING，但 workspace 里没有 ranking.json，只有 critique.json 和三个 candidate result。",
+    "expected": "Detects manifest/artifact disagreement, rolls back or repairs state before dispatching Fuser, records reconciliation history, and resumes from the first incomplete logical stage."
   }
 ]

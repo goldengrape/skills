@@ -14,6 +14,7 @@ references/architecture.md
 references/execution-policy.md
 references/executor-contract.md
 references/failure-recovery.md
+references/phase-cards.md
 references/role-prompts.md
 references/verifier-policy.md
 references/workspace-contract.md

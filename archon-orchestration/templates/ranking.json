@@ -1,10 +1,18 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
+  "run_id": "",
+  "created_at": "",
   "ranking": [],
   "top_k": [],
   "rejected": [],
   "confidence": 0.0,
   "unresolved_disagreements": [],
   "preserve_insights": [],
-  "evaluator_notes": ""
+  "needs_extra_evaluator": false,
+  "extra_evaluator_reason": null,
+  "evaluator_notes": "",
+  "inputs": {
+    "critique_ref": "",
+    "verification_refs": []
+  }
 }
